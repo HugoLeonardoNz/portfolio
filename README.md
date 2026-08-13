@@ -4,6 +4,12 @@ Portfólio profissional de Hugo Leonardo, Analista de Dados Pleno. Single-page a
 
 ---
 
+**No ar:** https://hugoleonardonz.github.io/portfolio/
+
+![Portfólio](docs/img/site.png)
+
+---
+
 ## Stack
 
 | Tecnologia | Uso |
