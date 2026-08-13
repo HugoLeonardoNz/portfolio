@@ -89,7 +89,7 @@ export function Hero() {
           border: "3px solid rgba(124,91,245,0.4)",
           boxShadow: "0 0 40px rgba(124,91,245,0.2)", flexShrink: 0,
         }}>
-          <img src="/hugo-foto.png" alt="Hugo Leonardo" style={{
+          <img src={`${import.meta.env.BASE_URL}hugo-foto.png`} alt="Hugo Leonardo" style={{
             width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top",
           }} />
         </div>
