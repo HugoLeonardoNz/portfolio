@@ -140,7 +140,12 @@ export function Hero() {
               { h: "65%", d: "0.6s" },
             ].map((bar, i) => (
               <div key={i} style={{
-                flex: 1, background: C.bg2, borderRadius: 1,
+                // height 100% e obrigatorio: o container usa align-items
+                // flex-end, entao os filhos nao esticam e ficam com altura
+                // automatica (zero). A barra interna e posicionada em % da
+                // altura do pai — sem isso, 85% de zero continua zero e o
+                // cartao aparece vazio.
+                flex: 1, height: "100%", background: C.bg2, borderRadius: 1,
                 position: "relative", overflow: "hidden",
               }}>
                 <div style={{
