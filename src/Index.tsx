@@ -1,5 +1,4 @@
 import { GlobalStyles } from "./components/GlobalStyles";
-import { Nav }          from "./components/Nav";
 import { SideRail }     from "./components/SideRail";
 import { Hero }         from "./components/Hero";
 import { Ticker }       from "./components/Ticker";
@@ -17,7 +16,6 @@ export default function Index() {
   return (
     <div style={{ background: C.bg, minHeight: "100vh" }}>
       <GlobalStyles />
-      <Nav />
       <SideRail />
       <Hero />
       <Ticker />

@@ -52,10 +52,12 @@ export function GlobalStyles() {
       ::-webkit-scrollbar-thumb { background: rgba(124,91,245,0.35); }
       ::-webkit-scrollbar-thumb:hover { background: rgba(124,91,245,0.55); }
 
-      /* O rail lateral ocupa 210px a partir de 1100px; o conteudo desvia para
-         nao passar por baixo dele. Abaixo disso o rail some e nao ha desvio. */
+      /* O rail e a unica navegacao e fica sempre visivel: o conteudo abre
+         espaco para ele nos dois tamanhos. */
+      section, footer { scroll-margin-top: 1.5rem; }
+      section { padding-left: 6.5rem !important; }
       @media (min-width: 1100px) {
-        section { padding-left: 15rem !important; }
+        section { padding-left: 15.5rem !important; }
       }
     `;
     document.head.appendChild(style);

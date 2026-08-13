@@ -2,35 +2,36 @@ import { useEffect, useState } from "react";
 import { C } from "../theme";
 
 /**
- * Rail vertical fixo à esquerda.
+ * Navegação vertical — a única do site.
  *
- * Faz três coisas que a barra superior sozinha não fazia: mostra onde a pessoa
- * está na página (scroll spy), mostra quanto falta (barra de progresso) e
- * mantém a navegação sempre visível sem ocupar a faixa do topo.
+ * A barra horizontal foi removida: duas navegações competindo pela mesma função
+ * é ruído, e a fixa no topo ainda cobria o título da seção ao ancorar (era o
+ * que fazia o item "Contato" parecer quebrado).
  *
- * Some abaixo de 1100px — em tela estreita ele roubaria largura do conteúdo, e
- * aí a barra superior assume.
+ * O rail tem superfície própria — fundo, borda e sombra — em vez de flutuar
+ * solto sobre o conteúdo.
  */
 
 const SECOES = [
-  { id: "hero",        label: "Início" },
-  { id: "sobre",       label: "Sobre" },
-  { id: "servicos",    label: "O que entrego" },
-  { id: "habilidades", label: "Stack" },
-  { id: "analises",    label: "Análises" },
-  { id: "projetos",    label: "Projetos" },
-  { id: "experiencia", label: "Experiência" },
-  { id: "contato",     label: "Contato" },
+  { id: "hero",        label: "Início",       curto: "01" },
+  { id: "sobre",       label: "Sobre",        curto: "02" },
+  { id: "servicos",    label: "O que entrego", curto: "03" },
+  { id: "habilidades", label: "Stack",        curto: "04" },
+  { id: "analises",    label: "Análises",     curto: "05" },
+  { id: "projetos",    label: "Projetos",     curto: "06" },
+  { id: "experiencia", label: "Experiência",  curto: "07" },
+  { id: "contato",     label: "Contato",      curto: "08" },
 ];
 
 export function SideRail() {
-  const [ativa, setAtiva]       = useState("hero");
-  const [progresso, setProg]    = useState(0);
-  const [largo, setLargo]       = useState(false);
+  const [ativa, setAtiva]    = useState("hero");
+  const [progresso, setProg] = useState(0);
+  const [largura, setLarg]   = useState(typeof window === "undefined" ? 1400 : window.innerWidth);
+
+  const compacto = largura < 1100;
 
   useEffect(() => {
-    const medir = () => setLargo(window.innerWidth >= 1100);
-    medir();
+    const medir = () => setLarg(window.innerWidth);
     window.addEventListener("resize", medir);
     return () => window.removeEventListener("resize", medir);
   }, []);
@@ -39,9 +40,17 @@ export function SideRail() {
     const aoRolar = () => {
       const doc = document.documentElement;
       const total = doc.scrollHeight - doc.clientHeight;
-      setProg(total > 0 ? (window.scrollY / total) * 100 : 0);
+      const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+      setProg(pct);
 
-      // A seção ativa é a última cujo topo já passou de 40% da viewport.
+      // No fim da página a última seção é a ativa. Sem esse caso, "Contato"
+      // nunca acendia: ele é a última seção e, junto com o rodapé, não é alto
+      // o bastante para o topo dele cruzar o corte de 40% da viewport.
+      if (total > 0 && window.scrollY >= total - 8) {
+        setAtiva(SECOES[SECOES.length - 1].id);
+        return;
+      }
+
       const corte = window.innerHeight * 0.4;
       let atual = SECOES[0].id;
       for (const s of SECOES) {
@@ -55,73 +64,102 @@ export function SideRail() {
     return () => window.removeEventListener("scroll", aoRolar);
   }, []);
 
-  if (!largo) return null;
-
   const ir = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
-    <aside
+    <nav
       aria-label="Navegação da página"
       style={{
-        position: "fixed", left: 0, top: 0, bottom: 0, width: 210, zIndex: 90,
-        display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: "0 1.5rem", pointerEvents: "none",
+        position: "fixed", left: compacto ? 12 : 24, top: "50%",
+        transform: "translateY(-50%)", zIndex: 90,
+        width: compacto ? 58 : 186,
+        background: "rgba(19,18,42,0.92)",
+        border: "1px solid rgba(255,255,255,0.09)",
+        borderRadius: 14,
+        boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
+        backdropFilter: "blur(10px)",
+        padding: compacto ? "0.9rem 0.5rem" : "1.15rem 0.9rem",
       }}
     >
-      <div style={{ pointerEvents: "auto" }}>
-        {SECOES.map((s) => {
-          const on = ativa === s.id;
-          return (
-            <button
-              key={s.id}
-              onClick={() => ir(s.id)}
-              aria-current={on ? "true" : undefined}
-              style={{
-                display: "flex", alignItems: "center", gap: "0.75rem",
-                width: "100%", background: "none", border: "none",
-                padding: "0.55rem 0", cursor: "pointer", textAlign: "left",
-                color: on ? C.ink : "rgba(196,191,232,0.45)",
-                transition: "color 0.25s",
-              }}
-              onMouseEnter={(e) => { if (!on) e.currentTarget.style.color = C.ink2; }}
-              onMouseLeave={(e) => { if (!on) e.currentTarget.style.color = "rgba(196,191,232,0.45)"; }}
-            >
-              <span
-                style={{
-                  display: "block", height: 2, borderRadius: 2,
-                  width: on ? 34 : 14,
-                  background: on ? C.grad : "rgba(196,191,232,0.35)",
-                  transition: "width 0.3s cubic-bezier(.4,0,.2,1), background 0.3s",
-                  flexShrink: 0,
-                }}
-              />
-              <span style={{
-                fontSize: "0.78rem", letterSpacing: "0.08em",
-                fontWeight: on ? 600 : 400, whiteSpace: "nowrap",
-              }}>
-                {s.label}
-              </span>
-            </button>
-          );
-        })}
-
+      {!compacto && (
         <div style={{
-          marginTop: "2rem", height: 3, width: 96, borderRadius: 2,
-          background: "rgba(255,255,255,0.08)", overflow: "hidden",
+          fontSize: "0.62rem", letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "rgba(196,191,232,0.4)", padding: "0 0.35rem 0.7rem",
+          borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: "0.5rem",
+        }}>
+          Navegação
+        </div>
+      )}
+
+      {SECOES.map((s) => {
+        const on = ativa === s.id;
+        return (
+          <button
+            key={s.id}
+            onClick={() => ir(s.id)}
+            title={compacto ? s.label : undefined}
+            aria-current={on ? "true" : undefined}
+            style={{
+              display: "flex", alignItems: "center",
+              justifyContent: compacto ? "center" : "flex-start",
+              gap: "0.6rem", width: "100%",
+              background: on ? "rgba(124,91,245,0.16)" : "transparent",
+              border: "none", borderRadius: 8,
+              padding: compacto ? "0.55rem 0" : "0.5rem 0.55rem",
+              marginBottom: 2, cursor: "pointer", textAlign: "left",
+              color: on ? C.ink : "rgba(196,191,232,0.55)",
+              transition: "background 0.2s, color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              if (!on) {
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                e.currentTarget.style.color = C.ink2;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!on) {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "rgba(196,191,232,0.55)";
+              }
+            }}
+          >
+            <span style={{
+              display: "block", width: 3, height: 16, borderRadius: 2, flexShrink: 0,
+              background: on ? C.grad : "rgba(196,191,232,0.22)",
+              transition: "background 0.25s",
+            }} />
+            <span style={{
+              fontSize: compacto ? "0.68rem" : "0.79rem",
+              letterSpacing: compacto ? "0.02em" : "0.05em",
+              fontWeight: on ? 600 : 400, whiteSpace: "nowrap",
+            }}>
+              {compacto ? s.curto : s.label}
+            </span>
+          </button>
+        );
+      })}
+
+      <div style={{
+        marginTop: "0.9rem", paddingTop: "0.8rem",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        display: "flex", alignItems: "center", gap: "0.55rem",
+      }}>
+        <div style={{
+          flex: 1, height: 3, borderRadius: 2,
+          background: "rgba(255,255,255,0.09)", overflow: "hidden",
         }}>
           <div style={{
             height: "100%", width: `${progresso}%`,
             background: C.grad, transition: "width 0.1s linear",
           }} />
         </div>
-        <div style={{
-          marginTop: "0.5rem", fontSize: "0.68rem",
-          letterSpacing: "0.12em", color: "rgba(196,191,232,0.35)",
-        }}>
-          {Math.round(progresso)}%
-        </div>
+        {!compacto && (
+          <span style={{ fontSize: "0.64rem", color: "rgba(196,191,232,0.4)", minWidth: 26 }}>
+            {Math.round(progresso)}%
+          </span>
+        )}
       </div>
-    </aside>
+    </nav>
   );
 }
