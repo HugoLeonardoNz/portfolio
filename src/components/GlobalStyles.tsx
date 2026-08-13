@@ -51,6 +51,12 @@ export function GlobalStyles() {
       ::-webkit-scrollbar-track { background: #0d0c1a; }
       ::-webkit-scrollbar-thumb { background: rgba(124,91,245,0.35); }
       ::-webkit-scrollbar-thumb:hover { background: rgba(124,91,245,0.55); }
+
+      /* O rail lateral ocupa 210px a partir de 1100px; o conteudo desvia para
+         nao passar por baixo dele. Abaixo disso o rail some e nao ha desvio. */
+      @media (min-width: 1100px) {
+        section { padding-left: 15rem !important; }
+      }
     `;
     document.head.appendChild(style);
     return () => { document.head.removeChild(style); };

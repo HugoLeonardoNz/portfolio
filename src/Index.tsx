@@ -1,10 +1,12 @@
 import { GlobalStyles } from "./components/GlobalStyles";
 import { Nav }          from "./components/Nav";
+import { SideRail }     from "./components/SideRail";
 import { Hero }         from "./components/Hero";
 import { Ticker }       from "./components/Ticker";
 import { Sobre }        from "./components/Sobre";
 import { OQueEntrego }  from "./components/OQueEntrego";
 import { Skills }       from "./components/Skills";
+import { Analises }     from "./components/Analises";
 import { Projects }     from "./components/Projects";
 import { Experience }   from "./components/Experience";
 import { Contact }      from "./components/Contact";
@@ -16,11 +18,13 @@ export default function Index() {
     <div style={{ background: C.bg, minHeight: "100vh" }}>
       <GlobalStyles />
       <Nav />
+      <SideRail />
       <Hero />
       <Ticker />
       <Sobre />
       <OQueEntrego />
       <Skills />
+      <Analises />
       <Projects />
       <Experience />
       <Contact />
