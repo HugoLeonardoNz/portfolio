@@ -28,7 +28,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 3, title: "Customer Churn Predictor",
-    description: "Pipeline completo de ML: feature engineering comportamental, comparação de 4 modelos (LogReg, RandomForest, XGBoost, LightGBM), XGBoost selecionado com AUC ~0.91 em 5-fold CV estratificado, calibração isotônica, análise SHAP, simulador interativo e lista priorizada de retenção com MRR em risco exportável — 15.000 registros sintéticos.",
+    description: "Pipeline completo de ML sobre 15.000 registros sintéticos: feature engineering comportamental, comparação de 4 modelos (LogReg, RandomForest, XGBoost, LightGBM), validação cruzada estratificada, calibração de threshold pela curva Precision-Recall, calibração isotônica, análise SHAP e lista priorizada de retenção com MRR em risco. As métricas são altas porque o dado é gerado condicionalmente ao rótulo — a ressalva está no README, junto com a evidência: uma regressão logística simples empata com o XGBoost.",
     tags: ["Python", "scikit-learn", "XGBoost", "SHAP", "Feature Engineering", "Streamlit"],
     githubUrl: "https://github.com/HugoLeonardoNz/churn-predictor",
     liveUrl: "https://hugoleonardonz-churn-predictor.streamlit.app",
@@ -56,14 +56,14 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 7, title: "Telecom Operadoras — Power BI",
-    description: "Dashboard Power BI de reclamações ANATEL por operadora. Star schema com fato_reclamacoes + 4 dimensões, 20+ medidas DAX: variação MoM/YoY, Média Móvel 3M, ranking por 100k assinantes e Índice de Concentração Herfindahl.",
+    description: "Relatório de 6 páginas sobre reclamações ANATEL: star schema com 4 dimensões, 53 medidas DAX e camada visual gerada por código (formato PBIR versionado em JSON). Normaliza volume por base de assinantes, compõe índice de risco regulatório, mede concentração por Herfindahl e detecta mês fora da curva por z-score. Inclui página de metodologia com os limites do dado.",
     tags: ["Power BI", "DAX", "Star Schema", "Python", "ANATEL"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-powerbi-public",
     isPrivate: false, status: "live", icon: "chart",
   },
   {
     id: 8, title: "Brecha Digital Brasil — Power BI",
-    description: "Dashboard Power BI sobre penetração de internet no Brasil 2019–2023. Star schema grão UF × período × métrica, CAGR 5 anos, Gap Digital urbano-rural, Score de Oportunidade composto por baixa penetração, população e IDH moderado.",
+    description: "Relatório de 5 páginas sobre acesso à internet no Brasil. O achado: São Paulo é o 3º estado em taxa de acesso e o 1º em número absoluto de pessoas desconectadas — ranking por percentual e por volume discordam. IDH explica 78% da variação entre estados (correlação calculada em DAX). Design deliberadamente distinto do outro projeto Power BI.",
     tags: ["Power BI", "DAX", "Star Schema", "Python", "IBGE"],
     githubUrl: "https://github.com/HugoLeonardoNz/socioeconomic-powerbi-public",
     isPrivate: false, status: "live", icon: "database",
