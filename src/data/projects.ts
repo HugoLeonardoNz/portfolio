@@ -23,7 +23,6 @@ export const PROJECTS: Project[] = [
     description: "Dashboard operacional com KPIs críticos de ISP: MRR com delta MoM, ARPU, cohort de retenção por trimestre, NOC/SLA com uptime e MTTR, concentração geográfica e ranking de vendedores — Streamlit + Plotly, dados sintéticos baseados em cenários reais de fibra.",
     tags: ["Python", "Streamlit", "Pandas", "Plotly"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-kpi-dashboard",
-    liveUrl: "https://hugoleonardonz-telecom-kpi-dashboard.streamlit.app",
     isPrivate: false, status: "live", icon: "chart",
   },
   {
@@ -31,7 +30,6 @@ export const PROJECTS: Project[] = [
     description: "Pipeline completo de ML sobre 15.000 registros sintéticos: feature engineering comportamental, comparação de 4 modelos (LogReg, RandomForest, XGBoost, LightGBM), validação cruzada estratificada, calibração de threshold pela curva Precision-Recall, calibração isotônica, análise SHAP e lista priorizada de retenção com MRR em risco. As métricas são altas porque o dado é gerado condicionalmente ao rótulo — a ressalva está no README, junto com a evidência: uma regressão logística simples empata com o XGBoost.",
     tags: ["Python", "scikit-learn", "XGBoost", "SHAP", "Feature Engineering", "Streamlit"],
     githubUrl: "https://github.com/HugoLeonardoNz/churn-predictor",
-    liveUrl: "https://hugoleonardonz-churn-predictor.streamlit.app",
     isPrivate: false, status: "live", icon: "layers",
   },
   {
