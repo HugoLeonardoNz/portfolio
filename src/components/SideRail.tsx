@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { C } from "../theme";
+import { C, R } from "../theme";
 
 /**
  * Navegação vertical — a única do site.
@@ -76,7 +76,7 @@ export function SideRail() {
         width: compacto ? 58 : 186,
         background: "rgba(19,18,42,0.92)",
         border: "1px solid rgba(255,255,255,0.09)",
-        borderRadius: 14,
+        borderRadius: R.panel,
         boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
         backdropFilter: "blur(10px)",
         padding: compacto ? "0.9rem 0.5rem" : "1.15rem 0.9rem",
@@ -105,7 +105,7 @@ export function SideRail() {
               justifyContent: compacto ? "center" : "flex-start",
               gap: "0.6rem", width: "100%",
               background: on ? "rgba(124,91,245,0.16)" : "transparent",
-              border: "none", borderRadius: 8,
+              border: "none", borderRadius: R.ctrl,
               padding: compacto ? "0.55rem 0" : "0.5rem 0.55rem",
               marginBottom: 2, cursor: "pointer", textAlign: "left",
               color: on ? C.ink : "rgba(196,191,232,0.55)",
@@ -125,7 +125,7 @@ export function SideRail() {
             }}
           >
             <span style={{
-              display: "block", width: 3, height: 16, borderRadius: 2, flexShrink: 0,
+              display: "block", width: 3, height: 16, borderRadius: R.chip, flexShrink: 0,
               background: on ? C.grad : "rgba(196,191,232,0.22)",
               transition: "background 0.25s",
             }} />
@@ -146,7 +146,7 @@ export function SideRail() {
         display: "flex", alignItems: "center", gap: "0.55rem",
       }}>
         <div style={{
-          flex: 1, height: 3, borderRadius: 2,
+          flex: 1, height: 3, borderRadius: R.chip,
           background: "rgba(255,255,255,0.09)", overflow: "hidden",
         }}>
           <div style={{

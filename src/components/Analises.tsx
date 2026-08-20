@@ -97,7 +97,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
     <>
       <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
         {([
-          ["volume", "Eixo Y: pessoas sem acesso (milhões)"],
+          ["volume", "Eixo Y: domicílios sem acesso (milhões)"],
           ["taxa",   "Eixo Y: proporção sem acesso (%)"],
         ] as [Eixo, string][]).map(([id, label]) => (
           <button
@@ -195,7 +195,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
                   {hover.regiao}
                 </div>
                 <Linha rot="Domicílios com internet" val={`${hover.penetracao.toFixed(1)}%`} />
-                <Linha rot="Pessoas sem acesso" val={`${hover.semAcesso.toFixed(2)} mi`} />
+                <Linha rot="Domicílios sem acesso" val={`${hover.semAcesso.toFixed(2)} mi`} />
                 <Linha rot="IDH (2010)" val={hover.idh.toFixed(3)} />
               </>
             ) : (

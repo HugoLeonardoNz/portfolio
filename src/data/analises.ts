@@ -6,7 +6,9 @@
  */
 
 // ── Brecha digital (socioeconomic-powerbi-public, ano de referência 2023) ────
-// penetracao = % de domicílios com internet · semAcesso = pessoas em milhões
+// penetracao = % de domicílios com internet · semAcesso = domicílios em milhões
+// Fonte: API do SIDRA, tabelas 9649 (com internet) e 7167 (total), ano 2023.
+// Conferido contra o release do IBGE: 92,5% nacional; este cálculo dá 92,6%.
 export interface UF {
   uf: string;
   estado: string;
@@ -16,28 +18,50 @@ export interface UF {
   idh: number;
 }
 
+// Os 27 estados, ordenados por domicílios sem acesso. `semAcesso` está em MILHÕES
+// de domicílios (não de pessoas): é a contagem observada, total menos com internet.
 export const BRECHA: UF[] = [
-  { uf: "SP", estado: "São Paulo",          regiao: "Sudeste",      penetracao: 93.5, semAcesso: 3.03, idh: 0.783 },
-  { uf: "BA", estado: "Bahia",              regiao: "Nordeste",     penetracao: 80.3, semAcesso: 2.94, idh: 0.660 },
-  { uf: "MG", estado: "Minas Gerais",       regiao: "Sudeste",      penetracao: 88.7, semAcesso: 2.42, idh: 0.731 },
-  { uf: "CE", estado: "Ceará",              regiao: "Nordeste",     penetracao: 78.9, semAcesso: 1.95, idh: 0.682 },
-  { uf: "PA", estado: "Pará",               regiao: "Norte",        penetracao: 77.8, semAcesso: 1.91, idh: 0.646 },
-  { uf: "MA", estado: "Maranhão",           regiao: "Nordeste",     penetracao: 73.8, semAcesso: 1.87, idh: 0.639 },
-  { uf: "PE", estado: "Pernambuco",         regiao: "Nordeste",     penetracao: 82.4, semAcesso: 1.70, idh: 0.673 },
-  { uf: "RJ", estado: "Rio de Janeiro",     regiao: "Sudeste",      penetracao: 91.3, semAcesso: 1.52, idh: 0.761 },
-  { uf: "PR", estado: "Paraná",             regiao: "Sul",          penetracao: 91.6, semAcesso: 0.96, idh: 0.749 },
-  { uf: "AM", estado: "Amazonas",           regiao: "Norte",        penetracao: 77.6, semAcesso: 0.93, idh: 0.708 },
-  { uf: "RS", estado: "Rio Grande do Sul",  regiao: "Sul",          penetracao: 92.8, semAcesso: 0.82, idh: 0.746 },
-  { uf: "PB", estado: "Paraíba",            regiao: "Nordeste",     penetracao: 80.5, semAcesso: 0.79, idh: 0.658 },
-  { uf: "AL", estado: "Alagoas",            regiao: "Nordeste",     penetracao: 78.4, semAcesso: 0.72, idh: 0.631 },
-  { uf: "PI", estado: "Piauí",              regiao: "Nordeste",     penetracao: 79.3, semAcesso: 0.68, idh: 0.646 },
-  { uf: "GO", estado: "Goiás",              regiao: "Centro-Oeste", penetracao: 90.0, semAcesso: 0.72, idh: 0.735 },
-  { uf: "SC", estado: "Santa Catarina",     regiao: "Sul",          penetracao: 93.8, semAcesso: 0.48, idh: 0.774 },
-  { uf: "MT", estado: "Mato Grosso",        regiao: "Centro-Oeste", penetracao: 88.2, semAcesso: 0.44, idh: 0.725 },
-  { uf: "RN", estado: "Rio Grande do Norte",regiao: "Nordeste",     penetracao: 83.6, semAcesso: 0.58, idh: 0.684 },
-  { uf: "ES", estado: "Espírito Santo",     regiao: "Sudeste",      penetracao: 89.4, semAcesso: 0.42, idh: 0.740 },
-  { uf: "MS", estado: "Mato Grosso do Sul", regiao: "Centro-Oeste", penetracao: 89.4, semAcesso: 0.30, idh: 0.729 },
-  { uf: "DF", estado: "Distrito Federal",   regiao: "Centro-Oeste", penetracao: 95.1, semAcesso: 0.15, idh: 0.824 },
+  { uf: "SP", estado: "São Paulo",             regiao: "Sudeste",        penetracao: 95.0, semAcesso: 0.85, idh: 0.783 },
+  { uf: "BA", estado: "Bahia",                 regiao: "Nordeste",       penetracao: 89.2, semAcesso: 0.59, idh: 0.66 },
+  { uf: "MG", estado: "Minas Gerais",          regiao: "Sudeste",        penetracao: 92.8, semAcesso: 0.56, idh: 0.731 },
+  { uf: "PE", estado: "Pernambuco",            regiao: "Nordeste",       penetracao: 88.9, semAcesso: 0.39, idh: 0.673 },
+  { uf: "RJ", estado: "Rio de Janeiro",        regiao: "Sudeste",        penetracao: 94.1, semAcesso: 0.39, idh: 0.761 },
+  { uf: "CE", estado: "Ceará",                 regiao: "Nordeste",       penetracao: 89.5, semAcesso: 0.34, idh: 0.682 },
+  { uf: "PR", estado: "Paraná",                regiao: "Sul",            penetracao: 92.8, semAcesso: 0.31, idh: 0.749 },
+  { uf: "MA", estado: "Maranhão",              regiao: "Nordeste",       penetracao: 86.8, semAcesso: 0.3, idh: 0.639 },
+  { uf: "RS", estado: "Rio Grande do Sul",     regiao: "Sul",            penetracao: 93.2, semAcesso: 0.3, idh: 0.746 },
+  { uf: "PA", estado: "Pará",                  regiao: "Norte",          penetracao: 90.1, semAcesso: 0.26, idh: 0.646 },
+  { uf: "PB", estado: "Paraíba",               regiao: "Nordeste",       penetracao: 90.2, semAcesso: 0.15, idh: 0.658 },
+  { uf: "AM", estado: "Amazonas",              regiao: "Norte",          penetracao: 88.7, semAcesso: 0.14, idh: 0.708 },
+  { uf: "SC", estado: "Santa Catarina",        regiao: "Sul",            penetracao: 95.4, semAcesso: 0.14, idh: 0.774 },
+  { uf: "GO", estado: "Goiás",                 regiao: "Centro-Oeste",   penetracao: 95.2, semAcesso: 0.13, idh: 0.735 },
+  { uf: "PI", estado: "Piauí",                 regiao: "Nordeste",       penetracao: 89.1, semAcesso: 0.12, idh: 0.646 },
+  { uf: "RN", estado: "Rio Grande do Norte",   regiao: "Nordeste",       penetracao: 90.3, semAcesso: 0.12, idh: 0.684 },
+  { uf: "AL", estado: "Alagoas",               regiao: "Nordeste",       penetracao: 89.4, semAcesso: 0.12, idh: 0.631 },
+  { uf: "ES", estado: "Espírito Santo",        regiao: "Sudeste",        penetracao: 92.7, semAcesso: 0.11, idh: 0.74 },
+  { uf: "MT", estado: "Mato Grosso",           regiao: "Centro-Oeste",   penetracao: 94.2, semAcesso: 0.08, idh: 0.725 },
+  { uf: "SE", estado: "Sergipe",               regiao: "Nordeste",       penetracao: 91.4, semAcesso: 0.07, idh: 0.665 },
+  { uf: "MS", estado: "Mato Grosso do Sul",    regiao: "Centro-Oeste",   penetracao: 95.5, semAcesso: 0.05, idh: 0.729 },
+  { uf: "RO", estado: "Rondônia",              regiao: "Norte",          penetracao: 94.0, semAcesso: 0.04, idh: 0.736 },
+  { uf: "AC", estado: "Acre",                  regiao: "Norte",          penetracao: 84.4, semAcesso: 0.04, idh: 0.708 },
+  { uf: "TO", estado: "Tocantins",             regiao: "Norte",          penetracao: 91.7, semAcesso: 0.04, idh: 0.699 },
+  { uf: "DF", estado: "Distrito Federal",      regiao: "Centro-Oeste",   penetracao: 97.4, semAcesso: 0.03, idh: 0.824 },
+  { uf: "RR", estado: "Roraima",               regiao: "Norte",          penetracao: 94.0, semAcesso: 0.01, idh: 0.75 },
+  { uf: "AP", estado: "Amapá",                 regiao: "Norte",          penetracao: 94.0, semAcesso: 0.01, idh: 0.708 },
+];
+
+// Acesso por situação do domicílio. Existe em Brasil e Grandes Regiões e NÃO por
+// UF — o IBGE suprime esse cruzamento por amostra. O painel mostra no grão que o
+// dado tem, e não no grão que ficaria mais bonito.
+export interface GapSituacao { local: string; urbana: number; rural: number; gap: number }
+
+export const GAP_URBANO_RURAL: GapSituacao[] = [
+  { local: "Norte",           urbana: 95.2, rural: 70.4, gap: 24.8 },
+  { local: "Brasil",          urbana: 94.2, rural: 81.2, gap: 13.0 },
+  { local: "Nordeste",        urbana: 91.8, rural: 80.1, gap: 11.7 },
+  { local: "Sudeste",         urbana: 94.8, rural: 83.8, gap: 11.0 },
+  { local: "Sul",             urbana: 94.4, rural: 87.2, gap: 7.2 },
+  { local: "Centro-Oeste",    urbana: 96.0, rural: 89.0, gap: 7.0 },
 ];
 
 export const CORES_REGIAO: Record<UF["regiao"], string> = {
