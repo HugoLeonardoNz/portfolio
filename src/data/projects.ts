@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 6, title: "Expansão de Mercado — EDA",
-    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP tem a melhor taxa do país e o maior número absoluto de desconectados), e a brecha regional acabou (3,5pp) enquanto a urbana × rural resiste em 13,0pp — 24,8pp no Norte, onde a cidade já tem 95,2% e o campo, 70,4%.",
+    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP tem a melhor taxa do país e o maior número absoluto de desconectados), e a brecha regional encolheu para 4,6pp enquanto a urbana × rural resiste em 13,0pp — 24,8pp no Norte, onde a cidade já tem 95,2% e o campo, 70,4%.",
     tags: ["Python", "Plotly", "IBGE", "EDA", "Scoring"],
     githubUrl: "https://github.com/HugoLeonardoNz/market-expansion-eda",
     isPrivate: false, status: "live", icon: "trending",
