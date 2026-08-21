@@ -95,10 +95,15 @@ export function Hero() {
         </div>
 
         <div style={{ display: "flex", gap: "1rem", width: "100%", justifyContent: "center" }}>
+          {/* Numeros que o visitante consegue conferir clicando. Antes eram
+              "3+ anos", "6 setores" e "10+ dashboards": auto-declarados, sem
+              como verificar, e com barrinha de progresso embaixo sugerindo
+              percentual de coisa nenhuma. Num portfolio de dados, o cartao de
+              vaidade e o pior lugar para pedir confianca. */}
           {[
-            { label: "Experiência", value: "3",  plus: "+", sub: "anos",      w: "75%" },
-            { label: "Setores",     value: "6",  plus: "",  sub: "atendidos", w: "60%" },
-            { label: "Dashboards",  value: "10", plus: "+", sub: "entregues", w: "55%" },
+            { label: "Repositórios", value: "7",  plus: "",  sub: "públicos"        },
+            { label: "Medidas DAX",   value: "82", plus: "",  sub: "nos 2 relatórios" },
+            { label: "Testes",        value: "32", plus: "",  sub: "automatizados"   },
           ].map((card) => (
             <div key={card.label} style={{
               background: C.paper, border: "1px solid rgba(255,255,255,0.07)",
@@ -114,14 +119,6 @@ export function Hero() {
                 {card.value}<span style={{ color: C.purple2 }}>{card.plus}</span>
               </div>
               <div style={{ fontSize: "0.72rem", color: C.ink3, marginTop: "0.3rem" }}>{card.sub}</div>
-              <div style={{ marginTop: "0.8rem", height: 3, background: C.bg2, position: "relative" }}>
-                <div style={{
-                  position: "absolute", left: 0, top: 0, bottom: 0,
-                  background: C.purple,
-                  animation: "hl-barfill 1.5s ease forwards",
-                  ...({ "--w": card.w } as React.CSSProperties),
-                }} />
-              </div>
             </div>
           ))}
         </div>
@@ -131,31 +128,27 @@ export function Hero() {
           padding: "1.2rem 1.4rem", width: "100%",
         }}>
           <div style={{ fontSize: "0.72rem", letterSpacing: "0.04em", color: C.ink3, marginBottom: "1rem", fontWeight: 500 }}>
-            Projetos públicos · 7
+            O que cada repositório entrega
           </div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 40 }}>
+          {/* Aqui havia sete barras com alturas escritas a mao — 85%, 60%, 95%,
+              45%, 70%, 80%, 65% — sob o titulo "Projetos publicos · 7". Pareciam
+              um grafico e nao mediam nada. Num portfolio cuja tese e que numero
+              precisa sobreviver a "como voce chegou nisso?", decoracao em forma
+              de dado e o pior lugar possivel para economizar honestidade.
+              No lugar, a mesma altura de bloco com informacao verdadeira. */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
             {[
-              { h: "85%", d: "0s" }, { h: "60%", d: "0.1s" }, { h: "95%", d: "0.2s" },
-              { h: "45%", d: "0.3s" }, { h: "70%", d: "0.4s" }, { h: "80%", d: "0.5s" },
-              { h: "65%", d: "0.6s" },
-            ].map((bar, i) => (
-              <div key={i} style={{
-                // height 100% e obrigatorio: o container usa align-items
-                // flex-end, entao os filhos nao esticam e ficam com altura
-                // automatica (zero). A barra interna e posicionada em % da
-                // altura do pai — sem isso, 85% de zero continua zero e o
-                // cartao aparece vazio.
-                flex: 1, height: "100%", background: C.bg2, borderRadius: 1,
-                position: "relative", overflow: "hidden",
-              }}>
-                <div style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  background: C.purple,
-                  animation: `hl-barrise 1.2s ease forwards`,
-                  animationDelay: bar.d,
-                  ...({ "--h": bar.h } as React.CSSProperties),
-                }} />
-              </div>
+              "2 relatórios Power BI",
+              "2 apps Streamlit",
+              "1 EDA sobre dado do IBGE",
+              "1 EDA de reclamações + RFM",
+              "1 pacote SQL com dbt + CI",
+            ].map((t) => (
+              <span key={t} style={{
+                fontSize: "0.72rem", color: C.ink2,
+                border: "1px solid rgba(255,255,255,0.09)",
+                borderRadius: 999, padding: "0.25rem 0.6rem",
+              }}>{t}</span>
             ))}
           </div>
         </div>

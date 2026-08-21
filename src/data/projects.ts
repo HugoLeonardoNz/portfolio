@@ -20,7 +20,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 2, title: "Telecom KPI Dashboard",
-    description: "Dashboard operacional com KPIs críticos de ISP: MRR com delta MoM, ARPU, cohort de retenção por trimestre, NOC/SLA com uptime e MTTR, concentração geográfica e ranking de vendedores — Streamlit + Plotly, dados sintéticos baseados em cenários reais de fibra.",
+    description: "Dashboard operacional com KPIs críticos de ISP: base de 88.501 clientes com delta mês a mês, MRR, ARPU, cohort de retenção por trimestre, NOC/SLA com MTTR e quebra por região e por plano — Streamlit + Plotly. As quebras derivam do mesmo número que o KPI mostra, e 11 testes reprovam se pararem de fechar.",
     tags: ["Python", "Streamlit", "Pandas", "Plotly"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-kpi-dashboard",
     isPrivate: false, status: "live", icon: "chart",
@@ -40,14 +40,14 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 5, title: "Telecom EDA — ANATEL",
-    description: "Duas análises sobre o setor: EDA de reclamações ANATEL sobre um CSV com os defeitos do arquivo real (latin-1, separador ponto e vírgula, duplicatas, nulos implícitos) com cinco hipóteses declaradas antes do resultado — uma delas refutada — e segmentação RFM de 300 contratos, com MRR em risco por segmento.",
+    description: "Duas análises sobre o setor: EDA de reclamações ANATEL sobre um CSV com os defeitos do arquivo real (latin-1, separador ponto e vírgula, duplicatas, nulos implícitos), com quatro hipóteses declaradas antes do resultado — uma refutada — e uma quinta que NAO recebe veredito, porque confirmá-la mediria o gerador e não o setor. Mais segmentação RFM de 300 contratos, com MRR em risco por segmento.",
     tags: ["Python", "Pandas", "Plotly", "EDA", "RFM", "Dados Abertos"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-eda-public",
     isPrivate: false, status: "live", icon: "chart",
   },
   {
     id: 6, title: "Expansão de Mercado — EDA",
-    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP tem a melhor taxa do país e o maior número absoluto de desconectados), e a brecha regional encolheu para 4,6pp enquanto a urbana × rural resiste em 13,0pp — 24,8pp no Norte, onde a cidade já tem 95,2% e o campo, 70,4%.",
+    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP tem a melhor taxa do país e o maior número absoluto de desconectados), e, em 2023, a brecha regional já tinha encolhido para 4,6pp enquanto a urbana × rural resistia em 13,0pp — 24,8pp no Norte, onde a cidade tinha 95,2% e o campo, 70,4%. O recorte é de 2023 de propósito: em 2025 só um estado fica abaixo de 92% e a fila de expansão por lacuna deixa de existir.",
     tags: ["Python", "Plotly", "IBGE", "EDA", "Scoring"],
     githubUrl: "https://github.com/HugoLeonardoNz/market-expansion-eda",
     isPrivate: false, status: "live", icon: "trending",
@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 8, title: "Brecha Digital Brasil — Power BI",
-    description: "Relatório de 5 páginas sobre acesso à internet no Brasil. O achado: São Paulo é o 5º estado em taxa de acesso e o 1º em número absoluto de domicílios desconectados — ranking por percentual e por volume discordam, e a Bahia anda 20 posições entre um e outro. Série observada 2016–2025, sem retropolação. IDH explica 59% da variação (correlação em DAX). Design deliberadamente distinto do outro projeto Power BI.",
+    description: "Relatório de 5 páginas sobre acesso à internet no Brasil, ancorado no último ano observado. O achado: São Paulo é o 5º estado em taxa de acesso e o 1º em número absoluto de domicílios desconectados — ranking por percentual e por volume discordam, e a Bahia anda 19 posições entre um e outro. O segundo achado é maior: a desigualdade entre estados praticamente fechou (desvio de 9,6pp em 2016 para 1,9pp em 2025) e o que sobrou é cidade × campo, 13,1pp no Norte. Série observada 2016–2025, sem retropolação, conferida contra o release do IBGE.",
     tags: ["Power BI", "DAX", "Star Schema", "Python", "IBGE"],
     githubUrl: "https://github.com/HugoLeonardoNz/socioeconomic-powerbi-public",
     isPrivate: false, status: "live", icon: "database",
