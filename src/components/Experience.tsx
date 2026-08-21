@@ -1,4 +1,4 @@
-import { C } from "../theme";
+import { C, F } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -14,17 +14,17 @@ function ExpItem({ title, company, period, location, bullets, stack, isLast = fa
       borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.05)",
       transition: "background 0.2s",
     }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(124,91,245,0.05)")}
+      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,247,74,0.05)")}
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       <div style={{
         position: "absolute", left: -5, top: "2.8rem",
-        width: 9, height: 9, background: C.purple, borderRadius: "50%",
+        width: 9, height: 9, background: C.acid, borderRadius: "50%",
         border: `2px solid ${C.paper}`,
       }} />
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.6rem" }}>
-        <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 400, color: C.ink }}>
+        <h3 style={{ fontFamily: F.display, fontSize: "1.8rem", fontWeight: 400, color: C.ink }}>
           {title}
         </h3>
         <div style={{ fontSize: "0.82rem", fontWeight: 500, color: C.ink3, textAlign: "right", lineHeight: 1.6 }}>
@@ -32,7 +32,7 @@ function ExpItem({ title, company, period, location, bullets, stack, isLast = fa
         </div>
       </div>
 
-      <div style={{ fontSize: "0.88rem", fontWeight: 600, color: C.purple2, letterSpacing: "0.04em", marginBottom: bullets ? "1.2rem" : 0 }}>
+      <div style={{ fontSize: "0.88rem", fontWeight: 600, color: C.acid2, letterSpacing: "0.04em", marginBottom: bullets ? "1.2rem" : 0 }}>
         {company}
       </div>
 
@@ -40,7 +40,7 @@ function ExpItem({ title, company, period, location, bullets, stack, isLast = fa
         <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
           {bullets.map((b, i) => (
             <li key={i} style={{ fontSize: "0.88rem", lineHeight: 1.75, color: C.ink3, paddingLeft: "1.2rem", position: "relative" }}>
-              <span style={{ position: "absolute", left: 0, color: C.purple, fontSize: "0.6rem", top: "0.25rem" }}>—</span>
+              <span style={{ position: "absolute", left: 0, color: C.acid, fontSize: "0.6rem", top: "0.25rem" }}>—</span>
               {b}
             </li>
           ))}

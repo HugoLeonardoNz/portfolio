@@ -9,10 +9,10 @@ export function Ticker() {
         {doubled.map((item, i) => (
           <span key={i} style={{
             fontSize: "0.78rem", fontWeight: 500, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "rgba(165,133,255,0.7)",
+            textTransform: "uppercase", color: "rgba(184,224,47,0.7)",
             padding: "0 2.5rem",
           }}>
-            <span style={{ color: C.purple, marginRight: "2.5rem" }}>✦</span>
+            <span style={{ color: C.acid, marginRight: "2.5rem" }}>✦</span>
             {item}
           </span>
         ))}

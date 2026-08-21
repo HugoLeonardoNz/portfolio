@@ -1,4 +1,4 @@
-import { C } from "../theme";
+import { C, F } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Em } from "./ui/Em";
 
@@ -25,7 +25,7 @@ export function Contact() {
       <div>
         <Eyebrow label="Contato" />
         <h2 style={{
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: F.display,
           fontSize: "clamp(3rem, 5vw, 5rem)", fontWeight: 300,
           lineHeight: 1.05, letterSpacing: "-0.01em", color: C.ink,
         }}>
@@ -42,7 +42,7 @@ export function Contact() {
             <>
               <span style={{
                 fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em",
-                textTransform: "uppercase", color: C.purple2, width: "4.5rem", flexShrink: 0,
+                textTransform: "uppercase", color: C.acid2, width: "4.5rem", flexShrink: 0,
               }}>
                 {row.label}
               </span>
@@ -59,7 +59,7 @@ export function Contact() {
               target={row.ext ? "_blank" : undefined}
               rel={row.ext ? "noopener noreferrer" : undefined}
               style={{ ...rowStyle, borderBottom: border }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(124,91,245,0.12)"; e.currentTarget.style.paddingLeft = "2.4rem"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.12)"; e.currentTarget.style.paddingLeft = "2.4rem"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.paddingLeft = "1.8rem"; }}
             >
               {inner}

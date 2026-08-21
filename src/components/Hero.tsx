@@ -1,157 +1,178 @@
-import { C } from "../theme";
+import { C, F, R } from "../theme";
+
+/**
+ * Abertura em bloco.
+ *
+ * A referência é de cartaz: uma superfície inteira no acento, o nome ocupando a
+ * largura toda em grotesca preta, e a foto entrando POR CIMA da tipografia. O
+ * texto de apoio vive nas margens do bloco, em corpo pequeno — o contraste é
+ * entre 8rem e 0,75rem, não entre duas fontes.
+ *
+ * O que saiu: nome em serifa itálica com gradiente aplicado ao texto. Gradiente
+ * em letra é efeito, e efeito envelhece; peso e escala não.
+ */
+
+const SELO = "ANÁLISE DE DADOS · SQL · POWER BI · PYTHON · ";
 
 export function Hero() {
   return (
     <section id="hero" style={{
-      minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr",
-      alignItems: "center", padding: "7rem 3rem 5rem",
-      background: C.bg, overflow: "hidden", position: "relative",
+      minHeight: "100vh", background: C.bg,
+      padding: "5.5rem 1.5rem 4rem", position: "relative", overflow: "hidden",
     }}>
-      {/* LEFT */}
-      <div className="hl-fadein" style={{ position: "relative", zIndex: 1, paddingBottom: "2rem" }}>
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: "0.5rem",
-          fontSize: "0.8rem", fontWeight: 500, color: C.ink3, marginBottom: "1.5rem",
-        }}>
-          <span className="hl-pulse" style={{ width: 6, height: 6, background: C.purple, borderRadius: "50%", display: "inline-block" }} />
-          Disponível para projetos
-        </div>
-
-        <div style={{
-          fontSize: "0.82rem", letterSpacing: "0.12em", textTransform: "uppercase",
-          color: C.ink3, marginBottom: "1.2rem",
-          display: "flex", alignItems: "center", gap: "0.8rem", fontWeight: 500,
-        }}>
-          <span style={{ display: "block", width: "2rem", height: "1px", background: C.ink3 }} />
-          Analista de Dados Pleno
-        </div>
-
+      {/* ── Bloco lima ───────────────────────────────────────────────── */}
+      <div className="hl-fadein" style={{
+        background: C.acid, borderRadius: R.hero,
+        position: "relative", overflow: "hidden",
+        padding: "2.5rem 2.5rem 0",
+        maxWidth: 1240, margin: "0 auto",
+      }}>
+        {/* Nome em corpo grande. clamp para nao estourar no celular: a
+            referencia vive de a palavra tocar as duas bordas, e isso so
+            funciona se o tamanho acompanhar a largura. */}
         <h1 style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: "clamp(5rem, 9vw, 9rem)", fontWeight: 300,
-          lineHeight: 0.9, letterSpacing: "-0.02em", color: C.ink,
+          fontFamily: F.display,
+          fontSize: "clamp(2.6rem, 11.5vw, 9.5rem)",
+          lineHeight: 0.86, letterSpacing: "-0.035em",
+          color: C.onAcid, textTransform: "uppercase",
+          position: "relative", zIndex: 2, pointerEvents: "none",
         }}>
-          Hugo<br />
-          <span style={{
-            background: C.grad,
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            backgroundClip: "text", fontStyle: "italic",
-          }}>
-            Leonardo
-          </span>
+          Hugo<br />Leonardo
         </h1>
 
-        <p style={{
-          marginTop: "2.5rem", fontSize: "1rem", lineHeight: 1.75,
-          color: C.ink3, maxWidth: "38ch", fontWeight: 400,
+        <div style={{
+          display: "grid", gridTemplateColumns: "minmax(0,1fr) auto minmax(0,1fr)",
+          alignItems: "end", gap: "1.5rem", marginTop: "-0.5rem",
         }}>
-          3 anos transformando dados operacionais em decisão estratégica — do SQL bruto ao dashboard na tela da diretoria.
-        </p>
+          {/* coluna esquerda */}
+          <div style={{ position: "relative", zIndex: 3, paddingBottom: "2.5rem" }}>
+            <p style={{
+              fontSize: "0.82rem", lineHeight: 1.55, color: C.onAcid,
+              maxWidth: "26ch", fontWeight: 500, opacity: 0.85,
+            }}>
+              Três anos transformando dados operacionais em decisão — do SQL bruto
+              ao painel na tela da diretoria.
+            </p>
 
-        <div style={{ marginTop: "2.5rem", display: "flex", gap: "1rem", alignItems: "center" }}>
-          <button
-            onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.88rem", fontWeight: 600,
-              letterSpacing: "0.06em", background: C.ink, color: C.bg,
-              padding: "0.9rem 2rem", border: "none", cursor: "pointer", transition: "all 0.25s",
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = C.purple; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = C.ink; e.currentTarget.style.color = C.bg; }}
-          >
-            Ver projetos
-          </button>
-          <a
-            href="https://linkedin.com/in/hugo-leonardo-data-analyst"
-            target="_blank" rel="noopener noreferrer"
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.88rem", fontWeight: 500,
-              letterSpacing: "0.06em", background: "transparent", color: C.ink,
-              padding: "0.9rem 2rem", textDecoration: "none",
-              border: "1px solid rgba(165,133,255,0.4)", transition: "all 0.25s",
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(124,91,245,0.15)"; e.currentTarget.style.color = C.purple2; e.currentTarget.style.borderColor = C.purple2; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = C.ink; e.currentTarget.style.borderColor = "rgba(165,133,255,0.4)"; }}
-          >
-            LinkedIn →
-          </a>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.4rem" }}>
+              {[
+                { t: "in", href: "https://linkedin.com/in/hugo-leonardo-data-analyst" },
+                { t: "gh", href: "https://github.com/HugoLeonardoNz" },
+              ].map((s) => (
+                <a
+                  key={s.t} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{
+                    width: 34, height: 34, borderRadius: "50%",
+                    background: C.onAcid, color: C.acid,
+                    display: "grid", placeItems: "center",
+                    fontFamily: F.ui, fontSize: "0.66rem", fontWeight: 700,
+                    textDecoration: "none", letterSpacing: "0.02em",
+                  }}
+                >{s.t}</a>
+              ))}
+            </div>
+          </div>
+
+          {/* foto, sobre a tipografia */}
+          <div style={{
+            width: "clamp(180px, 26vw, 320px)", justifySelf: "center",
+            position: "relative", zIndex: 1, marginTop: "-14%",
+          }}>
+            <img
+              src={`${import.meta.env.BASE_URL}hugo-foto.png`}
+              alt="Hugo Leonardo"
+              style={{ width: "100%", display: "block", objectFit: "contain" }}
+            />
+          </div>
+
+          {/* coluna direita */}
+          <div style={{
+            position: "relative", zIndex: 3, paddingBottom: "2.5rem",
+            justifySelf: "end", textAlign: "right",
+          }}>
+            <p style={{
+              fontSize: "0.82rem", lineHeight: 1.55, color: C.onAcid,
+              maxWidth: "24ch", fontWeight: 500, opacity: 0.85, marginLeft: "auto",
+            }}>
+              Todo número deste portfólio sobrevive à pergunta
+              “como você chegou nisso?”. Os que não sobreviveram foram removidos.
+            </p>
+            <button
+              onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
+              aria-label="Ir para os projetos"
+              style={{
+                marginTop: "1.4rem", width: 38, height: 38, borderRadius: "50%",
+                background: C.onAcid, color: C.acid, border: "none",
+                cursor: "pointer", fontSize: "1rem", lineHeight: 1,
+              }}
+            >↓</button>
+          </div>
         </div>
       </div>
 
-      {/* RIGHT */}
-      <div className="hl-fadein-d" style={{
-        position: "relative", zIndex: 1,
-        display: "flex", flexDirection: "column", alignItems: "center",
-        gap: "1.5rem", paddingBottom: "2rem",
-      }}>
+      {/* ── Faixa de números ─────────────────────────────────────────── */}
+      <div style={{
+        maxWidth: 1240, margin: "1.25rem auto 0",
+        display: "grid", gap: "1.25rem",
+        gridTemplateColumns: "minmax(0, 1.15fr) minmax(0, 1fr)",
+        alignItems: "stretch",
+      }} className="hl-hero-grid">
         <div style={{
-          width: 300, height: 300, borderRadius: "50%", overflow: "hidden",
-          border: "3px solid rgba(124,91,245,0.4)",
-          boxShadow: "0 0 40px rgba(124,91,245,0.2)", flexShrink: 0,
+          background: C.paper, borderRadius: R.panel, padding: "1.6rem 1.8rem",
+          display: "flex", gap: "2.5rem", flexWrap: "wrap",
         }}>
-          <img src={`${import.meta.env.BASE_URL}hugo-foto.png`} alt="Hugo Leonardo" style={{
-            width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top",
-          }} />
-        </div>
-
-        <div style={{ display: "flex", gap: "1rem", width: "100%", justifyContent: "center" }}>
-          {/* Numeros que o visitante consegue conferir clicando. Antes eram
-              "3+ anos", "6 setores" e "10+ dashboards": auto-declarados, sem
-              como verificar, e com barrinha de progresso embaixo sugerindo
-              percentual de coisa nenhuma. Num portfolio de dados, o cartao de
-              vaidade e o pior lugar para pedir confianca. */}
+          {/* Numeros que o visitante confere clicando. Antes eram "3+ anos",
+              "6 setores" e "10+ dashboards": auto-declarados, sem como
+              verificar, e com barra de progresso embaixo sugerindo percentual
+              de coisa nenhuma. */}
           {[
-            { label: "Repositórios", value: "7",  plus: "",  sub: "públicos"        },
-            { label: "Medidas DAX",   value: "82", plus: "",  sub: "nos 2 relatórios" },
-            { label: "Testes",        value: "58", plus: "",  sub: "em CI"           },
-          ].map((card) => (
-            <div key={card.label} style={{
-              background: C.paper, border: "1px solid rgba(255,255,255,0.07)",
-              padding: "1.2rem 1.4rem", flex: 1,
-            }}>
-              <div style={{ fontSize: "0.72rem", letterSpacing: "0.04em", color: C.ink3, marginBottom: "0.4rem", fontWeight: 500 }}>
-                {card.label}
-              </div>
+            { v: "7",  l: "repositórios públicos" },
+            { v: "82", l: "medidas DAX" },
+            { v: "58", l: "testes em CI" },
+          ].map((k) => (
+            <div key={k.l}>
               <div style={{
-                fontFamily: "'Cormorant Garamond', serif", fontSize: "2.5rem",
-                fontWeight: 600, color: C.ink, lineHeight: 1,
-              }}>
-                {card.value}<span style={{ color: C.purple2 }}>{card.plus}</span>
-              </div>
-              <div style={{ fontSize: "0.72rem", color: C.ink3, marginTop: "0.3rem" }}>{card.sub}</div>
+                fontFamily: F.display, fontSize: "2.4rem",
+                color: C.acid, lineHeight: 1, letterSpacing: "-0.03em",
+              }}>{k.v}</div>
+              <div style={{ fontSize: "0.72rem", color: C.ink3, marginTop: "0.45rem" }}>{k.l}</div>
             </div>
           ))}
         </div>
 
         <div style={{
-          background: C.paper, border: "1px solid rgba(255,255,255,0.07)",
-          padding: "1.2rem 1.4rem", width: "100%",
+          background: C.paper, borderRadius: R.panel, padding: "1.6rem 1.8rem",
+          display: "flex", flexWrap: "wrap", gap: "0.45rem", alignContent: "center",
         }}>
-          <div style={{ fontSize: "0.72rem", letterSpacing: "0.04em", color: C.ink3, marginBottom: "1rem", fontWeight: 500 }}>
-            O que cada repositório entrega
-          </div>
-          {/* Aqui havia sete barras com alturas escritas a mao — 85%, 60%, 95%,
-              45%, 70%, 80%, 65% — sob o titulo "Projetos publicos · 7". Pareciam
-              um grafico e nao mediam nada. Num portfolio cuja tese e que numero
-              precisa sobreviver a "como voce chegou nisso?", decoracao em forma
-              de dado e o pior lugar possivel para economizar honestidade.
-              No lugar, a mesma altura de bloco com informacao verdadeira. */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-            {[
-              "2 relatórios Power BI",
-              "2 apps Streamlit",
-              "1 EDA sobre dado do IBGE",
-              "1 EDA de reclamações + RFM",
-              "1 pacote SQL com dbt + CI",
-            ].map((t) => (
-              <span key={t} style={{
-                fontSize: "0.72rem", color: C.ink2,
-                border: "1px solid rgba(255,255,255,0.09)",
-                borderRadius: 999, padding: "0.25rem 0.6rem",
-              }}>{t}</span>
-            ))}
-          </div>
+          {[
+            "2 relatórios Power BI",
+            "2 apps Streamlit",
+            "1 EDA sobre dado do IBGE",
+            "1 EDA de reclamações + RFM",
+            "1 pacote SQL com dbt + CI",
+          ].map((t) => (
+            <span key={t} style={{
+              fontSize: "0.72rem", color: C.ink2, fontFamily: F.ui,
+              border: `1px solid rgba(212,247,74,0.28)`,
+              borderRadius: R.chip, padding: "0.3rem 0.75rem",
+            }}>{t}</span>
+          ))}
         </div>
+      </div>
+
+      {/* Selo giratório: o único movimento contínuo da página. */}
+      <div aria-hidden style={{
+        position: "absolute", right: "2.5rem", bottom: "2rem",
+        width: 116, height: 116, pointerEvents: "none",
+      }} className="hl-selo">
+        <svg viewBox="0 0 200 200" style={{ width: "100%", height: "100%", animation: "hl-spin 22s linear infinite" }}>
+          <defs>
+            <path id="selo-arco" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
+          </defs>
+          <text fill={C.ink3} fontSize="15.5" fontFamily="'Space Grotesk', sans-serif" letterSpacing="2.4">
+            <textPath href="#selo-arco">{SELO + SELO}</textPath>
+          </text>
+        </svg>
       </div>
     </section>
   );

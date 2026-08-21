@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { C } from "../theme";
+import { C, F, R } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -33,7 +33,7 @@ export function Projects() {
       }}>
         <span style={{
           fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase",
-          color: "rgba(196,191,232,0.45)", marginRight: "0.5rem",
+          color: "rgba(195,208,147,0.45)", marginRight: "0.5rem",
         }}>
           Filtrar por
         </span>
@@ -46,9 +46,9 @@ export function Projects() {
               style={{
                 fontSize: "0.76rem", fontWeight: on ? 600 : 400, letterSpacing: "0.04em",
                 padding: "0.4rem 0.85rem", cursor: "pointer",
-                color: on ? C.ink : "rgba(196,191,232,0.6)",
-                background: on ? "rgba(124,91,245,0.18)" : "transparent",
-                border: `1px solid ${on ? C.purple : "rgba(255,255,255,0.12)"}`,
+                color: on ? C.ink : "rgba(195,208,147,0.6)",
+                background: on ? "rgba(212,247,74,0.18)" : "transparent",
+                border: `1px solid ${on ? C.acid : "rgba(255,255,255,0.12)"}`,
                 transition: "all 0.2s",
               }}
             >
@@ -56,56 +56,57 @@ export function Projects() {
             </button>
           );
         })}
-        <span style={{ fontSize: "0.76rem", color: "rgba(196,191,232,0.4)", marginLeft: "0.4rem" }}>
+        <span style={{ fontSize: "0.76rem", color: "rgba(195,208,147,0.4)", marginLeft: "0.4rem" }}>
           {visiveis.length} de {PROJECTS.length}
         </span>
       </div>
 
+      {/* Cartao com superficie propria, nao celula de grade. A linguagem
+          anterior era de fio: uma moldura de 1px dividida por linhas internas,
+          com raio zero. O tema novo e' de bloco — arredondado, preenchido,
+          separado por vao. Misturar os dois deixaria a pagina sem lingua. */}
       <div style={{
         marginTop: "2.5rem", display: "grid", gridTemplateColumns: "1fr 1fr",
-        gap: 0, border: "1px solid rgba(255,255,255,0.07)",
+        gap: "1rem",
       }}>
-        {visiveis.map((p, i) => {
-          const isEven    = i % 2 === 1;
-          const isLastRow = i >= visiveis.length - 2;
+        {visiveis.map((p) => {
           return (
             <div key={p.id} style={{
-              borderRight: !isEven ? "1px solid rgba(255,255,255,0.07)" : "none",
-              borderBottom: !isLastRow ? "1px solid rgba(255,255,255,0.07)" : "none",
-              padding: "2.5rem", transition: "background 0.25s",
+              background: C.paper, borderRadius: R.panel,
+              padding: "2.2rem 2.4rem", transition: "background 0.25s, transform 0.25s",
               position: "relative", overflow: "hidden",
             }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(124,91,245,0.06)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.07)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = C.paper; e.currentTarget.style.transform = "none"; }}
             >
               <div style={{
                 display: "inline-flex", alignItems: "center", gap: "0.4rem",
                 fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase",
-                color: p.isPrivate ? C.ink3 : C.purple,
-                background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(124,91,245,0.12)",
-                padding: "0.3rem 0.7rem", marginBottom: "1.2rem",
+                color: p.isPrivate ? C.ink3 : C.acid,
+                background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
+                padding: "0.3rem 0.7rem", marginBottom: "1.2rem", borderRadius: R.chip,
               }}>
-                <span style={{ width: 5, height: 5, borderRadius: "50%", background: p.isPrivate ? C.ink3 : C.purple, display: "inline-block" }} />
+                <span style={{ width: 5, height: 5, borderRadius: "50%", background: p.isPrivate ? C.ink3 : C.acid, display: "inline-block" }} />
                 {p.isPrivate ? "Privado" : "Live"}
               </div>
 
               <div style={{
-                position: "absolute", top: "2.5rem", right: "2.5rem",
-                fontFamily: "'Cormorant Garamond', serif", fontSize: "4rem", fontWeight: 300,
-                color: "rgba(165,133,255,0.08)", lineHeight: 1, userSelect: "none",
+                position: "absolute", top: "2rem", right: "2.2rem",
+                fontFamily: F.display, fontSize: "4rem", fontWeight: 300,
+                color: "rgba(184,224,47,0.08)", lineHeight: 1, userSelect: "none",
               }}>
                 {String(p.id).padStart(2, "0")}
               </div>
 
               <h3 style={{
-                fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem",
+                fontFamily: F.display, fontSize: "2rem",
                 fontWeight: 400, color: C.ink, lineHeight: 1.2, marginBottom: "0.8rem",
               }}>
                 {p.title}
               </h3>
 
               <p style={{
-                fontSize: "0.88rem", color: "rgba(196,191,232,0.7)",
+                fontSize: "0.88rem", color: "rgba(195,208,147,0.7)",
                 lineHeight: 1.8, maxWidth: "42ch", marginBottom: "1.5rem",
               }}>
                 {p.description}
@@ -115,7 +116,7 @@ export function Projects() {
                 {p.tags.map((t) => (
                   <span key={t} style={{
                     fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.06em",
-                    color: "rgba(196,191,232,0.6)",
+                    color: "rgba(195,208,147,0.6)",
                     border: "1px solid rgba(255,255,255,0.1)", padding: "0.3rem 0.7rem",
                   }}>
                     {t}
@@ -132,7 +133,7 @@ export function Projects() {
                       <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
                         style={{
                           fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.06em",
-                          color: C.purple, textDecoration: "none",
+                          color: C.acid, textDecoration: "none",
                           display: "inline-flex", alignItems: "center", gap: "0.5rem", transition: "gap 0.2s",
                         }}
                         onMouseEnter={(e) => (e.currentTarget.style.gap = "0.9rem")}

@@ -1,4 +1,4 @@
-import { C } from "../theme";
+import { C, F } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -29,8 +29,8 @@ export function Sobre() {
             { num: "10", plus: "+", label: "Dashboards\nEntregues" },
           ].map((stat) => (
             <div key={stat.label}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 600, color: C.ink, lineHeight: 1 }}>
-                {stat.num}<span style={{ color: C.purple2 }}>{stat.plus}</span>
+              <div style={{ fontFamily: F.display, fontSize: "3rem", fontWeight: 600, color: C.ink, lineHeight: 1 }}>
+                {stat.num}<span style={{ color: C.acid2 }}>{stat.plus}</span>
               </div>
               <div style={{ fontSize: "0.78rem", fontWeight: 500, color: C.ink3, marginTop: "0.4rem", lineHeight: 1.5, whiteSpace: "pre-line" }}>
                 {stat.label}
@@ -62,10 +62,10 @@ export function Sobre() {
               borderRight: i % 2 === 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
               padding: "1.2rem", transition: "background 0.2s",
             }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(124,91,245,0.06)")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,247,74,0.06)")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
-              <div style={{ width: 6, height: 6, background: C.purple, borderRadius: "50%", marginBottom: "0.7rem" }} />
+              <div style={{ width: 6, height: 6, background: C.acid, borderRadius: "50%", marginBottom: "0.7rem" }} />
               <div style={{ fontSize: "0.88rem", fontWeight: 600, color: C.ink, marginBottom: "0.25rem" }}>{comp.name}</div>
               <div style={{ fontSize: "0.78rem", color: C.ink3, lineHeight: 1.5 }}>{comp.sub}</div>
             </div>

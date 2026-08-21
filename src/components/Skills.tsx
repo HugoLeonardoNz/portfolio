@@ -38,7 +38,7 @@ export function Skills() {
                   display: "flex", alignItems: "center", gap: "0.6rem",
                   fontSize: "0.88rem", fontWeight: 400, color: C.ink2, lineHeight: 1.4,
                 }}>
-                  <span style={{ display: "block", width: 5, height: 5, background: C.purple, borderRadius: "50%", flexShrink: 0 }} />
+                  <span style={{ display: "block", width: 5, height: 5, background: C.acid, borderRadius: "50%", flexShrink: 0 }} />
                   {item}
                 </li>
               ))}

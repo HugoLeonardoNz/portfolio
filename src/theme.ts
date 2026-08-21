@@ -1,34 +1,61 @@
+/**
+ * Paleta — verde-floresta com acento ácido.
+ *
+ * O tema anterior era roxo sobre quase-preto, com serifa elegante (Cormorant)
+ * no display. Bonito e genérico: é o preset de todo portfólio de dev que usa
+ * gradiente roxo-ciano. Este substitui por um par de alto contraste — fundo
+ * verde escuro, acento lima — e por tipografia de peso, não de elegância.
+ *
+ * O acento é usado como TINTA, não como enfeite: superfície inteira em lima com
+ * texto escuro em cima, do jeito que um cartaz faz. Por isso `onAcid` existe —
+ * texto sobre lima nunca é o creme, é o próprio fundo.
+ */
 export const C = {
-  bg:      "#0d0c1a",
-  bg2:     "#1a1830",
-  paper:   "#13122a",
-  darkAlt: "#09081a",
-  ink:     "#f0eeff",
-  ink2:    "#c4bfe8",
-  ink3:    "#7a7898",
-  purple:  "#7c5bf5",
-  purple2: "#a585ff",
-  cyan:    "#5bc8fa",
-  grad:    "linear-gradient(135deg, #7c5bf5 0%, #a585ff 50%, #5bc8fa 100%)",
-  gradSm:  "linear-gradient(135deg, #7c5bf5, #a585ff)",
+  bg:      "#141c0d",   // verde-floresta quase preto
+  bg2:     "#1e2a12",   // um degrau acima, para separar sem borda
+  paper:   "#1a2410",   // superfície de cartão
+  darkAlt: "#0e150a",   // faixa mais funda (rodapé, rail)
+
+  ink:     "#eef5c8",   // creme — texto principal
+  ink2:    "#c3d093",   // secundário
+  ink3:    "#8a9470",   // rótulo, legenda, meta
+
+  acid:    "#d4f74a",   // lima — o acento
+  acid2:   "#b8e02f",   // lima mais fechado, para hover e segunda série
+  onAcid:  "#141c0d",   // texto sobre superfície lima
+
+  grad:    "linear-gradient(135deg, #d4f74a 0%, #b8e02f 55%, #8fbf24 100%)",
+  gradSm:  "linear-gradient(135deg, #d4f74a, #b8e02f)",
+} as const;
+
+/**
+ * Tipografia.
+ *
+ * `display` é uma grotesca preta usada em corpo grande — o site inteiro se
+ * apoia nela. Não há segunda fonte decorativa: o contraste vem do PESO e da
+ * ESCALA, não de misturar serifa com sem-serifa.
+ */
+export const F = {
+  display: "'Archivo Black', 'Arial Black', sans-serif",
+  ui:      "'Space Grotesk', sans-serif",
+  body:    "'Archivo', 'Inter', system-ui, sans-serif",
 } as const;
 
 /**
  * Escala de arredondamento.
  *
- * A linguagem deste site é de fio e grade: os cartões de projeto não têm
- * superfície própria, são células separadas por um traço de 1px. Isso é
- * escolha, e por isso o raio padrão é zero — arredondar uma célula de grade
- * quebraria a grade.
+ * Mudou de propósito junto com o tema. A linguagem anterior era de fio e grade,
+ * com raio zero: cartão sem superfície própria, separado por um traço de 1px.
+ * A nova é de bloco — superfícies cheias, muito arredondadas, empilhadas. Raio
+ * zero aqui leria como erro, não como escolha.
  *
- * A escala existe para os poucos elementos que TÊM superfície: o rail de
- * navegação, o seletor de tecnologia, o marcador de progresso. Antes eles
- * usavam 14, 8, 2 e 1, escolhidos um a um. É a mesma escala dos relatórios
- * Power BI e dos apps Streamlit do portfólio — o acabamento é assinatura, não
- * tema de cada peça.
+ * Continua sendo um degrau por nível de superfície, que é a mesma regra dos
+ * relatórios Power BI e dos apps Streamlit do portfólio: o acabamento é
+ * assinatura, não tema de cada peça.
  */
 export const R = {
-  chip:  10,   // marcador, pílula, barra de progresso
-  ctrl:  14,   // botão, item de menu
-  panel: 20,   // painel com superfície própria
+  chip:  999,  // pílula: botão, tag, marcador
+  ctrl:  16,   // campo, item de menu
+  panel: 28,   // cartão e painel
+  hero:  36,   // o bloco de abertura, único no site
 } as const;

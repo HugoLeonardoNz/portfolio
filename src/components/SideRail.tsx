@@ -74,7 +74,7 @@ export function SideRail() {
         position: "fixed", left: compacto ? 12 : 24, top: "50%",
         transform: "translateY(-50%)", zIndex: 90,
         width: compacto ? 58 : 186,
-        background: "rgba(19,18,42,0.92)",
+        background: "rgba(26,36,16,0.92)",
         border: "1px solid rgba(255,255,255,0.09)",
         borderRadius: R.panel,
         boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
@@ -85,7 +85,7 @@ export function SideRail() {
       {!compacto && (
         <div style={{
           fontSize: "0.62rem", letterSpacing: "0.18em", textTransform: "uppercase",
-          color: "rgba(196,191,232,0.4)", padding: "0 0.35rem 0.7rem",
+          color: "rgba(195,208,147,0.4)", padding: "0 0.35rem 0.7rem",
           borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: "0.5rem",
         }}>
           Navegação
@@ -104,11 +104,11 @@ export function SideRail() {
               display: "flex", alignItems: "center",
               justifyContent: compacto ? "center" : "flex-start",
               gap: "0.6rem", width: "100%",
-              background: on ? "rgba(124,91,245,0.16)" : "transparent",
+              background: on ? "rgba(212,247,74,0.16)" : "transparent",
               border: "none", borderRadius: R.ctrl,
               padding: compacto ? "0.55rem 0" : "0.5rem 0.55rem",
               marginBottom: 2, cursor: "pointer", textAlign: "left",
-              color: on ? C.ink : "rgba(196,191,232,0.55)",
+              color: on ? C.ink : "rgba(195,208,147,0.55)",
               transition: "background 0.2s, color 0.2s",
             }}
             onMouseEnter={(e) => {
@@ -120,13 +120,13 @@ export function SideRail() {
             onMouseLeave={(e) => {
               if (!on) {
                 e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = "rgba(196,191,232,0.55)";
+                e.currentTarget.style.color = "rgba(195,208,147,0.55)";
               }
             }}
           >
             <span style={{
               display: "block", width: 3, height: 16, borderRadius: R.chip, flexShrink: 0,
-              background: on ? C.grad : "rgba(196,191,232,0.22)",
+              background: on ? C.grad : "rgba(195,208,147,0.22)",
               transition: "background 0.25s",
             }} />
             <span style={{
@@ -155,7 +155,7 @@ export function SideRail() {
           }} />
         </div>
         {!compacto && (
-          <span style={{ fontSize: "0.64rem", color: "rgba(196,191,232,0.4)", minWidth: 26 }}>
+          <span style={{ fontSize: "0.64rem", color: "rgba(195,208,147,0.4)", minWidth: 26 }}>
             {Math.round(progresso)}%
           </span>
         )}

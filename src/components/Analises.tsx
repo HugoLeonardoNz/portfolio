@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { C } from "../theme";
+import { C, F } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -37,7 +37,7 @@ export function Analises() {
 
       <p style={{
         marginTop: "1.5rem", maxWidth: "58ch", fontSize: "0.95rem",
-        lineHeight: 1.9, color: "rgba(196,191,232,0.75)",
+        lineHeight: 1.9, color: "rgba(195,208,147,0.75)",
       }}>
         Recortes reais dos meus dois projetos de Power BI, redesenhados aqui para
         serem explorados sem baixar nada. Passe o mouse nos pontos.
@@ -55,9 +55,9 @@ export function Analises() {
             style={{
               fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.06em",
               padding: "0.6rem 1.1rem", cursor: "pointer",
-              color: aba === id ? C.ink : "rgba(196,191,232,0.6)",
-              background: aba === id ? "rgba(124,91,245,0.16)" : "transparent",
-              border: `1px solid ${aba === id ? C.purple : "rgba(255,255,255,0.12)"}`,
+              color: aba === id ? C.ink : "rgba(195,208,147,0.6)",
+              background: aba === id ? "rgba(212,247,74,0.16)" : "transparent",
+              border: `1px solid ${aba === id ? C.acid : "rgba(255,255,255,0.12)"}`,
               transition: "all 0.2s",
             }}
           >
@@ -105,9 +105,9 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
             onClick={() => setEixo(id)}
             style={{
               fontSize: "0.74rem", padding: "0.45rem 0.9rem", cursor: "pointer",
-              color: eixo === id ? C.cyan : "rgba(196,191,232,0.5)",
+              color: eixo === id ? C.acid2 : "rgba(195,208,147,0.5)",
               background: "transparent",
-              border: `1px solid ${eixo === id ? "rgba(91,200,250,0.5)" : "rgba(255,255,255,0.1)"}`,
+              border: `1px solid ${eixo === id ? "rgba(184,224,47,0.5)" : "rgba(255,255,255,0.1)"}`,
               transition: "all 0.2s",
             }}
           >
@@ -132,7 +132,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
                   <line x1={PAD.left} x2={W - PAD.right} y1={y} y2={y}
                         stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
                   <text x={PAD.left - 10} y={y + 4} textAnchor="end"
-                        fill="rgba(196,191,232,0.45)" fontSize={11}>
+                        fill="rgba(195,208,147,0.45)" fontSize={11}>
                     {eixo === "volume" ? val.toFixed(1) : `${(val * 100).toFixed(0)}%`}
                   </text>
                 </g>
@@ -140,10 +140,10 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
             })}
             {[75, 80, 85, 90, 95].map((v) => (
               <text key={v} x={px(v)} y={H - PAD.bottom + 22} textAnchor="middle"
-                    fill="rgba(196,191,232,0.45)" fontSize={11}>{v}%</text>
+                    fill="rgba(195,208,147,0.45)" fontSize={11}>{v}%</text>
             ))}
             <text x={(W + PAD.left) / 2} y={H - 10} textAnchor="middle"
-                  fill="rgba(196,191,232,0.5)" fontSize={11.5}>
+                  fill="rgba(195,208,147,0.5)" fontSize={11.5}>
               domicílios com internet
             </text>
 
@@ -164,7 +164,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
                     onMouseLeave={() => setHover(null)}
                   />
                   <text x={px(d.penetracao)} y={py(d.semAcesso) - r - 5} textAnchor="middle"
-                        fill={on ? C.ink : "rgba(196,191,232,0.55)"}
+                        fill={on ? C.ink : "rgba(195,208,147,0.55)"}
                         fontSize={on ? 12 : 10.5} fontWeight={on ? 700 : 400}
                         style={{ pointerEvents: "none" }}>
                     {d.uf}
@@ -183,7 +183,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
             {hover ? (
               <>
                 <div style={{
-                  fontFamily: "'Cormorant Garamond', serif", fontSize: "1.7rem",
+                  fontFamily: F.display, fontSize: "1.7rem",
                   color: C.ink, lineHeight: 1.1,
                 }}>
                   {hover.estado}
@@ -199,11 +199,11 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
                 <Linha rot="IDH (2010)" val={hover.idh.toFixed(3)} />
               </>
             ) : (
-              <div style={{ fontSize: "0.85rem", color: "rgba(196,191,232,0.55)", lineHeight: 1.8 }}>
+              <div style={{ fontSize: "0.85rem", color: "rgba(195,208,147,0.55)", lineHeight: 1.8 }}>
                 Passe o mouse em um estado para ver os números.
                 <br /><br />
                 <strong style={{ color: C.ink }}>São Paulo</strong> é o 3º estado em taxa
-                de acesso e o <strong style={{ color: C.cyan }}>1º em gente desconectada</strong>.
+                de acesso e o <strong style={{ color: C.acid2 }}>1º em gente desconectada</strong>.
                 Ranking por percentual e por volume apontam para lugares diferentes.
               </div>
             )}
@@ -213,7 +213,7 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
             {Object.entries(CORES_REGIAO).map(([r, cor]) => (
               <span key={r} style={{
                 display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                fontSize: "0.7rem", color: "rgba(196,191,232,0.6)",
+                fontSize: "0.7rem", color: "rgba(195,208,147,0.6)",
               }}>
                 <span style={{ width: 8, height: 8, borderRadius: "50%", background: cor }} />
                 {r}
@@ -251,7 +251,7 @@ function Telecom({ hover, setHover }: {
           border: "1px solid rgba(255,255,255,0.08)", background: C.paper, padding: "1.6rem",
         }}>
           <div style={{ fontSize: "0.95rem", color: C.ink, fontWeight: 600 }}>{titulo}</div>
-          <div style={{ fontSize: "0.75rem", color: "rgba(196,191,232,0.5)", marginTop: "0.2rem" }}>{sub}</div>
+          <div style={{ fontSize: "0.75rem", color: "rgba(195,208,147,0.5)", marginTop: "0.2rem" }}>{sub}</div>
 
           <div style={{ marginTop: "1.4rem", display: "flex", flexDirection: "column", gap: "0.85rem" }}>
             {[...OPERADORAS].sort((a, b) => get(b) - get(a)).map((o) => {
@@ -264,7 +264,7 @@ function Telecom({ hover, setHover }: {
                   <div style={{
                     display: "flex", justifyContent: "space-between",
                     fontSize: "0.78rem", marginBottom: "0.3rem",
-                    color: on ? C.ink : "rgba(196,191,232,0.7)",
+                    color: on ? C.ink : "rgba(195,208,147,0.7)",
                     fontWeight: on ? 600 : 400,
                   }}>
                     <span>{o.nome}</span>
@@ -287,8 +287,8 @@ function Telecom({ hover, setHover }: {
 
       <div style={{
         gridColumn: "1 / -1", border: "1px solid rgba(255,255,255,0.08)",
-        background: "rgba(124,91,245,0.06)", padding: "1.5rem 1.8rem",
-        fontSize: "0.9rem", lineHeight: 1.9, color: "rgba(196,191,232,0.85)",
+        background: "rgba(212,247,74,0.06)", padding: "1.5rem 1.8rem",
+        fontSize: "0.9rem", lineHeight: 1.9, color: "rgba(195,208,147,0.85)",
       }}>
         <strong style={{ color: C.ink }}>SERCOMTEL é a última em volume e a primeira por assinante</strong> —
         41,5 reclamações a cada 100 mil, contra 9,6 da CLARO. Ranking bruto mede tamanho
@@ -304,7 +304,7 @@ function Linha({ rot, val }: { rot: string; val: string }) {
       display: "flex", justifyContent: "space-between", alignItems: "baseline",
       marginTop: "0.9rem", paddingTop: "0.7rem", borderTop: "1px solid rgba(255,255,255,0.07)",
     }}>
-      <span style={{ fontSize: "0.76rem", color: "rgba(196,191,232,0.55)" }}>{rot}</span>
+      <span style={{ fontSize: "0.76rem", color: "rgba(195,208,147,0.55)" }}>{rot}</span>
       <span style={{ fontSize: "1rem", color: C.ink, fontWeight: 600 }}>{val}</span>
     </div>
   );

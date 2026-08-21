@@ -4,10 +4,10 @@ export function Eyebrow({ label, onDark = false }: { label: string; onDark?: boo
   return (
     <div style={{
       fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.14em",
-      textTransform: "uppercase", color: onDark ? C.purple : C.purple2,
+      textTransform: "uppercase", color: onDark ? C.acid : C.acid2,
       marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.8rem",
     }}>
-      <span style={{ display: "block", width: "1.5rem", height: "1px", background: onDark ? C.purple : C.purple2 }} />
+      <span style={{ display: "block", width: "1.5rem", height: "1px", background: onDark ? C.acid : C.acid2 }} />
       {label}
     </div>
   );

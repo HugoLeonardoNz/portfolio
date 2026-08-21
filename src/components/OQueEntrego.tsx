@@ -21,11 +21,11 @@ export function OQueEntrego() {
             borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none",
             padding: "2rem 1.8rem", transition: "background 0.2s",
           }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(124,91,245,0.05)")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,247,74,0.05)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <div style={{ marginBottom: "1rem" }}>
-              <PIcon icon={s.icon} color={C.purple2} />
+              <PIcon icon={s.icon} color={C.acid2} />
             </div>
             <div style={{
               fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.06em",
@@ -40,7 +40,7 @@ export function OQueEntrego() {
               {s.tags.map((t) => (
                 <span key={t} style={{
                   fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.06em",
-                  color: "rgba(196,191,232,0.6)",
+                  color: "rgba(195,208,147,0.6)",
                   border: "1px solid rgba(255,255,255,0.1)", padding: "0.3rem 0.7rem",
                 }}>{t}</span>
               ))}
