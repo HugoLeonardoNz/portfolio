@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 6, title: "Expansão de Mercado — EDA",
-    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP tem a melhor taxa do país e o maior número absoluto de desconectados), e, em 2023, a brecha regional já tinha encolhido para 4,6pp enquanto a urbana × rural resistia em 13,0pp — 24,8pp no Norte, onde a cidade tinha 95,2% e o campo, 70,4%. O recorte é de 2023 de propósito: em 2025 só um estado fica abaixo de 92% e a fila de expansão por lacuna deixa de existir.",
+    description: "Onde um ISP deve expandir. Dado buscado na API do SIDRA (tabelas 9649, 7311 e 7167), conferido contra o release do IBGE. Dois achados: o ranking por taxa e o por volume discordam (ρ = 0,24 — SP é o 5º em taxa e o 1º em número absoluto de desconectados), e, em 2023, a brecha regional já tinha encolhido para 4,6pp enquanto a urbana × rural resistia em 13,0pp — 24,8pp no Norte, onde a cidade tinha 95,2% e o campo, 70,4%. O recorte é de 2023 de propósito: em 2025 só um estado fica abaixo de 92% e a fila de expansão por lacuna deixa de existir.",
     tags: ["Python", "Plotly", "IBGE", "EDA", "Scoring"],
     githubUrl: "https://github.com/HugoLeonardoNz/market-expansion-eda",
     isPrivate: false, status: "live", icon: "trending",

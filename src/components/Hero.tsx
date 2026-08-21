@@ -103,7 +103,7 @@ export function Hero() {
           {[
             { label: "Repositórios", value: "7",  plus: "",  sub: "públicos"        },
             { label: "Medidas DAX",   value: "82", plus: "",  sub: "nos 2 relatórios" },
-            { label: "Testes",        value: "32", plus: "",  sub: "automatizados"   },
+            { label: "Testes",        value: "58", plus: "",  sub: "em CI"           },
           ].map((card) => (
             <div key={card.label} style={{
               background: C.paper, border: "1px solid rgba(255,255,255,0.07)",
