@@ -17,8 +17,11 @@ const SELO = "ANÁLISE DE DADOS · SQL · POWER BI · PYTHON · ";
 export function Hero() {
   return (
     <section id="hero" style={{
-      minHeight: "100vh", background: C.bg,
-      padding: "5.5rem 1.5rem 4rem", position: "relative", overflow: "hidden",
+      background: C.bg,
+      // Sem minHeight de 100vh: o conteudo termina onde termina. Forcar a altura
+      // da janela abria um vao morto de ~300px abaixo da faixa de numeros, que
+      // lia como secao quebrada e nao como respiro.
+      padding: "5.5rem 1.5rem 3rem", position: "relative", overflow: "hidden",
     }}>
       {/* ── Bloco lima ───────────────────────────────────────────────── */}
       <div className="hl-fadein" style={{
@@ -75,8 +78,8 @@ export function Hero() {
 
           {/* foto, sobre a tipografia */}
           <div style={{
-            width: "clamp(180px, 26vw, 320px)", justifySelf: "center",
-            position: "relative", zIndex: 1, marginTop: "-14%",
+            width: "clamp(190px, 28vw, 350px)", justifySelf: "center",
+            position: "relative", zIndex: 1, marginTop: "-16%",
           }}>
             <img
               src={`${import.meta.env.BASE_URL}hugo-foto.png`}
@@ -160,10 +163,11 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Selo giratório: o único movimento contínuo da página. */}
+      {/* Selo giratório: o único movimento contínuo da página. Fica no fluxo,
+          centralizado abaixo da faixa — no canto absoluto ele flutuava sozinho
+          num vazio e parecia sobra de layout. */}
       <div aria-hidden style={{
-        position: "absolute", right: "2.5rem", bottom: "2rem",
-        width: 116, height: 116, pointerEvents: "none",
+        width: 104, height: 104, margin: "2rem auto 0", pointerEvents: "none",
       }} className="hl-selo">
         <svg viewBox="0 0 200 200" style={{ width: "100%", height: "100%", animation: "hl-spin 22s linear infinite" }}>
           <defs>

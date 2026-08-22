@@ -202,9 +202,13 @@ function Brecha({ eixo, setEixo, hover, setHover }: {
               <div style={{ fontSize: "0.85rem", color: "rgba(195,208,147,0.55)", lineHeight: 1.8 }}>
                 Passe o mouse em um estado para ver os números.
                 <br /><br />
-                <strong style={{ color: C.ink }}>São Paulo</strong> é o 3º estado em taxa
-                de acesso e o <strong style={{ color: C.acid2 }}>1º em gente desconectada</strong>.
+                <strong style={{ color: C.ink }}>São Paulo</strong> é o 5º estado em taxa
+                de acesso e o <strong style={{ color: C.acid2 }}>1º em domicílios desconectados</strong>.
                 Ranking por percentual e por volume apontam para lugares diferentes.
+                <br /><br />
+                E o ranking por taxa nem chega a separar: a PNAD é amostra, e os{" "}
+                <strong style={{ color: C.ink }}>26 pares vizinhos</strong> têm intervalo
+                de 95% sobreposto.
               </div>
             )}
           </div>
