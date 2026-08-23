@@ -62,131 +62,154 @@ export function Projects() {
         </span>
       </div>
 
-      {/* Cartao com superficie propria, nao celula de grade. A linguagem
-          anterior era de fio: uma moldura de 1px dividida por linhas internas,
-          com raio zero. O tema novo e' de bloco — arredondado, preenchido,
-          separado por vao. Misturar os dois deixaria a pagina sem lingua. */}
+      {/* GRADE
+          `auto-fill` com mínimo de 380px dá quatro colunas numa tela Full HD
+          (1824px úteis / 396 por coluna) e desce sozinho para três, duas e uma.
+          Fixar `repeat(4, 1fr)` daria quatro colunas espremidas no notebook.
+
+          `alignItems: stretch` (padrão) mais o cartão em coluna flex é o que faz
+          os cartões de uma mesma fileira terem a mesma altura — sem isso, cada
+          um para onde o texto acaba e a fileira fica serrilhada. */}
       <div style={{
-        marginTop: "2.5rem", display: "grid", gridTemplateColumns: "1fr 1fr",
+        marginTop: "2.5rem",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 380px), 1fr))",
         gap: "1rem",
       }}>
-        {visiveis.map((p) => {
-          return (
-            <div key={p.id} style={{
-              background: C.paper, borderRadius: R.panel,
-              padding: "2.2rem 2.4rem", transition: "background 0.25s, transform 0.25s",
-              position: "relative", overflow: "hidden",
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.07)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = C.paper; e.currentTarget.style.transform = "none"; }}
-            >
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase",
-                color: p.isPrivate ? C.ink3 : C.acid,
-                background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
-                padding: "0.3rem 0.7rem", marginBottom: "1.2rem", borderRadius: R.chip,
-              }}>
-                <span style={{ width: 5, height: 5, borderRadius: "50%", background: p.isPrivate ? C.ink3 : C.acid, display: "inline-block" }} />
-                {p.isPrivate ? "Privado" : "Live"}
-              </div>
+        {visiveis.map((p) => (
+          <article key={p.id} style={{
+            background: C.paper, borderRadius: R.panel,
+            padding: "1.5rem 1.6rem 1.6rem",
+            display: "flex", flexDirection: "column",
+            position: "relative", overflow: "hidden",
+            transition: "background 0.25s, transform 0.25s",
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.06)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = C.paper; e.currentTarget.style.transform = "none"; }}
+          >
+            {/* Numero de fundo, so decoracao — fica atras de tudo e nao recebe clique. */}
+            <span aria-hidden style={{
+              position: "absolute", top: "0.8rem", right: "1rem",
+              fontFamily: F.display, fontSize: "3.2rem", lineHeight: 1,
+              color: "rgba(184,224,47,0.07)", userSelect: "none",
+            }}>{String(p.id).padStart(2, "0")}</span>
 
-              <div style={{
-                position: "absolute", top: "2rem", right: "2.2rem",
-                fontFamily: F.display, fontSize: "4rem", fontWeight: 300,
-                color: "rgba(184,224,47,0.08)", lineHeight: 1, userSelect: "none",
-              }}>
-                {String(p.id).padStart(2, "0")}
-              </div>
-
-              <h3 style={{
-                fontFamily: F.display, fontSize: "2rem",
-                fontWeight: 400, color: C.ink, lineHeight: 1.2, marginBottom: "0.8rem",
-              }}>
-                {p.title}
-              </h3>
-
-              <p style={{
-                fontSize: "0.88rem", color: "rgba(195,208,147,0.7)",
-                lineHeight: 1.8, maxWidth: "42ch", marginBottom: "1.5rem",
-              }}>
-                {p.description}
-              </p>
-
-              {p.telas
-                ? <Telas slug={p.telas.slug} total={p.telas.total} alt={p.title} />
-                : p.isPrivate && (
-                  /* O HUG roda em producao com dado real de cliente. Nao ha
-                     miniatura porque nao existe amostra segura dele — montar
-                     uma exigiria anonimizar base inteira, e publicar print de
-                     painel interno "so para o portfolio" e o tipo de atalho
-                     que este portfolio passou a semana removendo. */
-                  <div style={{
-                    marginTop: "1.4rem", background: C.darkAlt, borderRadius: R.ctrl,
-                    padding: "1.4rem 1.5rem", border: "1px dashed rgba(212,247,74,0.22)",
-                  }}>
-                    <div style={{
-                      fontFamily: F.ui, fontSize: "0.68rem", letterSpacing: "0.12em",
-                      textTransform: "uppercase", color: C.acid, marginBottom: "0.6rem",
-                    }}>Demonstro por chamada</div>
-                    <p style={{ fontSize: "0.82rem", color: C.ink3, lineHeight: 1.7, margin: 0 }}>
-                      Roda em produção com dado real de cliente, então não há print
-                      nem demo público. Mostro o sistema ao vivo numa call, com a
-                      tela compartilhada — e converso sobre arquitetura, decisões de
-                      modelagem e o que deu errado no caminho.
-                    </p>
-                  </div>
-                )}
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", margin: "1.8rem 0" }}>
-                {p.tags.map((t) => (
-                  <span key={t} style={{
-                    fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.06em",
-                    color: "rgba(195,208,147,0.6)",
-                    border: "1px solid rgba(255,255,255,0.1)", padding: "0.3rem 0.7rem",
-                  }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", alignItems: "center" }}>
-                {p.isPrivate ? (
-                  <span style={{ fontSize: "0.85rem", color: C.ink3 }}>Repositório privado</span>
-                ) : (
-                  <>
-                    {p.githubUrl && (
-                      <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
-                        style={{
-                          fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.06em",
-                          color: C.acid, textDecoration: "none",
-                          display: "inline-flex", alignItems: "center", gap: "0.5rem", transition: "gap 0.2s",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.gap = "0.9rem")}
-                        onMouseLeave={(e) => (e.currentTarget.style.gap = "0.5rem")}
-                      >
-                        GitHub →
-                      </a>
-                    )}
-                    {p.liveUrl && (
-                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"
-                        style={{
-                          fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.06em",
-                          color: C.ink3, textDecoration: "none",
-                          display: "inline-flex", alignItems: "center", gap: "0.5rem", transition: "color 0.2s",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = C.ink2)}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = C.ink3)}
-                      >
-                        Ver live →
-                      </a>
-                    )}
-                  </>
-                )}
-              </div>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: "0.4rem",
+              alignSelf: "flex-start",
+              fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 600,
+              letterSpacing: "0.12em", textTransform: "uppercase",
+              color: p.isPrivate ? C.ink3 : C.acid,
+              background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
+              padding: "0.25rem 0.6rem", borderRadius: R.chip,
+            }}>
+              <span style={{
+                width: 5, height: 5, borderRadius: "50%",
+                background: p.isPrivate ? C.ink3 : C.acid,
+              }} />
+              {p.isPrivate ? "Privado" : "Público"}
             </div>
-          );
-        })}
+
+            {/* TITULO em duas linhas fixas: com uma linha so, "Data Hub — ISP
+                Analytics" quebraria e empurraria tudo abaixo dele. */}
+            <h3 style={{
+              fontFamily: F.display, fontSize: "1.15rem", lineHeight: 1.2,
+              letterSpacing: "-0.02em", color: C.ink,
+              margin: "0.9rem 0 0.2rem", minHeight: "2.4em",
+              display: "flex", alignItems: "flex-end",
+            }}>{p.title}</h3>
+
+            <div style={{
+              fontFamily: F.ui, fontSize: "0.68rem", letterSpacing: "0.06em",
+              color: C.acid2, marginBottom: "0.7rem",
+            }}>{p.tipo}</div>
+
+            {/* DESCRICAO com altura minima de quatro linhas. As descricoes ja
+                sao padronizadas em projects.ts entre 180 e 230 caracteres; o
+                minHeight garante o alinhamento mesmo se uma quebrar diferente. */}
+            <p style={{
+              fontSize: "0.8rem", color: "rgba(195,208,147,0.72)",
+              lineHeight: 1.65, margin: 0, minHeight: "5.3em",
+            }}>{p.description}</p>
+
+            {p.telas
+              ? <Telas slug={p.telas.slug} total={p.telas.total} alt={p.title} />
+              : (
+                /* O HUG roda em producao com dado real de cliente. Nao ha
+                   miniatura porque nao existe amostra segura dele — montar uma
+                   exigiria anonimizar base inteira, e publicar print de painel
+                   interno "so para o portfolio" e o tipo de atalho que este
+                   portfolio passou a semana removendo.
+
+                   O bloco usa a MESMA proporcao da miniatura para o cartao
+                   alinhar com os vizinhos da fileira. */
+                <div style={{
+                  marginTop: "1.4rem", background: C.darkAlt, borderRadius: R.ctrl,
+                  border: "1px dashed rgba(212,247,74,0.22)",
+                  aspectRatio: "16 / 9",
+                  display: "flex", flexDirection: "column", justifyContent: "center",
+                  padding: "1.2rem 1.3rem",
+                }}>
+                  <div style={{
+                    fontFamily: F.ui, fontSize: "0.64rem", letterSpacing: "0.12em",
+                    textTransform: "uppercase", color: C.acid, marginBottom: "0.5rem",
+                  }}>Demonstro por chamada</div>
+                  <p style={{ fontSize: "0.76rem", color: C.ink3, lineHeight: 1.6, margin: 0 }}>
+                    Roda em produção com dado real de cliente, então não há print nem
+                    demo público. Mostro ao vivo, com a tela compartilhada.
+                  </p>
+                </div>
+              )}
+
+            {/* TAGS em uma linha so: quatro por projeto, definidas em projects.ts.
+                Sem o nowrap, um projeto com tag longa abriria uma segunda linha
+                e desalinharia o rodape da fileira inteira. */}
+            <div style={{
+              display: "flex", gap: "0.35rem", margin: "1.1rem 0 1.2rem",
+              overflow: "hidden", flexWrap: "nowrap",
+            }}>
+              {p.tags.map((t) => (
+                <span key={t} style={{
+                  fontFamily: F.ui, fontSize: "0.64rem", letterSpacing: "0.03em",
+                  color: "rgba(195,208,147,0.55)", whiteSpace: "nowrap",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: R.chip, padding: "0.22rem 0.55rem",
+                }}>{t}</span>
+              ))}
+            </div>
+
+            {/* `marginTop: auto` empurra o rodape para a base do cartao, entao
+                os links de todos os cartoes da fileira ficam na mesma altura. */}
+            <div style={{ marginTop: "auto", display: "flex", gap: "1.2rem", alignItems: "center" }}>
+              {p.isPrivate ? (
+                <span style={{ fontSize: "0.8rem", color: C.ink3 }}>Repositório privado</span>
+              ) : (
+                <>
+                  {p.githubUrl && (
+                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
+                      style={{
+                        fontFamily: F.ui, fontSize: "0.8rem", fontWeight: 600,
+                        color: C.acid, textDecoration: "none",
+                        display: "inline-flex", alignItems: "center", gap: "0.45rem",
+                        transition: "gap 0.2s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.gap = "0.8rem")}
+                      onMouseLeave={(e) => (e.currentTarget.style.gap = "0.45rem")}
+                    >GitHub →</a>
+                  )}
+                  {p.liveUrl && (
+                    <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"
+                      style={{
+                        fontFamily: F.ui, fontSize: "0.8rem", fontWeight: 500,
+                        color: C.ink3, textDecoration: "none",
+                      }}
+                    >Ver ao vivo →</a>
+                  )}
+                </>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

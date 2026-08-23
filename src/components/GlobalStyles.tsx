@@ -19,11 +19,6 @@ export function GlobalStyles() {
       /* Selecao no acento: detalhe pequeno, mas e o tipo de coisa que separa
          tema aplicado de tema colado por cima. */
       ::selection { background: #d4f74a; color: #141c0d; }
-
-      /* Selo circular do hero: gira devagar, sem parar. E o unico movimento
-         continuo da pagina — o resto so anima na entrada. */
-      @keyframes hl-spin {
-        from { transform: rotate(0deg); }
         to   { transform: rotate(360deg); }
       }
       /* O hero e' um cartaz: no celular a foto entre duas colunas de texto
@@ -31,7 +26,6 @@ export function GlobalStyles() {
          nao conteudo. */
       @media (max-width: 860px) {
         .hl-hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
-        .hl-selo { display: none !important; }
       }
 
       @keyframes hl-pulse {

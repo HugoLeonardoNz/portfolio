@@ -68,21 +68,27 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
         )}
       </div>
 
-      {total > 1 && (
-        <div style={{ display: "flex", gap: 5, marginTop: "0.6rem", flexWrap: "wrap" }}>
-          {Array.from({ length: total }, (_, n) => (
-            <button
-              key={n} onClick={() => setI(n)} aria-label={`Ir para a tela ${n + 1}`}
-              style={{
-                width: n === i ? 20 : 7, height: 7, borderRadius: R.chip,
-                background: n === i ? C.acid : "rgba(212,247,74,0.25)",
-                border: "none", cursor: "pointer", padding: 0,
-                transition: "width 0.2s, background 0.2s",
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* A faixa de pontos ocupa altura mesmo com uma tela só. Sem isso, um
+          cartão de tela única sobe 13px em relação aos vizinhos da fileira e o
+          rodapé sai desalinhado — o tipo de defeito que ninguém nomeia e todo
+          mundo sente. */}
+      <div style={{ height: 7, marginTop: "0.6rem" }}>
+        {total > 1 && (
+          <div style={{ display: "flex", gap: 5 }}>
+            {Array.from({ length: total }, (_, n) => (
+              <button
+                key={n} onClick={() => setI(n)} aria-label={`Ir para a tela ${n + 1}`}
+                style={{
+                  width: n === i ? 20 : 7, height: 7, borderRadius: R.chip,
+                  background: n === i ? C.acid : "rgba(212,247,74,0.25)",
+                  border: "none", cursor: "pointer", padding: 0,
+                  transition: "width 0.2s, background 0.2s",
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -12,7 +12,6 @@ import { C, F, R } from "../theme";
  * em letra é efeito, e efeito envelhece; peso e escala não.
  */
 
-const SELO = "ANÁLISE DE DADOS · SQL · POWER BI · PYTHON · ";
 
 export function Hero() {
   return (
@@ -163,21 +162,7 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Selo giratório: o único movimento contínuo da página. Fica no fluxo,
-          centralizado abaixo da faixa — no canto absoluto ele flutuava sozinho
-          num vazio e parecia sobra de layout. */}
-      <div aria-hidden style={{
-        width: 104, height: 104, margin: "2rem auto 0", pointerEvents: "none",
-      }} className="hl-selo">
-        <svg viewBox="0 0 200 200" style={{ width: "100%", height: "100%", animation: "hl-spin 22s linear infinite" }}>
-          <defs>
-            <path id="selo-arco" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
-          </defs>
-          <text fill={C.ink3} fontSize="15.5" fontFamily="'Space Grotesk', sans-serif" letterSpacing="2.4">
-            <textPath href="#selo-arco">{SELO + SELO}</textPath>
-          </text>
-        </svg>
-      </div>
+
     </section>
   );
 }

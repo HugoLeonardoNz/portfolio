@@ -4,97 +4,85 @@
 # ---------------------------
 # Pagina de relatorio do Power BI so existe dentro do Desktop: nao ha URL, nao
 # ha modo headless, e o .pbix e um zip cuja camada visual e JSON — da para
-# AUTORAR por fora, mas nao para RENDERIZAR. Entao a unica forma de ter imagem
-# fiel e capturar a janela.
+# AUTORAR por fora (tools/build_report.py faz isso), mas nao para RENDERIZAR.
+# A unica forma de ter imagem fiel e capturar a janela.
 #
-# Os prints do README ficaram cinco meses mostrando numeros que o projeto nao
+# Os prints do README ficaram cinco meses mostrando numero que o projeto nao
 # devolvia mais, porque regerar era trabalho manual e ninguem refazia. Sendo
 # script, refazer custa um comando.
 #
-#   .\capturar_pbix.ps1 -Pbix "..\..\socioeconomic-powerbi-public\digital_divide_brasil.pbix" `
-#                       -Destino "..\public\telas\brecha" -Paginas 5
+# POR QUE CLIQUE, E NAO TECLADO
+# -----------------------------
+# Tentei F11 (tela cheia) e Ctrl+PageDown (proxima pagina): nenhum dos dois
+# funciona por SendKeys aqui. O Desktop nao entrega o foco de teclado ao canvas
+# do relatorio a partir de automacao externa — a tecla vai para a faixa de
+# opcoes e a pagina nao muda. Clique na aba funciona porque nao depende de foco.
 #
-# O Desktop precisa estar FECHADO ao chamar: o script abre, espera, captura e
-# fecha. Com ele ja aberto, a janela pode nao vir para frente.
+# O preco e depender de coordenada: -TabX recebe o centro de cada aba. Elas
+# mudam com o nome das paginas, entao cada relatorio tem a sua lista, e
+# tools/telas.md registra como recalibrar (capturar a barra e medir).
+#
+#   .\capturar_pbix.ps1 -Destino ..\public\telas\brecha -TabX 212,318,437,549,660
 
 param(
-    [Parameter(Mandatory = $true)][string]$Pbix,
     [Parameter(Mandatory = $true)][string]$Destino,
-    [int]$Paginas = 5,
-    [int]$EsperaAbertura = 75,
+    [Parameter(Mandatory = $true)][int[]]$TabX,
+    [int]$TabY = 990,
+    [string]$Pbix = "",
+    [int]$EsperaAbertura = 80,
     [int]$EsperaPagina = 6
 )
 
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
-
-$sig = @'
-[DllImport("user32.dll")] public static extern bool SetCursorPos(int X, int Y);
-[DllImport("user32.dll")] public static extern void mouse_event(uint f, uint x, uint y, uint d, int i);
-[DllImport("user32.dll")] public static extern IntPtr FindWindow(string c, string n);
-[DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
-[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);
-[DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
-public struct RECT { public int Left, Top, Right, Bottom; }
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public class PbiCap {
+  [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);
+  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+  [DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);
+  [DllImport("user32.dll")] public static extern void mouse_event(uint f, uint x, uint y, uint d, int i);
+}
 '@
-$W = Add-Type -MemberDefinition $sig -Name 'W32' -Namespace 'Cap' -PassThru
 
-function Clicar([int]$x, [int]$y) {
-    [Cap.W32]::SetCursorPos($x, $y) | Out-Null
-    Start-Sleep -Milliseconds 250
-    [Cap.W32]::mouse_event(0x0002, 0, 0, 0, 0)   # left down
-    [Cap.W32]::mouse_event(0x0004, 0, 0, 0, 0)   # left up
-}
-
-function Capturar([string]$arquivo, $rect) {
-    $w = $rect.Right - $rect.Left
-    $h = $rect.Bottom - $rect.Top
-    $bmp = New-Object System.Drawing.Bitmap $w, $h
-    $g = [System.Drawing.Graphics]::FromImage($bmp)
-    $g.CopyFromScreen($rect.Left, $rect.Top, 0, 0, (New-Object System.Drawing.Size $w, $h))
-    $bmp.Save($arquivo, [System.Drawing.Imaging.ImageFormat]::Png)
-    $g.Dispose(); $bmp.Dispose()
-}
-
-$Pbix = (Resolve-Path $Pbix).Path
 if (-not (Test-Path $Destino)) { New-Item -ItemType Directory -Force $Destino | Out-Null }
 $Destino = (Resolve-Path $Destino).Path
 
-Write-Output "abrindo $([System.IO.Path]::GetFileName($Pbix))..."
-$proc = Start-Process -FilePath $Pbix -PassThru
-Start-Sleep -Seconds $EsperaAbertura
-
-$hwnd = (Get-Process PBIDesktop -ErrorAction SilentlyContinue |
-         Where-Object { $_.MainWindowHandle -ne 0 } |
-         Select-Object -First 1).MainWindowHandle
-if (-not $hwnd) { Write-Output "ERRO: janela do Power BI nao encontrada"; exit 1 }
-
-[Cap.W32]::ShowWindow($hwnd, 3) | Out-Null       # maximizada
-[Cap.W32]::SetForegroundWindow($hwnd) | Out-Null
-Start-Sleep -Seconds 4
-
-$rect = New-Object Cap.RECT
-[Cap.W32]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
-Write-Output "janela: $($rect.Right - $rect.Left) x $($rect.Bottom - $rect.Top)"
-
-# As abas de pagina ficam na barra inferior do Desktop. A primeira comeca depois
-# do painel de navegacao da esquerda; o passo entre elas varia com o tamanho do
-# nome, entao o script clica em posicoes calculadas e o operador confere o
-# resultado — a alternativa seria automacao de UI, que quebra a cada versao.
-$baseY = $rect.Bottom - 38
-$x0 = $rect.Left + 250
-$passo = 150
-
-for ($i = 1; $i -le $Paginas; $i++) {
-    if ($i -gt 1) {
-        Clicar ($x0 + ($i - 1) * $passo) $baseY
-        Start-Sleep -Seconds $EsperaPagina
-    }
-    $arq = Join-Path $Destino ("{0:d2}.png" -f $i)
-    Capturar $arq $rect
-    Write-Output "  $([System.IO.Path]::GetFileName($arq))"
+if ($Pbix -ne "") {
+    Start-Process -FilePath (Resolve-Path $Pbix).Path | Out-Null
+    Start-Sleep -Seconds $EsperaAbertura
 }
 
-Write-Output "fechando..."
-$proc | Stop-Process -Force -ErrorAction SilentlyContinue
-Get-Process PBIDesktop -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-Write-Output "pronto: $Destino"
+$proc = Get-Process PBIDesktop -ErrorAction SilentlyContinue |
+        Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1
+if (-not $proc) { Write-Output "ERRO: Power BI nao esta aberto"; exit 1 }
+
+[PbiCap]::ShowWindow($proc.MainWindowHandle, 3) | Out-Null
+[PbiCap]::SetForegroundWindow($proc.MainWindowHandle) | Out-Null
+Start-Sleep -Seconds 4
+
+$b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+Write-Output "capturando $($TabX.Count) pagina(s) em $($b.Width)x$($b.Height)"
+
+for ($i = 0; $i -lt $TabX.Count; $i++) {
+    [PbiCap]::SetCursorPos($TabX[$i], $TabY) | Out-Null
+    Start-Sleep -Milliseconds 300
+    [PbiCap]::mouse_event(0x0002, 0, 0, 0, 0)   # botao esquerdo desce
+    [PbiCap]::mouse_event(0x0004, 0, 0, 0, 0)   # botao esquerdo sobe
+    Start-Sleep -Seconds $EsperaPagina
+
+    # O cursor sai de cima do relatorio antes da foto: parado sobre um visual
+    # ele dispara o realce de hover e a foto sai com uma barra destacada.
+    [PbiCap]::SetCursorPos(($b.Width - 8), ($b.Height - 8)) | Out-Null
+    Start-Sleep -Milliseconds 700
+
+    $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+    $g = [System.Drawing.Graphics]::FromImage($bmp)
+    $g.CopyFromScreen(0, 0, 0, 0, $bmp.Size)
+    $arq = Join-Path $Destino ("bruto_{0:d2}.png" -f ($i + 1))
+    $bmp.Save($arq, [System.Drawing.Imaging.ImageFormat]::Png)
+    $g.Dispose(); $bmp.Dispose()
+    Write-Output "  bruto_$('{0:d2}' -f ($i+1)).png"
+}
+
+Write-Output "pronto. Recorte com: python tools\recortar_pbix.py $Destino"
