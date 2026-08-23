@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { C, F, R } from "../theme";
 import { Telas } from "./ui/Telas";
+import { ArquiteturaHug } from "./ui/ArquiteturaHug";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -159,24 +160,21 @@ export function Projects() {
                    interno "so para o portfolio" e o tipo de atalho que este
                    portfolio passou a semana removendo.
 
-                   O bloco usa a MESMA proporcao da miniatura para o cartao
-                   alinhar com os vizinhos da fileira. */
-                <div style={{
-                  marginTop: "1.4rem", background: C.darkAlt, borderRadius: R.ctrl,
-                  border: "1px dashed rgba(212,247,74,0.22)",
-                  aspectRatio: "16 / 9",
-                  display: "flex", flexDirection: "column", justifyContent: "center",
-                  padding: "1.2rem 1.3rem",
-                }}>
-                  <div style={{
-                    fontFamily: F.ui, fontSize: "0.64rem", letterSpacing: "0.12em",
-                    textTransform: "uppercase", color: C.acid, marginBottom: "0.5rem",
-                  }}>Demonstro por chamada</div>
-                  <p style={{ fontSize: "0.76rem", color: C.ink3, lineHeight: 1.6, margin: 0 }}>
-                    Roda em produção com dado real de cliente, então não há print nem
-                    demo público. Mostro ao vivo, com a tela compartilhada.
+                   Mas "sem print" nao precisava virar "nada para ver": a FORMA
+                   do sistema e o que se avalia numa vaga de dados, e ela nao e
+                   confidencial. Entra o diagrama, na mesma proporcao da
+                   miniatura para o cartao alinhar com os vizinhos da fileira. */
+                <>
+                  <ArquiteturaHug />
+                  <p style={{
+                    fontSize: "0.72rem", color: C.ink3, lineHeight: 1.55,
+                    margin: "0.8rem 0 0",
+                  }}>
+                    <span style={{ color: C.acid }}>Demonstro por chamada.</span>{" "}
+                    Roda em produção com dado real de cliente, então não há print
+                    nem demo público — mostro ao vivo, com a tela compartilhada.
                   </p>
-                </div>
+                </>
               )}
 
             {/* TAGS em uma linha so: quatro por projeto, definidas em projects.ts.
