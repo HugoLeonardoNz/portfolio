@@ -25,7 +25,8 @@ export function GlobalStyles() {
          nao cabe. Vira uma coluna e o selo giratorio sai — ele e' assinatura,
          nao conteudo. */
       @media (max-width: 860px) {
-        .hl-hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
+        .hl-hero-grid  { grid-template-columns: minmax(0, 1fr) !important; }
+        .hl-sobre-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 3rem !important; }
       }
 
       @keyframes hl-pulse {

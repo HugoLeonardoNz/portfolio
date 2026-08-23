@@ -8,10 +8,24 @@ import { C, F, R } from "../theme";
  * texto de apoio vive nas margens do bloco, em corpo pequeno — o contraste é
  * entre 8rem e 0,75rem, não entre duas fontes.
  *
- * O que saiu: nome em serifa itálica com gradiente aplicado ao texto. Gradiente
- * em letra é efeito, e efeito envelhece; peso e escala não.
+ * A faixa abaixo do bloco responde às DUAS perguntas que o visitante faz nos
+ * primeiros segundos, uma em cada painel: "quem é essa pessoa?" (esquerda, a
+ * credencial) e "o que tem aqui dentro?" (direita, o inventário do portfólio).
+ * A versão anterior só respondia a segunda — e ainda assim contando
+ * repositório, que é número de inventário do GitHub e não de experiência.
  */
 
+/** Setores atendidos. Escrito por extenso porque "6 setores" não diz nada; a
+ *  lista diz que a operação inteira passa por uma pessoa só. */
+const SETORES = "Comercial · Financeiro · NOC · Suporte · Projetos · Diretoria";
+
+const INVENTARIO = [
+  "2 relatórios Power BI",
+  "2 apps Streamlit",
+  "1 EDA sobre dado do IBGE",
+  "1 EDA de reclamações + RFM",
+  "1 pacote SQL com dbt + CI",
+];
 
 export function Hero() {
   return (
@@ -52,8 +66,8 @@ export function Hero() {
               fontSize: "0.82rem", lineHeight: 1.55, color: C.onAcid,
               maxWidth: "26ch", fontWeight: 500, opacity: 0.85,
             }}>
-              Três anos transformando dados operacionais em decisão — do SQL bruto
-              ao painel na tela da diretoria.
+              Analista de Dados Pleno. Do SQL bruto ao painel na tela da
+              diretoria, num provedor de fibra em operação.
             </p>
 
             <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.4rem" }}>
@@ -92,77 +106,97 @@ export function Hero() {
             position: "relative", zIndex: 3, paddingBottom: "2.5rem",
             justifySelf: "end", textAlign: "right",
           }}>
-            <p style={{
-              fontSize: "0.82rem", lineHeight: 1.55, color: C.onAcid,
-              maxWidth: "24ch", fontWeight: 500, opacity: 0.85, marginLeft: "auto",
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: "0.45rem",
+              fontSize: "0.78rem", fontWeight: 600, color: C.onAcid, opacity: 0.85,
             }}>
-              Todo número deste portfólio sobrevive à pergunta
-              “como você chegou nisso?”. Os que não sobreviveram foram removidos.
-            </p>
-            <button
-              onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
-              aria-label="Ir para os projetos"
-              style={{
-                marginTop: "1.4rem", width: 38, height: 38, borderRadius: "50%",
-                background: C.onAcid, color: C.acid, border: "none",
-                cursor: "pointer", fontSize: "1rem", lineHeight: 1,
-              }}
-            >↓</button>
+              <span className="hl-pulse" style={{
+                width: 6, height: 6, borderRadius: "50%",
+                background: C.onAcid, display: "inline-block",
+              }} />
+              Disponível para projetos
+            </div>
+            <div>
+              <button
+                onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
+                aria-label="Ir para os projetos"
+                style={{
+                  marginTop: "1.4rem", width: 38, height: 38, borderRadius: "50%",
+                  background: C.onAcid, color: C.acid, border: "none",
+                  cursor: "pointer", fontSize: "1rem", lineHeight: 1,
+                }}
+              >↓</button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ── Faixa de números ─────────────────────────────────────────── */}
+      {/* ── Credencial + inventário ──────────────────────────────────── */}
       <div style={{
         maxWidth: 1240, margin: "1.25rem auto 0",
         display: "grid", gap: "1.25rem",
         gridTemplateColumns: "minmax(0, 1.15fr) minmax(0, 1fr)",
         alignItems: "stretch",
       }} className="hl-hero-grid">
+
+        {/* Quem. O "3" carrega o painel inteiro: e o unico numero da abertura
+            que nao e inventario. Os outros dizem quantas pecas existem; este
+            diz ha quanto tempo a pessoa faz isso todo dia, que e a pergunta
+            que um recrutador faz primeiro. */}
         <div style={{
           background: C.paper, borderRadius: R.panel, padding: "1.6rem 1.8rem",
-          display: "flex", gap: "2.5rem", flexWrap: "wrap",
+          display: "flex", alignItems: "center", gap: "1.8rem", flexWrap: "wrap",
         }}>
-          {/* Numeros que o visitante confere clicando. Antes eram "3+ anos",
-              "6 setores" e "10+ dashboards": auto-declarados, sem como
-              verificar, e com barra de progresso embaixo sugerindo percentual
-              de coisa nenhuma. */}
-          {[
-            { v: "7",  l: "repositórios públicos" },
-            { v: "82", l: "medidas DAX" },
-            { v: "62", l: "testes em CI" },
-          ].map((k) => (
-            <div key={k.l}>
-              <div style={{
-                fontFamily: F.display, fontSize: "2.4rem",
-                color: C.acid, lineHeight: 1, letterSpacing: "-0.03em",
-              }}>{k.v}</div>
-              <div style={{ fontSize: "0.72rem", color: C.ink3, marginTop: "0.45rem" }}>{k.l}</div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
+            <span style={{
+              fontFamily: F.display, fontSize: "clamp(3.4rem, 7vw, 5rem)",
+              color: C.acid, lineHeight: 0.82, letterSpacing: "-0.04em",
+            }}>3</span>
+            <span style={{
+              fontFamily: F.display, fontSize: "1.15rem", color: C.acid,
+              letterSpacing: "-0.02em",
+            }}>anos</span>
+          </div>
+
+          <div style={{ minWidth: "18ch", flex: 1 }}>
+            <div style={{
+              fontSize: "0.9rem", color: C.ink, fontWeight: 600,
+              lineHeight: 1.45, marginBottom: "0.5rem",
+            }}>
+              construindo a inteligência de dados de um provedor de fibra —
+              como único analista da operação
             </div>
-          ))}
+            <div style={{
+              fontFamily: F.ui, fontSize: "0.7rem", letterSpacing: "0.04em",
+              color: C.ink3, lineHeight: 1.5,
+            }}>
+              {SETORES}
+            </div>
+          </div>
         </div>
 
+        {/* O que. */}
         <div style={{
           background: C.paper, borderRadius: R.panel, padding: "1.6rem 1.8rem",
-          display: "flex", flexWrap: "wrap", gap: "0.45rem", alignContent: "center",
+          display: "flex", flexDirection: "column", justifyContent: "center",
         }}>
-          {[
-            "2 relatórios Power BI",
-            "2 apps Streamlit",
-            "1 EDA sobre dado do IBGE",
-            "1 EDA de reclamações + RFM",
-            "1 pacote SQL com dbt + CI",
-          ].map((t) => (
-            <span key={t} style={{
-              fontSize: "0.72rem", color: C.ink2, fontFamily: F.ui,
-              border: `1px solid rgba(212,247,74,0.28)`,
-              borderRadius: R.chip, padding: "0.3rem 0.75rem",
-            }}>{t}</span>
-          ))}
+          <div style={{
+            fontFamily: F.ui, fontSize: "0.72rem", letterSpacing: "0.1em",
+            textTransform: "uppercase", color: C.ink3, marginBottom: "0.9rem",
+          }}>
+            Este portfólio conta com
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem" }}>
+            {INVENTARIO.map((t) => (
+              <span key={t} style={{
+                fontSize: "0.72rem", color: C.ink2, fontFamily: F.ui,
+                border: "1px solid rgba(212,247,74,0.28)",
+                borderRadius: R.chip, padding: "0.3rem 0.75rem",
+              }}>{t}</span>
+            ))}
+          </div>
         </div>
       </div>
-
-
     </section>
   );
 }

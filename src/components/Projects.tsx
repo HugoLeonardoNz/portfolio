@@ -94,24 +94,42 @@ export function Projects() {
               color: "rgba(184,224,47,0.07)", userSelect: "none",
             }}>{String(p.id).padStart(2, "0")}</span>
 
+            {/* Dois selos, e nao um. O da esquerda diz se da para ABRIR o
+                projeto; o da direita diz se da para CONFIAR no numero como
+                observacao do mundo. Sao perguntas diferentes: "Telecom KPI
+                Dashboard" e publico e sintetico ao mesmo tempo. */}
             <div style={{
-              display: "inline-flex", alignItems: "center", gap: "0.4rem",
-              alignSelf: "flex-start",
-              fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 600,
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              color: p.isPrivate ? C.ink3 : C.acid,
-              background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
-              padding: "0.25rem 0.6rem", borderRadius: R.chip,
+              display: "flex", flexWrap: "wrap", gap: "0.4rem",
+              alignSelf: "flex-start", position: "relative", zIndex: 1,
             }}>
               <span style={{
-                width: 5, height: 5, borderRadius: "50%",
-                background: p.isPrivate ? C.ink3 : C.acid,
-              }} />
-              {p.isPrivate ? "Privado" : "Público"}
+                display: "inline-flex", alignItems: "center", gap: "0.4rem",
+                fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 600,
+                letterSpacing: "0.12em", textTransform: "uppercase",
+                color: p.isPrivate ? C.ink3 : C.acid,
+                background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
+                padding: "0.25rem 0.6rem", borderRadius: R.chip,
+              }}>
+                <span style={{
+                  width: 5, height: 5, borderRadius: "50%",
+                  background: p.isPrivate ? C.ink3 : C.acid,
+                }} />
+                {p.isPrivate ? "Privado" : "Público"}
+              </span>
+
+              <span title="Origem do dado que alimenta o projeto" style={{
+                display: "inline-flex", alignItems: "center",
+                fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 500,
+                letterSpacing: "0.1em", textTransform: "uppercase",
+                color: C.ink3, border: "1px solid rgba(255,255,255,0.12)",
+                padding: "0.25rem 0.6rem", borderRadius: R.chip,
+              }}>
+                {p.dado}
+              </span>
             </div>
 
-            {/* TITULO em duas linhas fixas: com uma linha so, "Data Hub — ISP
-                Analytics" quebraria e empurraria tudo abaixo dele. */}
+            {/* TITULO em duas linhas fixas: com uma linha so, "HUG — Hub
+                Unificado de Gestao" quebraria e empurraria tudo abaixo dele. */}
             <h3 style={{
               fontFamily: F.display, fontSize: "1.15rem", lineHeight: 1.2,
               letterSpacing: "-0.02em", color: C.ink,

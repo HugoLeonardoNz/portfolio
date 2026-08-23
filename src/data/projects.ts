@@ -3,6 +3,14 @@ export interface Project {
   title: string;
   /** Uma linha dizendo o que a peça É, antes do que ela mostra. */
   tipo: string;
+  /**
+   * De onde vem o dado. Existe porque o cartão dizia "base de 88.501 clientes"
+   * sem contar que a base é gerada — quem lê rápido entende base real de
+   * cliente real. Só dois projetos usam dado observado (os do IBGE) e só um
+   * roda sobre dado de produção; os outros cinco são sintéticos, e agora isso
+   * está na cara do cartão em vez de escondido no README.
+   */
+  dado: string;
   description: string;
   tags: string[];
   githubUrl?: string;
@@ -31,13 +39,20 @@ export interface Project {
  * e as tags são no máximo quatro, então os blocos batem linha a linha.
  *
  * Cada descrição fecha com o número mais forte do projeto, que é o que sobra na
- * memória de quem passa o olho.
+ * memória de quem passa o olho — e cada número foi conferido no repositório de
+ * origem, não copiado do cartão anterior.
+ *
+ * Um cuidado editorial: os dois projetos de IBGE tinham a MESMA frase de efeito
+ * ("os 26 pares vizinhos não se distinguem"), porque o achado existe nos dois
+ * repositórios. Lado a lado no grid, isso lia como projeto duplicado. Cada um
+ * ficou com o achado que é a manchete do seu próprio README.
  */
 export const PROJECTS: Project[] = [
   {
     id: 1, title: "Telecom Operadoras",
     tipo: "Relatório Power BI · 6 páginas",
-    description: "Reclamações da ANATEL em star schema, com 53 medidas DAX e camada visual gerada por código. Normaliza volume por base de assinantes: a SERCOMTEL reclama 4× mais por assinante que a CLARO.",
+    dado: "Sintético",
+    description: "Reclamações no formato da ANATEL em star schema, com 53 medidas DAX e camada visual gerada por código. Normaliza volume por base de assinantes: a SERCOMTEL reclama 4× mais por assinante que a CLARO.",
     tags: ["Power BI", "DAX", "Star Schema", "Python"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-powerbi-public",
     isPrivate: false, status: "live", icon: "chart",
@@ -46,7 +61,8 @@ export const PROJECTS: Project[] = [
   {
     id: 2, title: "Brecha Digital Brasil",
     tipo: "Relatório Power BI · 5 páginas",
-    description: "Acesso à internet no Brasil, 2016–2025, com dado observado do IBGE e dois fatos em grãos diferentes. Traz o intervalo de confiança: os 26 pares vizinhos do ranking por taxa não se distinguem.",
+    dado: "IBGE · observado",
+    description: "Acesso à internet no Brasil, 2016–2025, com dado observado do IBGE em dois grãos. São Paulo é 5º em taxa de acesso e 1º em domicílios sem internet: 606 mil. Percentual e volume apontam para lugares diferentes.",
     tags: ["Power BI", "DAX", "IBGE", "Star Schema"],
     githubUrl: "https://github.com/HugoLeonardoNz/socioeconomic-powerbi-public",
     isPrivate: false, status: "live", icon: "database",
@@ -55,6 +71,7 @@ export const PROJECTS: Project[] = [
   {
     id: 3, title: "Telecom KPI Dashboard",
     tipo: "App Streamlit · 5 abas",
+    dado: "Sintético",
     description: "Painel operacional de ISP: base de 88.501 clientes, MRR, ARPU, cohort de retenção e NOC/SLA. As quebras por plano e por região derivam do mesmo número que o KPI mostra, e 11 testes garantem.",
     tags: ["Python", "Streamlit", "Plotly", "Pandas"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-kpi-dashboard",
@@ -62,15 +79,17 @@ export const PROJECTS: Project[] = [
     telas: { slug: "kpi", total: 5 },
   },
   {
-    id: 4, title: "Data Hub — ISP Analytics",
+    id: 4, title: "HUG — Hub Unificado de Gestão",
     tipo: "Plataforma interna · em produção",
-    description: "Plataforma de inteligência construída do zero: integrações REST com o ERP, automação de reboot de ONUs com log via Telegram e dashboards de NOC, Comercial e Financeiro além do Power BI.",
-    tags: ["Python", "SQL", "ETL", "API REST"],
+    dado: "Produção · dado real",
+    description: "Plataforma de dashboards que substituiu o Power BI da operação: 12 painéis sobre FastAPI, MongoDB e React, ETLs agendados contra o ERP, acesso por nível e por tag, e 393 testes que travam regressão de número.",
+    tags: ["Python", "SQL", "FastAPI", "React"],
     isPrivate: true, status: "private", icon: "code",
   },
   {
     id: 5, title: "Customer Churn Predictor",
     tipo: "Pipeline de ML + app Streamlit",
+    dado: "Sintético",
     description: "Predição de cancelamento sobre 15.000 contratos: 4 modelos comparados, SHAP e fila de retenção com MRR em risco. O gerador embute 15% de ruído, a AUC fica em 0,785 e o teste reprova acima de 0,92.",
     tags: ["scikit-learn", "XGBoost", "SHAP", "Streamlit"],
     githubUrl: "https://github.com/HugoLeonardoNz/churn-predictor",
@@ -80,7 +99,8 @@ export const PROJECTS: Project[] = [
   {
     id: 6, title: "Expansão de Mercado",
     tipo: "EDA sobre dado do IBGE",
-    description: "Onde um ISP deve expandir, com dado do SIDRA conferido contra o release do IBGE. Ranking por taxa e por volume discordam — e o de taxa nem separa: os 26 pares vizinhos têm intervalo sobreposto.",
+    dado: "IBGE · observado",
+    description: "Onde um ISP deve expandir, com dado do SIDRA conferido contra o release do IBGE. A brecha regional fechou; a rural não: no Norte o domicílio urbano tem 95,2% de acesso e o rural, 70,4% — 24,8pp de distância.",
     tags: ["Python", "Plotly", "IBGE", "Scoring"],
     githubUrl: "https://github.com/HugoLeonardoNz/market-expansion-eda",
     isPrivate: false, status: "live", icon: "trending",
@@ -89,7 +109,8 @@ export const PROJECTS: Project[] = [
   {
     id: 7, title: "SQL Analytics Pack",
     tipo: "10 queries · dbt + 2 CIs",
-    description: "SQL analítico sobre um ISP de 300 contratos, com dbt e CI. Correlação inversa entre preço e churn (36,7% → 10,2%) e R$ 46 mil em aberto, dos quais 81% vencidos há mais de noventa dias.",
+    dado: "Sintético",
+    description: "SQL analítico sobre um ISP de 300 contratos, com dbt e CI. Correlação inversa entre preço e churn (36,7% → 10,2%) e R$ 47 mil em aberto, dos quais 81% vencidos há mais de noventa dias.",
     tags: ["SQL", "PostgreSQL", "dbt", "Window Functions"],
     githubUrl: "https://github.com/HugoLeonardoNz/SQL-Analytics-Pack",
     isPrivate: false, status: "live", icon: "database",
@@ -98,6 +119,7 @@ export const PROJECTS: Project[] = [
   {
     id: 8, title: "Telecom EDA — ANATEL",
     tipo: "EDA + segmentação RFM",
+    dado: "Sintético",
     description: "Limpeza de CSV no formato real da ANATEL — latin-1, duplicatas, nulos implícitos — com quatro hipóteses julgadas e uma declarada não-testável, porque confirmá-la mediria o gerador e não o setor.",
     tags: ["Python", "Pandas", "EDA", "RFM"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-eda-public",
