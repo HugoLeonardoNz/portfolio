@@ -1,4 +1,4 @@
-import { C, F } from "../theme";
+import { C } from "../theme";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -22,22 +22,11 @@ export function Sobre() {
           ))}
         </div>
 
-        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1.5rem" }}>
-          {[
-            { num: "3",  plus: "+", label: "Anos de\nExperiência" },
-            { num: "6",  plus: "",  label: "Setores\nAtendidos" },
-            { num: "10", plus: "+", label: "Dashboards\nEntregues" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div style={{ fontFamily: F.display, fontSize: "3rem", fontWeight: 600, color: C.ink, lineHeight: 1 }}>
-                {stat.num}<span style={{ color: C.acid2 }}>{stat.plus}</span>
-              </div>
-              <div style={{ fontSize: "0.78rem", fontWeight: 500, color: C.ink3, marginTop: "0.4rem", lineHeight: 1.5, whiteSpace: "pre-line" }}>
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Aqui havia "3+ anos", "6 setores" e "10+ dashboards" — os mesmos
+            cartões de vaidade que saíram do hero, e que continuaram vivos nesta
+            seção. Auto-declarados, sem como conferir, e repetindo em número o
+            que o texto ao lado já diz em prosa. O hero carrega os valores
+            verificáveis; esta seção carrega a pessoa. */}
       </div>
 
       <div>

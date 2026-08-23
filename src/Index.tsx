@@ -5,7 +5,6 @@ import { Ticker }       from "./components/Ticker";
 import { Sobre }        from "./components/Sobre";
 import { OQueEntrego }  from "./components/OQueEntrego";
 import { Skills }       from "./components/Skills";
-import { Analises }     from "./components/Analises";
 import { Projects }     from "./components/Projects";
 import { Experience }   from "./components/Experience";
 import { Contact }      from "./components/Contact";
@@ -22,7 +21,6 @@ export default function Index() {
       <Sobre />
       <OQueEntrego />
       <Skills />
-      <Analises />
       <Projects />
       <Experience />
       <Contact />

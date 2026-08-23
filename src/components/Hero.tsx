@@ -131,7 +131,7 @@ export function Hero() {
           {[
             { v: "7",  l: "repositórios públicos" },
             { v: "82", l: "medidas DAX" },
-            { v: "58", l: "testes em CI" },
+            { v: "62", l: "testes em CI" },
           ].map((k) => (
             <div key={k.l}>
               <div style={{

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { C, F, R } from "../theme";
+import { Telas } from "./ui/Telas";
 import { Eyebrow } from "./ui/Eyebrow";
 import { SectionTitle } from "./ui/SectionTitle";
 import { Em } from "./ui/Em";
@@ -112,7 +113,32 @@ export function Projects() {
                 {p.description}
               </p>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.8rem" }}>
+              {p.telas
+                ? <Telas slug={p.telas.slug} total={p.telas.total} alt={p.title} />
+                : p.isPrivate && (
+                  /* O HUG roda em producao com dado real de cliente. Nao ha
+                     miniatura porque nao existe amostra segura dele — montar
+                     uma exigiria anonimizar base inteira, e publicar print de
+                     painel interno "so para o portfolio" e o tipo de atalho
+                     que este portfolio passou a semana removendo. */
+                  <div style={{
+                    marginTop: "1.4rem", background: C.darkAlt, borderRadius: R.ctrl,
+                    padding: "1.4rem 1.5rem", border: "1px dashed rgba(212,247,74,0.22)",
+                  }}>
+                    <div style={{
+                      fontFamily: F.ui, fontSize: "0.68rem", letterSpacing: "0.12em",
+                      textTransform: "uppercase", color: C.acid, marginBottom: "0.6rem",
+                    }}>Demonstro por chamada</div>
+                    <p style={{ fontSize: "0.82rem", color: C.ink3, lineHeight: 1.7, margin: 0 }}>
+                      Roda em produção com dado real de cliente, então não há print
+                      nem demo público. Mostro o sistema ao vivo numa call, com a
+                      tela compartilhada — e converso sobre arquitetura, decisões de
+                      modelagem e o que deu errado no caminho.
+                    </p>
+                  </div>
+                )}
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", margin: "1.8rem 0" }}>
                 {p.tags.map((t) => (
                   <span key={t} style={{
                     fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.06em",
@@ -126,7 +152,7 @@ export function Projects() {
 
               <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", alignItems: "center" }}>
                 {p.isPrivate ? (
-                  <span style={{ fontSize: "0.85rem", color: C.ink3 }}>Acesso restrito →</span>
+                  <span style={{ fontSize: "0.85rem", color: C.ink3 }}>Repositório privado</span>
                 ) : (
                   <>
                     {p.githubUrl && (

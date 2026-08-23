@@ -17,10 +17,9 @@ const SECOES = [
   { id: "sobre",       label: "Sobre",        curto: "02" },
   { id: "servicos",    label: "O que entrego", curto: "03" },
   { id: "habilidades", label: "Stack",        curto: "04" },
-  { id: "analises",    label: "Análises",     curto: "05" },
-  { id: "projetos",    label: "Projetos",     curto: "06" },
-  { id: "experiencia", label: "Experiência",  curto: "07" },
-  { id: "contato",     label: "Contato",      curto: "08" },
+  { id: "projetos",    label: "Projetos",     curto: "05" },
+  { id: "experiencia", label: "Experiência",  curto: "06" },
+  { id: "contato",     label: "Contato",      curto: "07" },
 ];
 
 export function SideRail() {
