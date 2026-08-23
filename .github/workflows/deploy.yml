@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Segunda, 09:00 BRT. So a conferencia de alinhamento importa aqui; o
+    # deploy roda junto e e' idempotente.
+    - cron: "0 12 * * 1"
 
 permissions:
   contents: read
@@ -16,6 +20,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # O site anuncia sete repositorios. Se um deles ficar vermelho, sumir ou
+  # perder o caminho de volta, o cartao continua vendendo uma peca que nao
+  # esta em pe — e foi exatamente o que aconteceu por meses. Roda em todo push
+  # e uma vez por semana, porque a divergencia nasce PARADA: nao e' um commit
+  # que quebra, e' o tempo passando sem ninguem olhar.
+  alinhamento:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Site e repositorios continuam alinhados?
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/conferir_repos.py
+
   build:
     runs-on: ubuntu-latest
     steps:
