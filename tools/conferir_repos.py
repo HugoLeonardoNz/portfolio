@@ -83,18 +83,26 @@ def conferir(titulo: str, slug: str) -> list[str]:
 
     branch = repo.get("default_branch", "main")
 
-    runs = _get(f"{API}/repos/{slug}/actions/runs?branch={branch}&per_page=10")
+    runs = _get(f"{API}/repos/{slug}/actions/runs?branch={branch}&per_page=30")
     execucoes = runs.get("workflow_runs", [])
     if not execucoes:
         problemas.append("nenhum workflow já rodou — badge de CI aqui seria decorativo")
     else:
-        # Uma execução por workflow: o mais recente de cada nome.
+        # Só execuções CONCLUÍDAS, e a mais recente de cada workflow. Uma
+        # execução em andamento tem conclusion nula, e a primeira versão deste
+        # script lia isso como falha: quando dois repositórios eram publicados
+        # com segundos de diferença, o segundo ainda estava rodando e a
+        # conferência reprovava um alinhamento que estava certo.
         recentes = {}
         for r in execucoes:
-            recentes.setdefault(r["name"], r)
+            if r.get("status") == "completed":
+                recentes.setdefault(r["name"], r)
+        rodando = {r["name"] for r in execucoes if r.get("status") != "completed"}
         for nome, r in recentes.items():
             if r["conclusion"] != "success":
                 problemas.append(f'CI "{nome}" está {r["conclusion"]}')
+        for nome in rodando - set(recentes):
+            print(f"         . CI \"{nome}\" ainda rodando — sem veredito anterior")
 
     try:
         readme = _get(f"{API}/repos/{slug}/readme")
