@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
     id: 1, title: "Telecom Operadoras",
     tipo: "Relatório Power BI · 6 páginas",
     dado: "Sintético",
-    description: "Reclamações no formato da ANATEL em star schema, com 53 medidas DAX e camada visual gerada por código. Normaliza volume por base de assinantes: a SERCOMTEL reclama 4× mais por assinante que a CLARO.",
+    description: "Reclamações da ANATEL em star schema, com 53 medidas DAX, camada visual gerada por código, RLS por operadora e insight executivo por IA. A SERCOMTEL reclama 4× mais por assinante que a CLARO.",
     tags: ["Power BI", "DAX", "Star Schema", "Python"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-powerbi-public",
     isPrivate: false, status: "live", icon: "chart",
