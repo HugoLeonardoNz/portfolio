@@ -19,49 +19,63 @@ import { C, F } from "../../theme";
  * envelhece num arquivo .png que alguém esquece de regerar — que é exatamente
  * o problema que este portfólio passou a semana consertando.
  */
-export function ArquiteturaHug() {
-  const traco = "rgba(212,247,74,0.30)";
-  const caixa = "rgba(212,247,74,0.07)";
+/* Traço e preenchimento. Ficavam dentro do componente, recriados a cada
+   render sem nunca mudar. */
+const TRACO = "rgba(212,247,74,0.30)";
+const CAIXA_FILL = "rgba(212,247,74,0.07)";
 
-  const Caixa = ({ x, y, w, h, titulo, sub, forte = false }: {
-    x: number; y: number; w: number; h: number;
-    titulo: string; sub?: string; forte?: boolean;
-  }) => (
+/**
+ * `Caixa` e `Fluxo` eram definidos DENTRO de `ArquiteturaHug`. Componente
+ * criado durante o render tem identidade nova a cada passagem: o React não
+ * reconhece o tipo como o mesmo e desmonta e remonta a subárvore inteira em
+ * vez de atualizá-la. Num SVG estático isso não quebra a tela, mas é trabalho
+ * jogado fora a cada render do cartão — e era o que o `react-hooks/static-
+ * components` estava apontando. Subir os dois para o módulo resolve.
+ */
+function Caixa({ x, y, w, h, titulo, sub, forte = false }: {
+  x: number; y: number; w: number; h: number;
+  titulo: string; sub?: string; forte?: boolean;
+}) {
+  return (
     <g>
       <rect
         x={x} y={y} width={w} height={h} rx={7}
-        fill={forte ? "rgba(212,247,74,0.16)" : caixa}
-        stroke={forte ? C.acid : traco}
+        fill={forte ? "rgba(212,247,74,0.16)" : CAIXA_FILL}
+        stroke={forte ? C.acid : TRACO}
         strokeWidth={forte ? 1.1 : 0.9}
       />
       <text
         x={x + w / 2} y={sub ? y + h / 2 - 1 : y + h / 2 + 3}
-        textAnchor="middle" fontFamily={F.ui} fontSize={8.5} fontWeight={600}
+        textAnchor="middle" fontFamily={F.mono} fontSize={8.5} fontWeight={600}
         fill={forte ? C.acid : C.ink}
       >{titulo}</text>
       {sub && (
         <text
           x={x + w / 2} y={y + h / 2 + 9}
-          textAnchor="middle" fontFamily={F.ui} fontSize={7} fill={C.ink3}
+          textAnchor="middle" fontFamily={F.mono} fontSize={7} fill={C.ink3}
         >{sub}</text>
       )}
     </g>
   );
+}
 
-  /** Seta vertical com rótulo à direita. */
-  const Fluxo = ({ x, y1, y2, rotulo }: { x: number; y1: number; y2: number; rotulo?: string }) => (
+/** Seta vertical com rótulo à direita. */
+function Fluxo({ x, y1, y2, rotulo }: { x: number; y1: number; y2: number; rotulo?: string }) {
+  return (
     <g>
-      <line x1={x} y1={y1} x2={x} y2={y2 - 4} stroke={traco} strokeWidth={0.9} />
-      <polygon points={`${x},${y2} ${x - 2.6},${y2 - 4.5} ${x + 2.6},${y2 - 4.5}`} fill={traco} />
+      <line x1={x} y1={y1} x2={x} y2={y2 - 4} stroke={TRACO} strokeWidth={0.9} />
+      <polygon points={`${x},${y2} ${x - 2.6},${y2 - 4.5} ${x + 2.6},${y2 - 4.5}`} fill={TRACO} />
       {rotulo && (
         <text
           x={x + 6} y={(y1 + y2) / 2 + 2.5}
-          fontFamily={F.ui} fontSize={6.8} fill={C.ink3}
+          fontFamily={F.mono} fontSize={6.8} fill={C.ink3}
         >{rotulo}</text>
       )}
     </g>
   );
+}
 
+export function ArquiteturaHug() {
   return (
     <div style={{
       marginTop: "1.4rem", background: C.darkAlt, borderRadius: 16,
@@ -96,9 +110,9 @@ export function ArquiteturaHug() {
         {/* selo de garantia, colado na borda direita */}
         <g>
           <rect x={232} y={86} width={62} height={13} rx={6.5}
-                fill="none" stroke={traco} strokeWidth={0.8} />
+                fill="none" stroke={TRACO} strokeWidth={0.8} />
           <text x={263} y={95} textAnchor="middle"
-                fontFamily={F.ui} fontSize={7} fill={C.ink3}>393 testes</text>
+                fontFamily={F.mono} fontSize={7} fill={C.ink3}>393 testes</text>
         </g>
       </svg>
     </div>

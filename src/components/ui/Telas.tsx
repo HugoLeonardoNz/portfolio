@@ -61,7 +61,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
             <div style={{
               position: "absolute", left: 8, bottom: 8,
               background: "rgba(20,28,13,0.82)", color: C.ink3,
-              fontFamily: F.ui, fontSize: "0.62rem",
+              fontFamily: F.mono, fontSize: "0.62rem",
               borderRadius: R.chip, padding: "0.15rem 0.5rem",
             }}>{i + 1}/{total}</div>
           </>
@@ -76,15 +76,27 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
         {total > 1 && (
           <div style={{ display: "flex", gap: 5 }}>
             {Array.from({ length: total }, (_, n) => (
+              /* O botao tem largura FIXA de 20px; quem cresce e a barra de
+                 dentro, por `scaleX`. Antes a largura do proprio botao ia de 7
+                 para 20px em 0,2s — animacao de propriedade de layout, que
+                 obriga o navegador a remedir a fileira inteira a cada quadro,
+                 e isso dentro de um carrossel que ja esta trocando imagem. */
               <button
                 key={n} onClick={() => setI(n)} aria-label={`Ir para a tela ${n + 1}`}
                 style={{
-                  width: n === i ? 20 : 7, height: 7, borderRadius: R.chip,
-                  background: n === i ? C.acid : "rgba(212,247,74,0.25)",
-                  border: "none", cursor: "pointer", padding: 0,
-                  transition: "width 0.2s, background 0.2s",
+                  width: 20, height: 7, borderRadius: R.chip,
+                  background: "none", border: "none", cursor: "pointer",
+                  padding: 0, position: "relative", overflow: "hidden",
                 }}
-              />
+              >
+                <span aria-hidden style={{
+                  position: "absolute", inset: 0, borderRadius: R.chip,
+                  transformOrigin: "left center",
+                  transform: n === i ? "scaleX(1)" : "scaleX(0.35)",
+                  background: n === i ? C.acid : "rgba(212,247,74,0.25)",
+                  transition: "transform 0.2s ease, background 0.2s ease",
+                }} />
+              </button>
             ))}
           </div>
         )}

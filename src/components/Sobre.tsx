@@ -1,91 +1,117 @@
-import { C, F } from "../theme";
-import { Eyebrow } from "./ui/Eyebrow";
-import { SectionTitle } from "./ui/SectionTitle";
-import { Em } from "./ui/Em";
+import { C, F, S } from "../theme";
+import { SectionHead } from "./ui/SectionHead";
 import { ABOUT_TEXT_STRINGS } from "../data/content";
 
 /**
  * Sobre.
  *
- * A versão anterior tinha as duas informações longe uma da outra: coluna de
- * texto com 46ch de largura à esquerda, grade de competências à direita e
- * 6rem de vão no meio. Numa tela larga isso abria um corredor vazio de quase
- * 300px — as duas metades liam como seções diferentes, e não como a mesma
- * resposta ("quem eu sou" + "com o quê").
+ * REDUNDÂNCIA REMOVIDA (2026-08-27). Esta seção tinha, à direita, uma grade de
+ * seis "Principais competências". Logo abaixo, "O que entrego" listava seis
+ * serviços com os mesmos nomes; e abaixo dele, "Stack técnica" listava
+ * dezesseis ferramentas das mesmas famílias. A página dizia a mesma coisa em
+ * três níveis de detalhe e em três formatos de caixa. No lugar entrou uma
+ * FICHA, que responde as perguntas de triagem — desde quando, onde, em que
+ * regime, formação — com valores que já estavam publicados em outras seções.
  *
- * Agora o vão é de 3rem, o texto respira até 54ch e as duas colunas começam na
- * mesma linha de base: o título abre o bloco inteiro, e não só a metade
- * esquerda.
+ * DISPOSIÇÃO (revista 2026-08-27). Era uma coluna de texto travada em 62ch ao
+ * lado da ficha: numa tela de 1920 a coluna de texto tinha 1100px de largura
+ * disponível para um parágrafo de 640px, e sobravam 460px de vazio DENTRO da
+ * própria coluna. Agora a entrada abre em corpo grande sobre duas colunas, o
+ * corpo desce em duas colunas de ~46ch e a ficha ocupa a terceira. Três
+ * medidas legíveis lado a lado usam a tela inteira sem esticar linha nenhuma —
+ * que é a diferença entre "preenchido" e "largo demais".
  */
-const COMPETENCIAS = [
-  { name: "SQL & Dados", sub: "Queries avançadas, CTEs, pipelines" },
-  { name: "Power BI",    sub: "DAX, modelagem dimensional" },
-  { name: "Python",      sub: "Pandas, automações, Streamlit" },
-  { name: "Analytics",   sub: "Cohort, churn, séries temporais" },
-  { name: "API & ERP",   sub: "Integrações REST, ERP de provedor" },
-  { name: "Data Hub",    sub: "Plataforma interna em produção" },
+
+const FICHA = [
+  { rotulo: "Desde",    valor: "Fev 2023" },
+  { rotulo: "Onde",     valor: "Speed Fibra · Santa Luzia, MG" },
+  { rotulo: "Cargo",    valor: "Analista de Dados Pleno" },
+  { rotulo: "Escopo",   valor: "Único analista da operação" },
+  { rotulo: "Setores",  valor: "6 — Comercial, Financeiro, NOC, Suporte, Projetos, Diretoria" },
+  { rotulo: "Formação", valor: "Sistemas de Informação · UNA (em curso)" },
 ];
 
 export function Sobre() {
+  const [entrada, ...resto] = ABOUT_TEXT_STRINGS;
+
   return (
     <section id="sobre" style={{
-      background: C.paper, padding: "6rem 3rem",
-      borderTop: "1px solid rgba(255,255,255,0.05)",
-      borderBottom: "1px solid rgba(255,255,255,0.05)",
+      background: C.paper,
+      padding: `${S.section} ${S.gutter}`,
     }}>
-      {/* Mesma caixa de 1240 do bloco do hero: as duas seções passam a
-          começar na mesma vertical, e o "Sobre" deixa de ser a única que
-          espalha o conteúdo até a borda da tela. */}
-      <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-      <Eyebrow label="Sobre mim" />
-      <SectionTitle>Quem sou <Em>eu</Em></SectionTitle>
+      <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
+        {/* O resumo NÃO pode repetir a entrada logo abaixo. A primeira versão
+            dizia "três anos no mesmo lugar, tempo suficiente para ver um
+            indicador nascer..." — que é literalmente a segunda frase do
+            parágrafo de entrada, a 150px de distância. Aqui ele faz outro
+            trabalho: diz ao visitante que a seção tem duas velocidades, o
+            texto e a ficha, e deixa cada um escolher a sua. */}
+        <SectionHead
+          titulo="Quem sou eu"
+          resumo="A resposta longa está no texto. Quem tem pressa lê a ficha e pula direto para os projetos."
+        />
 
-      {/* A primeira coluna é medida em CH, não em fração. Com "1.08fr" ela
-          ficava com 750px de largura para um texto travado em 54ch (~460px):
-          sobravam 290px de vão morto entre o parágrafo e a grade de
-          competências, e as duas metades liam como seções diferentes. Em ch, a
-          coluna tem o tamanho do texto e o gap de 3rem é o gap de verdade. */}
-      <div style={{
-        marginTop: "2.5rem",
-        display: "grid", gridTemplateColumns: "minmax(0, 54ch) minmax(0, 1fr)",
-        gap: "3rem", alignItems: "start",
-      }} className="hl-sobre-grid">
-
-        <div style={{
-          fontSize: "0.95rem", lineHeight: 1.85, color: C.ink3,
-        }}>
-          {ABOUT_TEXT_STRINGS.map((p, i) => (
-            <p key={i} style={{ marginBottom: i < ABOUT_TEXT_STRINGS.length - 1 ? "1em" : 0 }}>{p}</p>
-          ))}
-        </div>
-
-        <div>
-          <div style={{
-            fontFamily: F.ui,
-            fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase",
-            color: C.ink3, marginBottom: "1.2rem",
-            borderBottom: "1px solid rgba(255,255,255,0.07)", paddingBottom: "0.7rem",
+        <div
+          className="hl-sobre-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 23rem)",
+            columnGap: "clamp(2rem, 4vw, 4rem)",
+            rowGap: "2rem",
+            alignItems: "start",
+          }}
+        >
+          {/* Entrada: atravessa as duas colunas de texto. Três parágrafos do
+              mesmo corpo não têm começo — o olho não sabe onde entrar e lê o
+              bloco como massa. */}
+          <p className="hl-sobre-entrada" style={{
+            gridColumn: "1 / 3",
+            fontSize: "clamp(1.15rem, 1.5vw, 1.45rem)", lineHeight: 1.5,
+            color: C.ink, letterSpacing: "-0.015em",
           }}>
-            Principais competências
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
-            {COMPETENCIAS.map((comp, i) => (
-              <div key={comp.name} style={{
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                borderRight: i % 2 === 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                padding: "1.1rem 1.2rem", transition: "background 0.2s",
-              }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,247,74,0.06)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            {entrada}
+          </p>
+
+          {resto.map((p, i) => (
+            <p key={i} className="hl-sobre-corpo" style={{
+              gridColumn: i + 1,
+              gridRow: 2,
+              fontSize: "1rem", lineHeight: 1.75, color: C.ink2,
+            }}>
+              {p}
+            </p>
+          ))}
+
+          {/* Ficha: ocupa as duas linhas da terceira coluna. */}
+          <dl className="hl-ficha" style={{ gridColumn: 3, gridRow: "1 / 3" }}>
+            {FICHA.map((linha, i) => (
+              <div
+                key={linha.rotulo}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "6.5rem minmax(0, 1fr)",
+                  gap: "0.9rem",
+                  padding: "0.8rem 0",
+                  boxShadow: i === 0 ? "none" : `inset 0 1px 0 ${C.ruleSoft}`,
+                }}
               >
-                <div style={{ width: 6, height: 6, background: C.acid, borderRadius: "50%", marginBottom: "0.7rem" }} />
-                <div style={{ fontSize: "0.88rem", fontWeight: 600, color: C.ink, marginBottom: "0.25rem" }}>{comp.name}</div>
-                <div style={{ fontSize: "0.78rem", color: C.ink3, lineHeight: 1.5 }}>{comp.sub}</div>
+                <dt style={{
+                  fontFamily: F.mono, fontSize: "0.6rem", fontWeight: 500,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: C.ink3, paddingTop: "0.2rem",
+                }}>
+                  {linha.rotulo}
+                </dt>
+                <dd style={{
+                  fontSize: "0.88rem", lineHeight: 1.55, color: C.ink,
+                  fontVariantNumeric: "tabular-nums",
+                }}>
+                  {linha.valor}
+                </dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
-      </div>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import { GlobalStyles } from "./components/GlobalStyles";
-import { SideRail }     from "./components/SideRail";
+import { Topbar }       from "./components/Topbar";
 import { Hero }         from "./components/Hero";
 import { Ticker }       from "./components/Ticker";
 import { Sobre }        from "./components/Sobre";
@@ -15,15 +15,17 @@ export default function Index() {
   return (
     <div style={{ background: C.bg, minHeight: "100vh" }}>
       <GlobalStyles />
-      <SideRail />
-      <Hero />
-      <Ticker />
-      <Sobre />
-      <OQueEntrego />
-      <Skills />
-      <Projects />
-      <Experience />
-      <Contact />
+      <Topbar />
+      <main>
+        <Hero />
+        <Ticker />
+        <Sobre />
+        <OQueEntrego />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Contact />
+      </main>
       <Footer />
     </div>
   );

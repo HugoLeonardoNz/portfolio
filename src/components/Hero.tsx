@@ -1,4 +1,6 @@
-import { C, F, R } from "../theme";
+import { ArrowDown } from "lucide-react";
+import { GitHubMark, LinkedInMark } from "./ui/Marcas";
+import { C, F, R, S } from "../theme";
 
 /**
  * Abertura em bloco — e em UMA tela.
@@ -52,7 +54,7 @@ export function Hero() {
       display: "flex", flexDirection: "column", justifyContent: "center",
       gap: "clamp(0.7rem, 1.6vh, 1.25rem)",
       // O topo precisa livrar a nav fixa (1,5rem de padding + ~20px de linha).
-      padding: "clamp(4.5rem, 9vh, 6rem) 1.5rem clamp(1.25rem, 3vh, 2.5rem)",
+      padding: `clamp(4.5rem, 9vh, 6rem) ${S.gutter} clamp(1.25rem, 3vh, 2.5rem)`,
       position: "relative", overflow: "hidden",
     }}>
       {/* ── Bloco lima ───────────────────────────────────────────────── */}
@@ -60,11 +62,11 @@ export function Hero() {
         background: C.acid, borderRadius: R.hero,
         position: "relative", overflow: "hidden",
         padding: "clamp(1.4rem, 3vh, 2.5rem) clamp(1.4rem, 2.6vw, 2.5rem) 0",
-        maxWidth: 1240, width: "100%", margin: "0 auto",
+        maxWidth: S.maxw, width: "100%", margin: "0 auto",
       }}>
         <h1 className="hl-hero-nome" style={{
           fontFamily: F.display,
-          fontSize: "clamp(2.2rem, min(11.5vw, 15.5vh), 9.5rem)",
+          fontSize: "clamp(2.2rem, min(11.5vw, 16.5vh), 12rem)",
           lineHeight: 0.86, letterSpacing: "-0.035em",
           color: C.onAcid, textTransform: "uppercase",
           position: "relative", zIndex: 2, pointerEvents: "none",
@@ -72,9 +74,17 @@ export function Hero() {
           Hugo<br />Leonardo
         </h1>
 
+        {/* DUAS colunas, não três (revisto 2026-08-27).
+            A foto ficava na coluna do MEIO. Com o bloco a 1600px, o nome
+            terminava por volta de x=920 e a metade direita do cartaz ficava
+            lima puro: a foto no centro não preenchia aquilo, só marcava o
+            vazio ao lado dela. Levando a foto para a borda direita, ela passa
+            a ocupar justamente a área que o nome não alcança — o cartaz fecha
+            nos dois cantos e o texto de apoio fica todo do lado esquerdo,
+            embaixo do nome, que é onde a leitura continua. */}
         <div className="hl-hero-inner" style={{
-          display: "grid", gridTemplateColumns: "minmax(0,1fr) auto minmax(0,1fr)",
-          alignItems: "end", gap: "1.5rem",
+          display: "grid", gridTemplateColumns: "minmax(0,1fr) auto",
+          alignItems: "end", gap: "clamp(1.5rem, 4vw, 3.5rem)",
           marginTop: "clamp(-1.5rem, -1.5vh, -0.5rem)",
         }}>
           {/* coluna esquerda */}
@@ -83,43 +93,93 @@ export function Hero() {
             paddingBottom: "clamp(1.2rem, 3vh, 2.5rem)",
           }}>
             <p className="hl-hero-lead" style={{
-              fontSize: "clamp(0.72rem, 1.5vh, 0.82rem)", lineHeight: 1.55,
-              color: C.onAcid, maxWidth: "26ch", fontWeight: 500, opacity: 0.85,
+              fontSize: "clamp(0.75rem, 1.6vh, 0.92rem)", lineHeight: 1.55,
+              color: C.onAcid, maxWidth: "34ch", fontWeight: 500, opacity: 0.85,
             }}>
               Analista de Dados Pleno. Do SQL bruto ao painel na tela da
               diretoria, num provedor de fibra em operação.
             </p>
 
+            {/* Eram duas bolinhas com as letras "in" e "gh" dentro. Sigla
+                digitada nao e um sistema de icones: "gh" nao significa GitHub
+                para ninguem fora de quem escreveu, e as duas letras mudam de
+                largura e de alinhamento vertical conforme a fonte que carrega.
+                Icones desenhados, no mesmo peso de traco, dizem a mesma coisa
+                sem precisar ser decifrados. */}
             <div style={{
-              display: "flex", gap: "0.5rem",
+              display: "flex", gap: "0.5rem", alignItems: "center",
+              flexWrap: "wrap", rowGap: "0.75rem",
               marginTop: "clamp(0.7rem, 1.8vh, 1.4rem)",
             }}>
               {[
-                { t: "in", href: "https://linkedin.com/in/hugo-leonardo-data-analyst" },
-                { t: "gh", href: "https://github.com/HugoLeonardoNz" },
-              ].map((s) => (
+                { nome: "LinkedIn", Icone: LinkedInMark, href: "https://linkedin.com/in/hugo-leonardo-data-analyst" },
+                { nome: "GitHub",   Icone: GitHubMark,   href: "https://github.com/HugoLeonardoNz" },
+              ].map(({ nome, Icone, href }) => (
                 <a
-                  key={s.t} href={s.href} target="_blank" rel="noopener noreferrer"
+                  key={nome} href={href} target="_blank" rel="noopener noreferrer"
+                  aria-label={nome} title={nome}
                   style={{
                     width: 34, height: 34, borderRadius: "50%",
                     background: C.onAcid, color: C.acid,
                     display: "grid", placeItems: "center",
-                    fontFamily: F.ui, fontSize: "0.66rem", fontWeight: 700,
-                    textDecoration: "none", letterSpacing: "0.02em",
-                    flexShrink: 0,
+                    textDecoration: "none", flexShrink: 0,
                   }}
-                >{s.t}</a>
+                >
+                  <Icone size={16} aria-hidden />
+                </a>
               ))}
+
+              {/* Disponibilidade e o botão de descida moram agora ao lado dos
+                  ícones, na mesma fileira: eram uma terceira coluna, sozinhos
+                  na borda direita do cartaz, a mais de 500px do texto a que
+                  pertencem. Uma linha de apoio só, embaixo do nome. */}
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: "0.45rem",
+                marginLeft: "clamp(0.5rem, 1.5vw, 1.25rem)",
+                fontSize: "clamp(0.7rem, 1.4vh, 0.82rem)", fontWeight: 600,
+                color: C.onAcid, opacity: 0.85, whiteSpace: "nowrap",
+              }}>
+                <span className="hl-pulse" style={{
+                  width: 6, height: 6, borderRadius: "50%",
+                  background: C.onAcid, display: "inline-block", flexShrink: 0,
+                }} />
+                Disponível para projetos
+              </span>
+
+              <button
+                onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
+                aria-label="Ir para os projetos"
+                style={{
+                  // Sem `marginLeft: auto`. Com ele o botão era empurrado para
+                  // o fim da coluna de apoio e ficava sozinho no meio do lima,
+                  // longe dos ícones e longe da foto — um objeto órfão. Ele
+                  // pertence à fileira de apoio; fica nela.
+                  marginLeft: "clamp(0.25rem, 1vw, 0.75rem)",
+                  width: 34, height: 34, borderRadius: "50%",
+                  background: C.onAcid, color: C.acid, border: "none",
+                  cursor: "pointer", flexShrink: 0,
+                  display: "grid", placeItems: "center",
+                }}
+              ><ArrowDown size={16} aria-hidden /></button>
             </div>
           </div>
 
-          {/* Foto: circulo escuro sobre o lima, entrando por cima do nome. */}
+          {/* Foto: circulo escuro sobre o lima.
+              CORRIGIDO 2026-08-27. A subida era `clamp(-3.5rem, -6vh, -1.2rem)`
+              — 56px numa tela de 945px de altura. Isso nao punha a foto "por
+              cima da tipografia": punha a foto POR CIMA DE UMA LETRA. O circulo
+              entrava 23px dentro dos glifos da segunda linha e comia o R de
+              LEONARDO, que num portfolio e o pior lugar possivel para perder um
+              caractere — o sobrenome e a primeira coisa que o visitante veio
+              conferir. Agora a subida so consome a ENTRELINHA (o vao entre a
+              base do glifo e a base da caixa de linha), nunca o desenho da
+              letra: a sensacao de sobreposicao continua, o nome fica inteiro. */}
           <div className="hl-hero-photo" style={{
-            width: "clamp(120px, min(24vw, 27vh), 300px)",
+            width: "clamp(120px, min(24vw, 30vh), 340px)",
             aspectRatio: "1 / 1",
-            justifySelf: "center", alignSelf: "end",
+            justifySelf: "end", alignSelf: "end",
             position: "relative", zIndex: 1,
-            marginTop: "clamp(-3.5rem, -6vh, -1.2rem)",
+            marginTop: "clamp(-0.75rem, -1vh, -0.25rem)",
             marginBottom: "clamp(1.2rem, 3vh, 2.5rem)",
             borderRadius: "50%", overflow: "hidden",
             background: C.bg,
@@ -135,42 +195,12 @@ export function Hero() {
             />
           </div>
 
-          {/* coluna direita */}
-          <div className="hl-hero-right" style={{
-            position: "relative", zIndex: 3,
-            paddingBottom: "clamp(1.2rem, 3vh, 2.5rem)",
-            justifySelf: "end", textAlign: "right",
-          }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: "0.45rem",
-              fontSize: "clamp(0.7rem, 1.4vh, 0.78rem)", fontWeight: 600,
-              color: C.onAcid, opacity: 0.85,
-            }}>
-              <span className="hl-pulse" style={{
-                width: 6, height: 6, borderRadius: "50%",
-                background: C.onAcid, display: "inline-block", flexShrink: 0,
-              }} />
-              Disponível para projetos
-            </div>
-            <div>
-              <button
-                onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
-                aria-label="Ir para os projetos"
-                style={{
-                  marginTop: "clamp(0.7rem, 1.8vh, 1.4rem)",
-                  width: 38, height: 38, borderRadius: "50%",
-                  background: C.onAcid, color: C.acid, border: "none",
-                  cursor: "pointer", fontSize: "1rem", lineHeight: 1,
-                }}
-              >↓</button>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* ── Credencial + inventário ──────────────────────────────────── */}
       <div className="hl-hero-grid" style={{
-        maxWidth: 1240, width: "100%", margin: "0 auto",
+        maxWidth: S.maxw, width: "100%", margin: "0 auto",
         display: "grid", gap: "clamp(0.7rem, 1.6vh, 1.25rem)",
         gridTemplateColumns: "minmax(0, 1.15fr) minmax(0, 1fr)",
         alignItems: "stretch",
@@ -207,7 +237,7 @@ export function Hero() {
               como único analista da operação
             </div>
             <div className="hl-hero-setores" style={{
-              fontFamily: F.ui, fontSize: "clamp(0.63rem, 1.3vh, 0.7rem)",
+              fontFamily: F.mono, fontSize: "clamp(0.63rem, 1.3vh, 0.7rem)",
               letterSpacing: "0.04em", color: C.ink3, lineHeight: 1.5,
             }}>
               {SETORES}
@@ -222,21 +252,34 @@ export function Hero() {
           display: "flex", flexDirection: "column", justifyContent: "center",
         }}>
           <div style={{
-            fontFamily: F.ui, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
+            fontFamily: F.mono, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
             letterSpacing: "0.1em", textTransform: "uppercase", color: C.ink3,
             marginBottom: "clamp(0.55rem, 1.4vh, 0.9rem)",
           }}>
             Este portfólio conta com
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-            {INVENTARIO.map((t) => (
-              <span key={t} className="hl-chip" style={{
-                fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)", color: C.ink2, fontFamily: F.ui,
-                border: "1px solid rgba(212,247,74,0.28)",
-                borderRadius: R.chip, padding: "0.28rem 0.7rem",
-              }}>{t}</span>
-            ))}
-          </div>
+          {/* Eram cinco pilulas com borda lima. Um inventario nao e um conjunto
+              de filtros clicaveis — e uma CONTAGEM, e contagem se le em coluna,
+              com o algarismo alinhado. As pilulas ainda sugeriam que dava para
+              clicar nelas, o que nunca foi verdade. */}
+          <ul style={{ listStyle: "none", display: "grid", gap: "0.3rem" }}>
+            {INVENTARIO.map((t) => {
+              const [n, ...resto] = t.split(" ");
+              return (
+                <li key={t} style={{
+                  display: "flex", gap: "0.5rem", alignItems: "baseline",
+                  fontFamily: F.mono, color: C.ink2,
+                  fontSize: "clamp(0.62rem, 1.25vh, 0.7rem)", lineHeight: 1.5,
+                }}>
+                  <span style={{
+                    color: C.acid, fontVariantNumeric: "tabular-nums",
+                    fontWeight: 600, flexShrink: 0,
+                  }}>{n}</span>
+                  <span>{resto.join(" ")}</span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>

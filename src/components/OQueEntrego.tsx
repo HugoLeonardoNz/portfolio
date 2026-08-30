@@ -1,52 +1,102 @@
-import { C } from "../theme";
-import { Eyebrow } from "./ui/Eyebrow";
-import { SectionTitle } from "./ui/SectionTitle";
-import { Em } from "./ui/Em";
-import { PIcon } from "./ui/PIcon";
+import { C, F, S } from "../theme";
+import { SectionHead } from "./ui/SectionHead";
 import { SERVICOS } from "../data/content";
 
+/**
+ * O que entrego.
+ *
+ * ANTES: seis caixas idênticas numa grade 3×2, cada uma com ícone genérico +
+ * título + parágrafo + três chips com borda. Dezoito chips, seis ícones e uma
+ * moldura de 1px em volta de tudo. É o arranjo mais reconhecível de interface
+ * gerada — o cartão como estrutura de página, repetido até preencher a grade,
+ * com um ícone escolhido por associação de palavra (banco de dados → cilindro,
+ * automação → raio) que não acrescenta nada a quem já leu o título.
+ *
+ * AGORA: lista de definição. Cada linha tem a competência à esquerda, em
+ * corpo grande, e o que ela significa à direita, num texto de medida legível.
+ * As tecnologias viraram uma corrida em mono sob o título, separada por
+ * ponto — a mesma informação, sem dezoito molduras.
+ *
+ * A leitura muda de natureza: seis caixas pedem que você varra a grade e
+ * compare; uma lista pede que você desça e leia. A segunda é a que serve um
+ * avaliador técnico, que não está comparando os itens entre si — está
+ * procurando um que reconheça.
+ */
 export function OQueEntrego() {
   return (
-    <section id="servicos" style={{ background: C.bg, padding: "6rem 3rem", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-      <Eyebrow label="O que entrego" />
-      <SectionTitle>Serviços & <Em>entregas</Em></SectionTitle>
+    <section id="servicos" style={{
+      background: C.bg,
+      padding: `${S.section} ${S.gutter}`,
+    }}>
+      {/* DUAS COLUNAS de itens, não uma.
+          Cada item é curto — um título e uma descrição de duas linhas. Em
+          coluna única a seção virava uma fita estreita com metade da tela
+          vazia ao lado, e ficavam 1120px de rolagem para ler seis frases.
+          Em duas colunas a mesma informação ocupa a largura, cabe quase
+          inteira numa tela, e cada descrição mantém ~52ch — dentro da medida
+          legível. Alargar a caixa sem redistribuir só teria aumentado o vazio. */}
+      <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
+        <SectionHead
+          titulo="O que eu entrego"
+          resumo="Seis frentes que atendo no dia a dia de um provedor em operação. Não é lista de curso: é o que passa pela minha mesa toda semana."
+        />
 
-      <div style={{
-        marginTop: "4rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 0, border: "1px solid rgba(255,255,255,0.07)",
-      }}>
-        {SERVICOS.map((s, i) => (
-          <div key={s.title} style={{
-            borderRight: i % 3 < 2 ? "1px solid rgba(255,255,255,0.07)" : "none",
-            borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none",
-            padding: "2rem 1.8rem", transition: "background 0.2s",
+        <div
+          className="hl-entregas"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            columnGap: "clamp(2rem, 5vw, 5rem)",
           }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,247,74,0.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-          >
-            <div style={{ marginBottom: "1rem" }}>
-              <PIcon icon={s.icon} color={C.acid2} />
+        >
+          {SERVICOS.map((s, i) => (
+            <div
+              key={s.title}
+              className="hl-def"
+              style={{
+                display: "grid",
+                // 16rem, não 15ch: o rótulo mais longo é "Power BI &
+                // Dashboards" (21 caracteres em grotesca preta, ~250px). Com a
+                // coluna a 150px os SEIS títulos quebravam em duas linhas, e
+                // título quebrado ao lado de descrição de uma linha desalinha
+                // a fileira inteira.
+                gridTemplateColumns: "minmax(0, 16rem) minmax(0, 1fr)",
+                gap: "clamp(1.25rem, 2vw, 2rem)",
+                // Pela LINHA DE BASE: o título tem corpo 1,2rem e a descrição
+                // 1rem. Alinhar o topo das caixas deixa as duas primeiras
+                // linhas em alturas diferentes; alinhar a base, não.
+                alignItems: "baseline",
+                padding: "1.9rem 0",
+                // O fio separa LINHAS da grade, então os dois primeiros itens
+                // (que abrem cada coluna) não recebem fio em cima.
+                boxShadow: i < 2 ? "none" : `inset 0 1px 0 ${C.ruleSoft}`,
+              }}
+            >
+              <div>
+                <h3 style={{
+                  fontFamily: F.display, fontSize: "1.2rem",
+                  letterSpacing: "-0.02em", lineHeight: 1.15,
+                  fontWeight: 400, color: C.ink,
+                }}>
+                  {s.title}
+                </h3>
+                <p style={{
+                  marginTop: "0.55rem",
+                  fontFamily: F.mono, fontSize: "0.66rem", lineHeight: 1.7,
+                  letterSpacing: "0.02em", color: C.ink3,
+                }}>
+                  {s.tags.join(" · ")}
+                </p>
+              </div>
+
+              <p style={{
+                fontSize: "1rem", lineHeight: 1.7, color: C.ink2,
+              }}>
+                {s.desc}
+              </p>
             </div>
-            <div style={{
-              fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.06em",
-              color: C.ink, marginBottom: "0.8rem",
-            }}>
-              {s.title}
-            </div>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.75, color: C.ink3, marginBottom: "1rem" }}>
-              {s.desc}
-            </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-              {s.tags.map((t) => (
-                <span key={t} style={{
-                  fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.06em",
-                  color: "rgba(195,208,147,0.6)",
-                  border: "1px solid rgba(255,255,255,0.1)", padding: "0.3rem 0.7rem",
-                }}>{t}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
-import { C, F, R } from "../theme";
+import { ArrowUpRight } from "lucide-react";
+import { C, F, R, S } from "../theme";
 import { Telas } from "./ui/Telas";
 import { ArquiteturaHug } from "./ui/ArquiteturaHug";
-import { Eyebrow } from "./ui/Eyebrow";
-import { SectionTitle } from "./ui/SectionTitle";
-import { Em } from "./ui/Em";
+import { SectionHead } from "./ui/SectionHead";
 import { PROJECTS } from "../data/projects";
 
 export function Projects() {
@@ -24,20 +23,29 @@ export function Projects() {
 
   const visiveis = filtro ? PROJECTS.filter((p) => p.tags.includes(filtro)) : PROJECTS;
 
+  const publicos = PROJECTS.filter((p) => !p.isPrivate).length;
+
   return (
-    <section id="projetos" style={{ background: C.darkAlt, padding: "6rem 3rem" }}>
-      <Eyebrow label="Portfólio" onDark />
-      <SectionTitle>Projetos <Em>em destaque</Em></SectionTitle>
+    <section id="projetos" style={{
+      background: C.darkAlt,
+      padding: `${S.section} ${S.gutter}`,
+    }}>
+      <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
+      <SectionHead
+        titulo="Projetos"
+        resumo="Cada peça abre o repositório onde o número foi apurado. Os selos dizem o que dá para abrir e de onde veio o dado — sintético, observado ou de produção — porque as duas perguntas são diferentes."
+        meta={`${PROJECTS.length} projetos · ${publicos} públicos`}
+      />
 
       <div style={{
-        marginTop: "2.5rem", display: "flex", flexWrap: "wrap",
-        gap: "0.5rem", alignItems: "center",
+        display: "flex", flexWrap: "wrap",
+        gap: "0.4rem", alignItems: "center", marginBottom: "2.25rem",
       }}>
         <span style={{
-          fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase",
-          color: "rgba(195,208,147,0.45)", marginRight: "0.5rem",
+          fontFamily: F.mono, fontSize: "0.62rem", letterSpacing: "0.12em",
+          textTransform: "uppercase", color: C.ink3, marginRight: "0.6rem",
         }}>
-          Filtrar por
+          Filtrar
         </span>
         {[null, ...tecnologias].map((t) => {
           const on = filtro === t;
@@ -46,20 +54,27 @@ export function Projects() {
               key={t ?? "todos"}
               onClick={() => setFiltro(t)}
               style={{
-                fontSize: "0.76rem", fontWeight: on ? 600 : 400, letterSpacing: "0.04em",
-                padding: "0.4rem 0.85rem", cursor: "pointer",
-                color: on ? C.ink : "rgba(195,208,147,0.6)",
-                background: on ? "rgba(212,247,74,0.18)" : "transparent",
-                border: `1px solid ${on ? C.acid : "rgba(255,255,255,0.12)"}`,
-                transition: "all 0.2s",
+                fontFamily: F.body,
+                fontSize: "0.78rem", fontWeight: on ? 600 : 400,
+                padding: "0.35rem 0.75rem", cursor: "pointer",
+                color: on ? C.onAcid : C.ink3,
+                background: on ? C.acid : "transparent",
+                border: `1px solid ${on ? C.acid : C.rule}`,
+                borderRadius: 2,
+                transition: "color 160ms ease, background 160ms ease, border-color 160ms ease",
               }}
+              onMouseEnter={(e) => { if (!on) { e.currentTarget.style.color = C.ink; e.currentTarget.style.borderColor = "rgba(212,247,74,0.45)"; } }}
+              onMouseLeave={(e) => { if (!on) { e.currentTarget.style.color = C.ink3; e.currentTarget.style.borderColor = C.rule; } }}
             >
               {t ?? "Todos"}
             </button>
           );
         })}
-        <span style={{ fontSize: "0.76rem", color: "rgba(195,208,147,0.4)", marginLeft: "0.4rem" }}>
-          {visiveis.length} de {PROJECTS.length}
+        <span style={{
+          fontFamily: F.mono, fontSize: "0.66rem", color: C.ink3,
+          marginLeft: "0.5rem", fontVariantNumeric: "tabular-nums",
+        }}>
+          {visiveis.length}/{PROJECTS.length}
         </span>
       </div>
 
@@ -72,7 +87,6 @@ export function Projects() {
           os cartões de uma mesma fileira terem a mesma altura — sem isso, cada
           um para onde o texto acaba e a fileira fica serrilhada. */}
       <div style={{
-        marginTop: "2.5rem",
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 380px), 1fr))",
         gap: "1rem",
@@ -88,12 +102,11 @@ export function Projects() {
             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.06)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = C.paper; e.currentTarget.style.transform = "none"; }}
           >
-            {/* Numero de fundo, so decoracao — fica atras de tudo e nao recebe clique. */}
-            <span aria-hidden style={{
-              position: "absolute", top: "0.8rem", right: "1rem",
-              fontFamily: F.display, fontSize: "3.2rem", lineHeight: 1,
-              color: "rgba(184,224,47,0.07)", userSelect: "none",
-            }}>{String(p.id).padStart(2, "0")}</span>
+            {/* O numeral gigante "01".."08" que ficava no canto saiu. Ele nao
+                numerava nada que o leitor precisasse: a ordem dos cartoes muda
+                com o filtro, entao o "05" do churn aparecia em terceiro lugar
+                na grade. Numero de secao so se justifica quando a sequencia e
+                a informacao — aqui era textura. */}
 
             {/* Dois selos, e nao um. O da esquerda diz se da para ABRIR o
                 projeto; o da direita diz se da para CONFIAR no numero como
@@ -105,7 +118,7 @@ export function Projects() {
             }}>
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 600,
+                fontFamily: F.mono, fontSize: "0.62rem", fontWeight: 600,
                 letterSpacing: "0.12em", textTransform: "uppercase",
                 color: p.isPrivate ? C.ink3 : C.acid,
                 background: p.isPrivate ? "rgba(255,255,255,0.05)" : "rgba(212,247,74,0.12)",
@@ -120,9 +133,9 @@ export function Projects() {
 
               <span title="Origem do dado que alimenta o projeto" style={{
                 display: "inline-flex", alignItems: "center",
-                fontFamily: F.ui, fontSize: "0.62rem", fontWeight: 500,
+                fontFamily: F.mono, fontSize: "0.62rem", fontWeight: 500,
                 letterSpacing: "0.1em", textTransform: "uppercase",
-                color: C.ink3, border: "1px solid rgba(255,255,255,0.12)",
+                color: C.ink3, border: `1px solid ${C.rule}`,
                 padding: "0.25rem 0.6rem", borderRadius: R.chip,
               }}>
                 {p.dado}
@@ -139,7 +152,7 @@ export function Projects() {
             }}>{p.title}</h3>
 
             <div style={{
-              fontFamily: F.ui, fontSize: "0.68rem", letterSpacing: "0.06em",
+              fontFamily: F.mono, fontSize: "0.68rem", letterSpacing: "0.06em",
               color: C.acid2, marginBottom: "0.7rem",
             }}>{p.tipo}</div>
 
@@ -179,20 +192,19 @@ export function Projects() {
 
             {/* TAGS em uma linha so: quatro por projeto, definidas em projects.ts.
                 Sem o nowrap, um projeto com tag longa abriria uma segunda linha
-                e desalinharia o rodape da fileira inteira. */}
-            <div style={{
-              display: "flex", gap: "0.35rem", margin: "1.1rem 0 1.2rem",
-              overflow: "hidden", flexWrap: "nowrap",
+                e desalinharia o rodape da fileira inteira.
+
+                As quatro molduras de 1px viraram uma corrida separada por
+                ponto. Num cartao que ja tem dois selos com borda no topo, mais
+                quatro pilulas embaixo davam seis molduras concorrendo com a
+                miniatura — que e a coisa que o visitante veio ver. */}
+            <p style={{
+              fontFamily: F.mono, fontSize: "0.64rem", letterSpacing: "0.02em",
+              color: C.ink3, margin: "1.1rem 0 1.2rem",
+              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
             }}>
-              {p.tags.map((t) => (
-                <span key={t} style={{
-                  fontFamily: F.ui, fontSize: "0.64rem", letterSpacing: "0.03em",
-                  color: "rgba(195,208,147,0.55)", whiteSpace: "nowrap",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: R.chip, padding: "0.22rem 0.55rem",
-                }}>{t}</span>
-              ))}
-            </div>
+              {p.tags.join(" · ")}
+            </p>
 
             {/* `marginTop: auto` empurra o rodape para a base do cartao, entao
                 os links de todos os cartoes da fileira ficam na mesma altura. */}
@@ -201,31 +213,36 @@ export function Projects() {
                 <span style={{ fontSize: "0.8rem", color: C.ink3 }}>Repositório privado</span>
               ) : (
                 <>
+                  {/* A seta era o caractere "→" e o hover animava `gap`, que
+                      e propriedade de layout: cada quadro do hover forcava o
+                      navegador a remedir a linha. Agora e icone desenhado e o
+                      deslocamento e `transform`, na camada de composicao. */}
                   {p.githubUrl && (
                     <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
+                      className="hl-link-proj"
                       style={{
-                        fontFamily: F.ui, fontSize: "0.8rem", fontWeight: 600,
+                        fontSize: "0.82rem", fontWeight: 600,
                         color: C.acid, textDecoration: "none",
-                        display: "inline-flex", alignItems: "center", gap: "0.45rem",
-                        transition: "gap 0.2s",
+                        display: "inline-flex", alignItems: "center", gap: "0.4rem",
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.gap = "0.8rem")}
-                      onMouseLeave={(e) => (e.currentTarget.style.gap = "0.45rem")}
-                    >GitHub →</a>
+                    >GitHub <ArrowUpRight size={14} aria-hidden className="hl-link-seta" /></a>
                   )}
                   {p.liveUrl && (
                     <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"
+                      className="hl-link-proj"
                       style={{
-                        fontFamily: F.ui, fontSize: "0.8rem", fontWeight: 500,
+                        fontSize: "0.82rem", fontWeight: 500,
                         color: C.ink3, textDecoration: "none",
+                        display: "inline-flex", alignItems: "center", gap: "0.4rem",
                       }}
-                    >Ver ao vivo →</a>
+                    >Ver ao vivo <ArrowUpRight size={14} aria-hidden className="hl-link-seta" /></a>
                   )}
                 </>
               )}
             </div>
           </article>
         ))}
+      </div>
       </div>
     </section>
   );
