@@ -70,10 +70,10 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 3, title: "Telecom KPI Dashboard",
-    tipo: "App Streamlit · 5 abas",
+    tipo: "App Streamlit · 6 abas",
     dado: "Sintético",
-    description: "Painel operacional de ISP: base de 88.501 clientes, MRR, ARPU, cohort de retenção e NOC/SLA. As quebras por plano e por região derivam do mesmo número que o KPI mostra, e 11 testes garantem.",
-    tags: ["Python", "Streamlit", "Plotly", "Pandas"],
+    description: "Painel operacional de ISP: base de 88.501 clientes, MRR, ARPU, cohort de retenção e NOC/SLA. Camada SQL com window functions (LAG, RANK) valida cada número contra o pandas, e 14 testes garantem.",
+    tags: ["Python", "Streamlit", "SQL", "Plotly"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-kpi-dashboard",
     isPrivate: false, status: "live", icon: "chart",
     telas: { slug: "kpi", total: 5 },
