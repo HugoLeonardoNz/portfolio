@@ -120,6 +120,7 @@ export function Hero() {
                 <a
                   key={nome} href={href} target="_blank" rel="noopener noreferrer"
                   aria-label={nome} title={nome}
+                  className="hl-toque"
                   style={{
                     width: 34, height: 34, borderRadius: "50%",
                     background: C.onAcid, color: C.acid,
@@ -151,6 +152,7 @@ export function Hero() {
               <button
                 onClick={() => document.getElementById("projetos")?.scrollIntoView({ behavior: "smooth" })}
                 aria-label="Ir para os projetos"
+                className="hl-toque"
                 style={{
                   // Sem `marginLeft: auto`. Com ele o botão era empurrado para
                   // o fim da coluna de apoio e ficava sozinho no meio do lima,

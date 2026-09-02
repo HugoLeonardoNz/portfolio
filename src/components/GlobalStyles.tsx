@@ -168,6 +168,50 @@ export function GlobalStyles() {
         .hl-hero-nome { font-size: 8.6vw !important; }
       }
 
+      /* --- Telefone: legibilidade e alvo de toque -------------------------
+         Três defeitos que só aparecem no aparelho, medidos a 386px:
+
+         1. FONTE PEQUENA DEMAIS. Os 'clamp()' do hero têm 'vh' no meio
+            ('clamp(0.63rem, 1.3vh, 0.7rem)'). Isso foi feito para o hero
+            caber numa tela de desktop sem rolagem — mas num telefone o 'vh'
+            é pequeno, o clamp colapsa no MÍNIMO, e o mínimo era ~10px.
+            Dez pixels no telefone não se lê; o piso confortável é 12px.
+
+         2. ALVO DE TOQUE PEQUENO. O botão "Menu" saía com 34x24 e os ícones
+            sociais com 34x34. A régua é 44x44 (Apple HIG) / 48 (Material) —
+            abaixo disso o dedo erra. O "Menu" é a navegação inteira no
+            telefone, então era o pior lugar para economizar pixel.
+
+         3. TAG TRUNCADA. A linha de tags do cartão usa 'nowrap' de propósito:
+            no desktop ela impede que um projeto com tag longa abra segunda
+            linha e desalinhe o rodapé da FILEIRA. No telefone só existe uma
+            coluna — não há fileira para desalinhar — e o nowrap só cortava
+            "Microsoft Fabric" em "Microsoft…". Aqui ele desliga. */
+      @media (max-width: 680px) {
+        /* .hl-hero-lead e .hl-hero-setores NAO entram aqui: os dois ja sao
+           'display: none' a partir de 860px, entao mexer na fonte deles seria
+           regra morta. O inventario e o que sobra visivel — e era ele que
+           estava a 9,9px. */
+        .hl-hero-inv,
+        .hl-hero-inv * { font-size: 0.78rem !important; line-height: 1.7 !important; }
+
+        .hl-proj-tags {
+          white-space: normal !important;
+          overflow: visible !important;
+          text-overflow: clip !important;
+          line-height: 1.7 !important;
+          font-size: 0.7rem !important;
+        }
+
+        .hl-barra-menu {
+          padding: 0.7rem 0.2rem !important;
+          font-size: 0.78rem !important;
+          min-height: 44px !important;
+        }
+        .hl-toque { width: 44px !important; height: 44px !important; }
+        .hl-filtro-chip { min-height: 42px !important; padding-inline: 0.9rem !important; }
+      }
+
       /* --- Movimento ------------------------------------------------------ */
       @keyframes hl-pulse {
         0%, 100% { opacity: 1; transform: scale(1); }

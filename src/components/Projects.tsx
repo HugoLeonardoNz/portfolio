@@ -51,6 +51,7 @@ export function Projects() {
           const on = filtro === t;
           return (
             <button
+              className="hl-filtro-chip"
               key={t ?? "todos"}
               onClick={() => setFiltro(t)}
               style={{
@@ -198,7 +199,7 @@ export function Projects() {
                 ponto. Num cartao que ja tem dois selos com borda no topo, mais
                 quatro pilulas embaixo davam seis molduras concorrendo com a
                 miniatura — que e a coisa que o visitante veio ver. */}
-            <p style={{
+            <p className="hl-proj-tags" style={{
               fontFamily: F.mono, fontSize: "0.64rem", letterSpacing: "0.02em",
               color: C.ink3, margin: "1.1rem 0 1.2rem",
               whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
