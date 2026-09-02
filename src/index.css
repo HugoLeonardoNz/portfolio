@@ -1,1 +1,61 @@
-@import "tailwindcss";
+/* Reset do site.
+
+   AQUI HAVIA APENAS `@import "tailwindcss";`, E MAIS NADA.
+
+   O Tailwind estava instalado, importado e gerando 9,3 kB de CSS em todo
+   carregamento — e nenhuma classe utilitaria dele era usada em lugar nenhum:
+   o site inteiro e estilo inline mais as classes `hl-*` do GlobalStyles. A
+   folha publicada era 100% preflight. O README ainda anunciava "Tailwind CSS 4
+   — utilitarios de estilo" na tabela de stack, o que nunca foi verdade.
+
+   Sair dele NAO era trocar seis por meia duzia: o preflight tem 49 regras e
+   varias faziam trabalho de verdade nesta pagina. Conferindo o que o site de
+   fato usa — 9 <button>, 6 <ul>, 5 <li>, 7 titulos, 4 <a>, 3 <svg>, 2 <img> —
+   estas sao as regras que atuavam. Cada uma esta abaixo, com o motivo.
+
+   O resto do preflight (campo de formulario, seletor de data, tabela, <hr>,
+   <sub>/<sup>, <abbr>, <progress>, <summary>) mirava elementos que este site
+   nao tem, e saiu junto com ele. */
+
+/* Herdado do preflight: borda so existe quando alguem pedir largura. Sem isto,
+   `border-style` vale `none` e uma borda declarada so com cor nao aparece. */
+*, *::before, *::after { border: 0 solid; }
+
+html {
+  /* O navegador usa `line-height: normal` (~1,2). O site foi inteiro escrito e
+     medido sobre o 1.5 que o preflight impunha; tirar isto aperta todo texto
+     que nao declara a propria entrelinha. */
+  line-height: 1.5;
+  /* Impede o iOS de aumentar a fonte sozinho quando o telefone gira. */
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+/* O tamanho e o peso do titulo sao decididos no componente, nunca pelo agente
+   de usuario. Sem isto, os sete titulos do site voltam a `bold` e ao tamanho
+   padrao de cada nivel — e o <h3> dos cartoes nao declara peso alguns. */
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+
+/* As seis listas do site sao layout, nao enumeracao: o marcador e o recuo do
+   navegador apareceriam como bolinha solta a esquerda. */
+ul, ol, menu { list-style: none; }
+
+/* Link nao herda cor nem decoracao por conta propria. O `color` ja estava no
+   GlobalStyles; o sublinhado nao — sem isto os quatro links do site voltam
+   sublinhados em azul de fabrica. */
+a { color: inherit; text-decoration: inherit; }
+
+/* Botao nao herda fonte nem cor, e ganha fundo cinza do sistema. Os nove
+   botoes do site (filtros, menu, rolagem) contam com o fundo transparente. */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+}
+button { appearance: button; }
+
+/* Imagem e SVG sao inline por padrao e ganham a folga de descida da linha de
+   base — aquele espaco fantasma de alguns pixels embaixo de toda figura. */
+img, svg, video, canvas { display: block; vertical-align: middle; }
+img, video { max-width: 100%; height: auto; }
