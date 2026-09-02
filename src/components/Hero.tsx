@@ -69,11 +69,16 @@ export function Hero() {
         <h1 className="hl-hero-nome" style={{
           fontFamily: F.display,
           fontSize: "clamp(2.2rem, min(11.5vw, 16.5vh), 12rem)",
-          lineHeight: 0.86, letterSpacing: "-0.035em",
+          // 0.86 ate 2026-09-02, quando o sobrenome passou a ter acento. Com
+          // entrelinha 0.86 o agudo do A de NAZARIO encostava no O de HUGO na
+          // linha de cima: LEONARDO nao tinha diacritico e o valor nunca tinha
+          // sido testado com um. 0.92 e o menor valor que separa os dois sem
+          // afrouxar a compressao, que e a intencao do desenho.
+          lineHeight: 0.92, letterSpacing: "-0.035em",
           color: C.onAcid, textTransform: "uppercase",
           position: "relative", zIndex: 2, pointerEvents: "none",
         }}>
-          Hugo<br />Leonardo
+          Hugo<br />Nazário
         </h1>
 
         {/* DUAS colunas, não três (revisto 2026-08-27).
@@ -172,8 +177,8 @@ export function Hero() {
               CORRIGIDO 2026-08-27. A subida era `clamp(-3.5rem, -6vh, -1.2rem)`
               — 56px numa tela de 945px de altura. Isso nao punha a foto "por
               cima da tipografia": punha a foto POR CIMA DE UMA LETRA. O circulo
-              entrava 23px dentro dos glifos da segunda linha e comia o R de
-              LEONARDO, que num portfolio e o pior lugar possivel para perder um
+              entrava 23px dentro dos glifos da segunda linha e comia uma letra do
+              SOBRENOME, que num portfolio e o pior lugar possivel para perder um
               caractere — o sobrenome e a primeira coisa que o visitante veio
               conferir. Agora a subida so consome a ENTRELINHA (o vao entre a
               base do glifo e a base da caixa de linha), nunca o desenho da
@@ -191,7 +196,7 @@ export function Hero() {
           }}>
             <img
               src={`${import.meta.env.BASE_URL}hugo-foto.png`}
-              alt="Hugo Leonardo"
+              alt="Hugo Nazário"
               style={{
                 width: "100%", height: "100%", display: "block",
                 objectFit: "cover", objectPosition: "center top",

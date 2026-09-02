@@ -57,7 +57,7 @@ def main() -> None:
     f_meta = fonte("arialbd.ttf", 23)
 
     x = 72
-    d.text((x, 92), "HUGO LEONARDO", font=f_nome, fill=INK)
+    d.text((x, 92), "HUGO NAZÁRIO", font=f_nome, fill=INK)
     d.text((x, 190), "Analista de Dados Pleno", font=f_cargo, fill=ACID)
 
     linhas = [

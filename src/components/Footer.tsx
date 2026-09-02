@@ -16,7 +16,7 @@ export function Footer() {
           fontFamily: F.display, fontSize: "1rem",
           letterSpacing: "-0.02em", color: C.ink2,
         }}>
-          Hugo Leonardo
+          Hugo Nazário
         </span>
         <span style={{
           fontFamily: F.mono, fontSize: "0.64rem", fontWeight: 500,

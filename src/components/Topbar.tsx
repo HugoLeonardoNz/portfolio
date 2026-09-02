@@ -170,7 +170,7 @@ export function Topbar() {
             fontFamily: F.display, fontSize: "0.95rem",
             letterSpacing: "-0.015em", lineHeight: 1,
           }}>
-            Hugo Leonardo
+            Hugo Nazário
           </span>
           <span className="hl-barra-cargo" style={{
             fontFamily: F.mono, fontSize: "0.6rem", letterSpacing: "0.1em",
