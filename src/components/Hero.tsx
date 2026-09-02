@@ -40,6 +40,7 @@ const SETORES = "Comercial · Financeiro · NOC · Suporte · Projetos · Direto
 const INVENTARIO = [
   "2 relatórios Power BI",
   "2 apps Streamlit",
+  "1 pipeline medallion no Fabric",
   "1 EDA sobre dado do IBGE",
   "1 EDA de reclamações + RFM",
   "1 pacote SQL com dbt + CI",

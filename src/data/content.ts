@@ -2,6 +2,7 @@ export const TICKER_ITEMS = [
   "SQL & Analytics", "Power BI", "Python", "DAX", "ETL / ELT",
   "Streamlit", "Churn & Retenção", "Machine Learning", "API REST",
   "PostgreSQL", "EDA & Visualização", "Star Schema",
+  "Microsoft Fabric", "Delta Lake", "PySpark",
 ];
 
 export const SERVICOS = [
@@ -16,7 +17,7 @@ export const SERVICOS = [
 export const EXPERIENCE = [
   {
     title: "Analista de Dados Pleno", company: "Speed Fibra",
-    period: "Jul 2023 — Presente", location: "Santa Luzia, MG · Presencial",
+    period: "Jul 2023 — Presente", location: "Belo Horizonte, MG · Presencial",
     bullets: [
       "Único analista responsável por toda a inteligência de dados da operação — ponto focal para 6 setores: Comercial, Financeiro, NOC, Suporte, Projetos e Diretoria",
       "HUG — plataforma interna de dashboards construída do zero (FastAPI, MongoDB e React) que substituiu o Power BI da operação: 12 painéis, ETLs agendados contra o ERP, controle de acesso por nível e por tag e 393 testes automatizados",
