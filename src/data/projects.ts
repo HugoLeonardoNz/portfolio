@@ -99,6 +99,15 @@ export const PROJECTS: Project[] = [
     telas: { slug: "churn", total: 4 },
   },
   {
+    id: 9, title: "CRM Lifecycle Analytics",
+    tipo: "Coorte · LTV · RFM · teste A/B",
+    dado: "Sintético",
+    description: "O piloto de retenção deu +2,08 p.p. com p < 0,0001. Fatiado por plano, metade das fatias fica sem poder e uma \"vencedora\" some sob Bonferroni: a campanha funciona, mas o teste não diz em qual segmento.",
+    tags: ["Python", "scipy", "Teste A/B", "CRM"],
+    githubUrl: "https://github.com/HugoLeonardoNz/crm-lifecycle-analytics",
+    isPrivate: false, status: "live", icon: "trending",
+  },
+  {
     id: 6, title: "Expansão de Mercado",
     tipo: "EDA sobre dado do IBGE",
     dado: "IBGE · observado",

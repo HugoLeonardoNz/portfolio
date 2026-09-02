@@ -41,6 +41,7 @@ const INVENTARIO = [
   "2 relatórios Power BI",
   "2 apps Streamlit",
   "1 pipeline medallion no Fabric",
+  "1 estudo de coorte, LTV e teste A/B",
   "1 EDA sobre dado do IBGE",
   "1 EDA sobre 15,9 M de linhas reais",
   "1 pacote SQL com dbt + CI",
