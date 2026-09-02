@@ -37,9 +37,17 @@ import { C, F, R, S } from "../theme";
  *  lista diz que a operação inteira passa por uma pessoa só. */
 const SETORES = "Comercial · Financeiro · NOC · Suporte · Projetos · Diretoria";
 
+// Inventario de PECAS, nao de cartoes: o pipeline do Fabric mora dentro do
+// repositorio do Telecom Operadoras, mas e trabalho distinto e conta separado.
+//
+// O HUG entrou em 2026-09-02. Ele estava fora porque a lista nasceu como
+// "o que da para abrir", e ele e privado — so que a linha diz "este portfolio
+// conta com", e o portfolio conta com ele: e a unica peca em producao, a maior
+// das nove, e ficava ausente justo do resumo que o visitante le primeiro.
 const INVENTARIO = [
   "2 relatórios Power BI",
   "2 apps Streamlit",
+  "1 plataforma interna em produção",
   "1 pipeline medallion no Fabric",
   "1 estudo de coorte, LTV e teste A/B",
   "1 EDA sobre dado do IBGE",

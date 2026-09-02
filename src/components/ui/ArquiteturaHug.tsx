@@ -122,7 +122,7 @@ export function ArquiteturaHug() {
           <rect x={232} y={86} width={62} height={13} rx={6.5}
                 fill="none" stroke={TRACO} strokeWidth={0.8} />
           <text x={263} y={95} textAnchor="middle"
-                fontFamily={F.mono} fontSize={7} fill={C.ink3}>393 testes</text>
+                fontFamily={F.mono} fontSize={7} fill={C.ink3}>600+ testes</text>
         </g>
       </svg>
     </div>
