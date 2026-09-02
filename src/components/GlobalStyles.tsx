@@ -168,48 +168,85 @@ export function GlobalStyles() {
         .hl-hero-nome { font-size: 8.6vw !important; }
       }
 
-      /* --- Telefone: legibilidade e alvo de toque -------------------------
-         Três defeitos que só aparecem no aparelho, medidos a 386px:
+      /* --- Telefone -------------------------------------------------------
+         Medido a 382px de largura, no site publicado. Tres defeitos, e o
+         primeiro tinha causa mais funda do que parecia:
 
-         1. FONTE PEQUENA DEMAIS. Os 'clamp()' do hero têm 'vh' no meio
-            ('clamp(0.63rem, 1.3vh, 0.7rem)'). Isso foi feito para o hero
-            caber numa tela de desktop sem rolagem — mas num telefone o 'vh'
-            é pequeno, o clamp colapsa no MÍNIMO, e o mínimo era ~10px.
-            Dez pixels no telefone não se lê; o piso confortável é 12px.
+         1. TEXTO PEQUENO NO SITE INTEIRO. A primeira correcao aqui mexeu no
+            hero, porque foi onde eu olhei. Medindo a pagina toda depois,
+            eram 116 trechos abaixo de 11px, espalhados por Sobre, Projetos,
+            Experiencia, Contato e rodape — nao um bug do hero, e sim a escala
+            tipografica inteira: os rotulos mono do site vivem entre 0,60rem e
+            0,68rem, o que da 9,6px a 10,9px num telefone. Legivel no monitor,
+            nao na mao.
 
-         2. ALVO DE TOQUE PEQUENO. O botão "Menu" saía com 34x24 e os ícones
-            sociais com 34x34. A régua é 44x44 (Apple HIG) / 48 (Material) —
-            abaixo disso o dedo erra. O "Menu" é a navegação inteira no
-            telefone, então era o pior lugar para economizar pixel.
+            Por isso a correcao e na RAIZ e nao classe por classe: 118,75% leva
+            o rem de 16px para 19px e sobe tudo junto, na proporcao em que a
+            escala foi desenhada. Corrigir seletor por seletor daria a mesma
+            aparencia e deixaria a proxima tela nova com o mesmo defeito.
 
-         3. TAG TRUNCADA. A linha de tags do cartão usa 'nowrap' de propósito:
-            no desktop ela impede que um projeto com tag longa abra segunda
-            linha e desalinhe o rodapé da FILEIRA. No telefone só existe uma
-            coluna — não há fileira para desalinhar — e o nowrap só cortava
-            "Microsoft Fabric" em "Microsoft…". Aqui ele desliga. */
+            118,75% e o menor valor que zera os trechos abaixo de 11px (o
+            menor fica em 11,4px). 125% nao melhora a leitura e so alonga a
+            pagina em mais 1.400px.
+
+         2. O HERO PRECISA DE COMPENSACAO. Ele e desenhado para caber em UMA
+            tela (100vh), e crescer a raiz em 19% o empurrava para 931px numa
+            viewport de 816 — a dobra caia no meio do inventario. As medidas
+            estruturais dele passam a px de proposito: px NAO acompanha a raiz,
+            entao o texto cresce e a caixa fica. Com isso o hero volta a 816px
+            exatos, com o menor texto dele em 12,9px.
+
+         3. ALVO DE TOQUE. O botao "Menu" saia com 34x24 e os icones sociais
+            com 34x34. A regua e 44x44 (Apple HIG); abaixo disso o dedo erra, e
+            o "Menu" e a navegacao inteira no telefone.
+
+         4. TAG TRUNCADA. A linha de tags do cartao usa 'nowrap' de proposito:
+            no desktop impede que um projeto com tag longa abra segunda linha e
+            desalinhe o rodape da FILEIRA. No telefone so existe uma coluna —
+            nao ha fileira para desalinhar — e o nowrap so cortava "Microsoft
+            Fabric" em "Microsoft...". Aqui ele desliga. */
       @media (max-width: 680px) {
-        /* .hl-hero-lead e .hl-hero-setores NAO entram aqui: os dois ja sao
-           'display: none' a partir de 860px, entao mexer na fonte deles seria
-           regra morta. O inventario e o que sobra visivel — e era ele que
-           estava a 9,9px. */
+        html { font-size: 118.75%; }
+
+        /* Estrutura do hero em px: imune ao aumento da raiz, que e o ponto. */
+        #hero {
+          padding-top: 54px !important;
+          padding-bottom: 10px !important;
+          gap: 4px !important;
+        }
+        .hl-hero-inner { gap: 12px !important; }
+        .hl-hero-cred,
+        .hl-hero-inv   { padding: 11px 13px !important; }
+        .hl-hero-photo { width: 118px !important; margin-top: -14px !important; }
+        .hl-cred-num   { font-size: 2rem !important; }
+
+        /* O inventario e a lista mais longa do hero: e ele que decide se a
+           secao cabe na tela. 0,68rem = 12,9px, confortavel e suficiente. */
         .hl-hero-inv,
-        .hl-hero-inv * { font-size: 0.78rem !important; line-height: 1.7 !important; }
+        .hl-hero-inv * { font-size: 0.68rem !important; line-height: 1.55 !important; }
 
         .hl-proj-tags {
           white-space: normal !important;
           overflow: visible !important;
           text-overflow: clip !important;
           line-height: 1.7 !important;
-          font-size: 0.7rem !important;
         }
 
-        .hl-barra-menu {
-          padding: 0.7rem 0.2rem !important;
-          font-size: 0.78rem !important;
-          min-height: 44px !important;
+        .hl-barra-menu { padding: 0.6rem 0.2rem !important; min-height: 44px !important; }
+        .hl-toque      { width: 44px !important; height: 44px !important; }
+        .hl-filtro-chip { min-height: 42px !important; padding-inline: 0.8rem !important; }
+
+        /* O diagrama do HUG cresce e passa a arrastar na horizontal. 520px de
+           largura poem os rotulos principais em ~13,8px e os secundarios em
+           ~11,1px; abaixo disso o desenho continua ilegivel, acima ele vira
+           duas telas de arrasto para uma figura de apoio. */
+        .hl-arq {
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          aspect-ratio: auto !important;
+          -webkit-overflow-scrolling: touch;
         }
-        .hl-toque { width: 44px !important; height: 44px !important; }
-        .hl-filtro-chip { min-height: 42px !important; padding-inline: 0.9rem !important; }
+        .hl-arq > svg { width: 520px !important; height: 292px !important; flex: none; }
       }
 
       /* --- Movimento ------------------------------------------------------ */

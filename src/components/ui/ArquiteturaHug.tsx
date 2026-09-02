@@ -77,7 +77,17 @@ function Fluxo({ x, y1, y2, rotulo }: { x: number; y1: number; y2: number; rotul
 
 export function ArquiteturaHug() {
   return (
-    <div style={{
+    /* No telefone este diagrama vira rolagem horizontal (regra .hl-arq no
+       GlobalStyles). O viewBox e fixo em 320x180, entao o SVG encolhe junto
+       com o cartao e os rotulos caem para 6,8-8,5px — o unico texto do site
+       que o aumento da raiz nao alcanca, porque SVG escala pelo viewBox e nao
+       pelo rem. Aumentar so a fonte dentro do viewBox nao resolve: 11 unidades
+       de texto nao cabem numa caixa de 26 unidades. Entao o diagrama inteiro
+       cresce e o dedo arrasta.
+
+       O aria-label abaixo descreve o fluxo por extenso, entao quem usa leitor
+       de tela nunca dependeu de enxergar o desenho. */
+    <div className="hl-arq" style={{
       marginTop: "1.4rem", background: C.darkAlt, borderRadius: 16,
       border: "1px solid rgba(212,247,74,0.18)",
       aspectRatio: "16 / 9", overflow: "hidden",
