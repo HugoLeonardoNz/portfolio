@@ -116,6 +116,53 @@ def conferir(titulo: str, slug: str) -> list[str]:
     return problemas
 
 
+
+# --------------------------------------------------------------------------
+# A contagem de testes que o site reivindica
+# --------------------------------------------------------------------------
+# Este e o unico numero do portfolio que NENHUM repositorio consegue conferir
+# sozinho: e uma soma sobre os oito. O cartao de compartilhamento dizia "151
+# testes em CI" e o real eram 144 — a diferenca entrou quando um projeto ganhou
+# testes e ninguem voltou no index.html.
+#
+# Nao ha registro paralelo aqui: o numero mora em UM lugar (o og:image:alt do
+# index.html), `gerar_og.py` le dele, e esta funcao confere contra a realidade
+# dos repositorios. Divergiu, o deploy para.
+#
+# Conta-se `def test_` e nao o que o pytest coleta: parametrizacao faz um `def`
+# virar varios casos (144 defs, 155 casos), e so a primeira e legivel pela API
+# sem clonar e executar cada repositorio. Reivindicar o menor dos dois numeros
+# e a escolha certa quando os dois sao defensaveis.
+
+TESTES_RE = re.compile(r"^def test_", re.M)
+ALT_RE = re.compile(r'og:image:alt"?\s+content="([^"]*)"')
+NUM_TESTES_RE = re.compile(r"(\d+)\s+testes em CI")
+
+
+def testes_reivindicados() -> int | None:
+    """O numero escrito no cartao de compartilhamento do site."""
+    html = (RAIZ / "index.html").read_text(encoding="utf-8")
+    alt = ALT_RE.search(html)
+    if not alt:
+        return None
+    achado = NUM_TESTES_RE.search(alt.group(1))
+    return int(achado.group(1)) if achado else None
+
+
+def testes_no_repo(slug: str) -> int:
+    """Funcoes de teste sob tests/ no branch padrao."""
+    import base64
+    branch = _get(f"{API}/repos/{slug}")["default_branch"]
+    arvore = _get(f"{API}/repos/{slug}/git/trees/{branch}?recursive=1")
+    total = 0
+    for item in arvore.get("tree", []):
+        if re.match(r"tests/.*\.py$", item["path"]):
+            blob = _get(f"{API}/repos/{slug}/git/blobs/{item['sha']}")
+            texto = base64.b64decode(blob["content"]).decode("utf-8", "replace")
+            total += len(TESTES_RE.findall(texto))
+    return total
+
+
 def main() -> int:
     projetos = projetos_do_site()
     if not projetos:
@@ -124,7 +171,9 @@ def main() -> int:
 
     print(f"Conferindo {len(projetos)} repositórios anunciados pelo site.\n")
     falhas = 0
+    testes = 0
     for titulo, slug in projetos:
+        testes += testes_no_repo(slug)
         problemas = conferir(titulo, slug)
         if problemas:
             falhas += 1
@@ -135,8 +184,23 @@ def main() -> int:
             print(f"  ok     {titulo}")
 
     print()
+
+    # A contagem de testes: soma sobre os oito, entao so aqui da para conferir.
+    reivindicado = testes_reivindicados()
+    if reivindicado is None:
+        print("O index.html nao declara mais 'N testes em CI' no og:image:alt.")
+        falhas += 1
+    elif reivindicado != testes:
+        print(f"O site reivindica {reivindicado} testes em CI; os repositorios "
+              f"somam {testes}.")
+        print(f"   Ajuste o og:image:alt do index.html para {testes} e rode "
+              f"tools/gerar_og.py.")
+        falhas += 1
+    else:
+        print(f"Os {testes} testes reivindicados pelo site batem com os repositorios.")
+
     if falhas:
-        print(f"{falhas} de {len(projetos)} repositórios fora de alinhamento com o site.")
+        print(f"{falhas} problema(s) de alinhamento entre o site e os repositórios.")
         return 1
     print(f"Os {len(projetos)} repositórios estão alinhados com o site.")
     return 0

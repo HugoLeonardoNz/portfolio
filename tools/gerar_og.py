@@ -17,6 +17,8 @@ Uso: python tools/gerar_og.py
 
 from __future__ import annotations
 
+import re
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -68,7 +70,16 @@ def main() -> None:
         y += 36
 
     # Provas verificaveis, nao adjetivos.
-    provas = ["8 projetos públicos", "151 testes em CI", "3 sobre dado observado"]
+    # As provas saem do og:image:alt do index.html, e nao de uma copia aqui.
+    # O alt e o texto que descreve esta imagem: se os dois divergirem, quem usa
+    # leitor de tela ouve um numero e quem ve o card le outro. E `conferir_repos`
+    # confere esse mesmo alt contra a contagem real dos repositorios, entao o
+    # numero tem exatamente um dono e uma verificacao.
+    alt = re.search(r'og:image:alt"?\s+content="([^"]*)"',
+                    (RAIZ / "index.html").read_text(encoding="utf-8"))
+    if not alt:
+        raise SystemExit("index.html nao tem og:image:alt — sem fonte para as provas.")
+    provas = [t.strip() for t in alt.group(1).split("—")[-1].split(",")]
     y = 372
     for p in provas:
         d.ellipse([x + 2, y + 9, x + 12, y + 19], fill=ACID)
