@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react(), ],
-  // O site é servido em https://hugoleonardonz.github.io/portfolio/, ou seja,
-  // dentro de um subdiretório. Sem o base, o HTML gerado pede /assets/... na
-  // raiz do domínio e a página sobe em branco.
-  base: '/portfolio/',
+  // Domínio próprio (hugonazario.com) via GitHub Pages custom domain: o site
+  // passa a ser servido na raiz do domínio, não mais em /portfolio/. Se algum
+  // dia o CNAME for removido e o site voltar para
+  // hugoleonardonz.github.io/portfolio/, isto tem que voltar para '/portfolio/'.
+  base: '/',
 })
