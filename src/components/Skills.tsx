@@ -31,10 +31,12 @@ export function Skills() {
     }}>
       <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
         <div style={{ paddingTop: S.section, boxShadow: `inset 0 1px 0 ${C.rule}` }}>
-          <SectionHead
-            titulo="Stack técnica"
-            resumo="As ferramentas em que o trabalho acima é feito, sem inflar a lista com o que eu abri uma vez."
-          />
+          {/* SEM resumo (2026-09-03). Ele dizia "as ferramentas em que o
+              trabalho ACIMA é feito, sem inflar a lista com o que eu abri uma
+              vez": a primeira metade se referia à posição da seção na página
+              e a segunda defendia a própria lista de uma acusação que ninguém
+              fez. As quatro colunas abaixo já dizem o que a seção é. */}
+          <SectionHead titulo="Stack técnica" />
 
           <div
             className="hl-col-4"

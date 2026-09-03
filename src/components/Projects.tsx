@@ -33,7 +33,7 @@ export function Projects() {
       <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
       <SectionHead
         titulo="Projetos"
-        resumo="Cada peça abre o repositório onde o número foi apurado. Os selos dizem o que dá para abrir e de onde veio o dado — sintético, observado ou de produção — porque as duas perguntas são diferentes."
+        resumo="Cada peça abre o repositório onde o número foi apurado. Os selos dizem o que dá para abrir e de onde veio o dado: sintético, observado ou de produção."
         meta={`${PROJECTS.length} projetos · ${publicos} públicos`}
       />
 

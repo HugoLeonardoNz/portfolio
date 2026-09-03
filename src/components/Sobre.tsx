@@ -40,16 +40,13 @@ export function Sobre() {
       padding: `${S.section} ${S.gutter}`,
     }}>
       <div style={{ maxWidth: S.maxw, margin: "0 auto" }}>
-        {/* O resumo NÃO pode repetir a entrada logo abaixo. A primeira versão
-            dizia "três anos no mesmo lugar, tempo suficiente para ver um
-            indicador nascer..." — que é literalmente a segunda frase do
-            parágrafo de entrada, a 150px de distância. Aqui ele faz outro
-            trabalho: diz ao visitante que a seção tem duas velocidades, o
-            texto e a ficha, e deixa cada um escolher a sua. */}
-        <SectionHead
-          titulo="Quem sou eu"
-          resumo="A resposta longa está no texto. Quem tem pressa lê a ficha e pula direto para os projetos."
-        />
+        {/* SEM resumo (2026-09-03). Ele dizia "a resposta longa está no texto,
+            quem tem pressa lê a ficha e pula direto para os projetos" — uma
+            instrução de leitura, não uma informação. Ninguém vem a um
+            portfólio para saber em que ordem ler a página; a entrada logo
+            abaixo já abre com a frase mais forte da seção e faz sozinha o
+            trabalho que o resumo fingia fazer. */}
+        <SectionHead titulo="Quem sou eu" />
 
         <div
           className="hl-sobre-grid"
