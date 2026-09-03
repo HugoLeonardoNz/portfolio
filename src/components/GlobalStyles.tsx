@@ -66,9 +66,10 @@ export function GlobalStyles() {
       .hl-link-proj:hover { text-decoration: underline; text-underline-offset: 4px; }
 
       /* --- Âncoras -------------------------------------------------------
-         A barra é fixa e tem 60px: sem esta folga, clicar num item da
-         navegação para a seção COM O TÍTULO ATRÁS DA BARRA. */
-      section, footer { scroll-margin-top: 76px; }
+         A barra é fixa e tem 78px (ALTURA_BARRA em Topbar.tsx): sem esta
+         folga, clicar num item da navegação para a seção COM O TÍTULO ATRÁS
+         DA BARRA. */
+      section, footer { scroll-margin-top: 94px; }
 
       /* --- Navegação -----------------------------------------------------
          O rail lateral saiu e, com ele, a regra que empurrava toda seção
@@ -103,6 +104,7 @@ export function GlobalStyles() {
           width: clamp(120px, 34vw, 165px) !important;
           margin: -5vw auto 0.1rem !important;
         }
+        .hl-hero-exp-card,
         .hl-hero-cred,
         .hl-hero-inv     { padding: 0.85rem 1rem !important; }
         .hl-cred-num     { font-size: 2.4rem !important; }
@@ -161,6 +163,7 @@ export function GlobalStyles() {
       @media (max-width: 400px) {
         .hl-hero-photo { width: clamp(104px, 30vw, 148px) !important; margin-top: -4vw !important; }
         .hl-hero-inner { gap: 0.6rem !important; }
+        .hl-hero-exp-card,
         .hl-hero-cred,
         .hl-hero-inv   { padding: 0.75rem 0.9rem !important; }
       }
@@ -215,6 +218,7 @@ export function GlobalStyles() {
           gap: 4px !important;
         }
         .hl-hero-inner { gap: 12px !important; }
+        .hl-hero-exp-card,
         .hl-hero-cred,
         .hl-hero-inv   { padding: 11px 13px !important; }
         .hl-hero-photo { width: 118px !important; margin-top: -14px !important; }

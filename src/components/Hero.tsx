@@ -1,6 +1,5 @@
 import { ArrowDown } from "lucide-react";
 import { GitHubMark, LinkedInMark } from "./ui/Marcas";
-import { PhotoLightbox } from "./ui/PhotoLightbox";
 import { C, F, R, S } from "../theme";
 
 /**
@@ -203,39 +202,47 @@ export function Hero() {
             background: C.bg,
             boxShadow: "0 0 0 6px rgba(20,28,13,0.14)",
           }}>
-            <PhotoLightbox src={`${import.meta.env.BASE_URL}hugo-foto.png`} alt="Hugo Nazário">
-              <img
-                src={`${import.meta.env.BASE_URL}hugo-foto.png`}
-                alt="Hugo Nazário"
-                style={{
-                  width: "100%", height: "100%", display: "block",
-                  objectFit: "cover", objectPosition: "center top",
-                }}
-              />
-            </PhotoLightbox>
+            <img
+              src={`${import.meta.env.BASE_URL}hugo-foto.png`}
+              alt="Hugo Nazário"
+              style={{
+                width: "100%", height: "100%", display: "block",
+                objectFit: "cover", objectPosition: "center top",
+              }}
+            />
           </div>
 
         </div>
       </div>
 
-      {/* ── Credencial + inventário ──────────────────────────────────── */}
+      {/* ── Experiência + credencial + inventário ───────────────────────
+          Três cartões, não dois. O "3 anos" tinha sua PRÓPRIA credibilidade
+          — é a resposta à primeira pergunta que um recrutador faz — e vivia
+          espremido dentro do cartão da frase, como se fosse um enfeite dela.
+          Separado, ele vira o que sempre foi: um cartão de experiência,
+          sozinho, do mesmo jeito que os outros dois são cartões próprios. */}
       <div className="hl-hero-grid" style={{
         maxWidth: S.maxw, width: "100%", margin: "0 auto",
         display: "grid", gap: "clamp(0.7rem, 1.6vh, 1.25rem)",
-        gridTemplateColumns: "minmax(0, 1.15fr) minmax(0, 1fr)",
+        gridTemplateColumns: "minmax(0, 0.62fr) minmax(0, 1.15fr) minmax(0, 1fr)",
         alignItems: "stretch",
       }}>
 
-        {/* Quem. O "3" carrega o painel inteiro: e o unico numero da abertura
-            que nao e inventario. Os outros dizem quantas pecas existem; este
-            diz ha quanto tempo a pessoa faz isso todo dia, que e a pergunta
-            que um recrutador faz primeiro. */}
-        <div className="hl-hero-cred" style={{
+        {/* Experiência. O "3" carrega o cartão inteiro: é o único número da
+            abertura que não é inventário. Os outros dizem quantas peças
+            existem; este diz há quanto tempo a pessoa faz isso todo dia. */}
+        <div className="hl-hero-exp-card" style={{
           background: C.paper, borderRadius: R.panel,
           padding: "clamp(1rem, 2.2vh, 1.6rem) clamp(1.2rem, 2vw, 1.8rem)",
-          display: "flex", alignItems: "center",
-          gap: "clamp(1rem, 2vw, 1.8rem)", flexWrap: "wrap",
+          display: "flex", flexDirection: "column", justifyContent: "center",
         }}>
+          <div style={{
+            fontFamily: F.mono, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
+            letterSpacing: "0.1em", textTransform: "uppercase", color: C.ink3,
+            marginBottom: "clamp(0.3rem, 0.8vh, 0.5rem)",
+          }}>
+            Experiência
+          </div>
           <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
             <span className="hl-cred-num" style={{
               fontFamily: F.display,
@@ -247,8 +254,17 @@ export function Hero() {
               color: C.acid, letterSpacing: "-0.02em",
             }}>anos</span>
           </div>
+        </div>
 
-          <div style={{ minWidth: "18ch", flex: 1 }}>
+        {/* Credencial. A frase e os setores continuam juntos — são a mesma
+            ideia em duas resoluções — só que agora sem o número de anos
+            competindo por espaço aqui dentro. */}
+        <div className="hl-hero-cred" style={{
+          background: C.paper, borderRadius: R.panel,
+          padding: "clamp(1rem, 2.2vh, 1.6rem) clamp(1.2rem, 2vw, 1.8rem)",
+          display: "flex", alignItems: "center",
+        }}>
+          <div>
             <div className="hl-cred-frase" style={{
               fontSize: "clamp(0.8rem, 1.7vh, 0.9rem)", color: C.ink, fontWeight: 600,
               lineHeight: 1.45, marginBottom: "0.45rem",

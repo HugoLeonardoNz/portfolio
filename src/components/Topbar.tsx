@@ -35,8 +35,13 @@ const SECOES = [
 ];
 
 /** Altura da barra. Exportada porque o `scroll-margin-top` das seções precisa
- *  bater com ela — âncora que para atrás da barra fixa é o defeito clássico. */
-export const ALTURA_BARRA = 60;
+ *  bater com ela — âncora que para atrás da barra fixa é o defeito clássico.
+ *  60 -> 78: o cabeçalho inteiro cresceu (fonte do menu, assinatura, cargo);
+ *  a barra precisa da altura extra para não apertar o texto maior nela
+ *  dentro. `GlobalStyles.tsx` tem o `scroll-margin-top` correspondente
+ *  (78 + 16 de folga = 94px) — mudar aqui sem mudar lá volta a esconder o
+ *  topo da seção atrás da barra fixa. */
+export const ALTURA_BARRA = 78;
 
 export function Topbar() {
   const [ativa, setAtiva]     = useState<string | null>(null);
@@ -167,13 +172,13 @@ export function Topbar() {
           }}
         >
           <span style={{
-            fontFamily: F.display, fontSize: "0.95rem",
+            fontFamily: F.display, fontSize: "1.2rem",
             letterSpacing: "-0.015em", lineHeight: 1,
           }}>
             Hugo Nazário
           </span>
           <span className="hl-barra-cargo" style={{
-            fontFamily: F.mono, fontSize: "0.6rem", letterSpacing: "0.1em",
+            fontFamily: F.mono, fontSize: "0.72rem", letterSpacing: "0.1em",
             textTransform: "uppercase", color: C.ink3, lineHeight: 1,
           }}>
             Analista de Dados
@@ -183,7 +188,7 @@ export function Topbar() {
         {/* Seções — desktop */}
         <nav aria-label="Seções" className="hl-barra-nav" style={{ position: "relative" }}>
           <ul ref={listaRef} style={{
-            display: "flex", alignItems: "center", gap: "1.75rem",
+            display: "flex", alignItems: "center", gap: "2rem",
             listStyle: "none", position: "relative",
           }}>
             {SECOES.map((s) => {
@@ -195,9 +200,9 @@ export function Topbar() {
                     onClick={() => ir(s.id)}
                     aria-current={on ? "true" : undefined}
                     style={{
-                      background: "none", border: "none", padding: "0.25rem 0",
+                      background: "none", border: "none", padding: "0.3rem 0",
                       cursor: "pointer", fontFamily: F.body,
-                      fontSize: "0.82rem", fontWeight: on ? 600 : 400,
+                      fontSize: "1rem", fontWeight: on ? 600 : 400,
                       color: on ? C.ink : C.ink3,
                       transition: "color 160ms ease",
                     }}
@@ -231,8 +236,8 @@ export function Topbar() {
             onClick={() => ir("contato")}
             className="hl-barra-contato"
             style={{
-              background: "none", border: "none", padding: "0.25rem 0",
-              cursor: "pointer", fontFamily: F.body, fontSize: "0.82rem",
+              background: "none", border: "none", padding: "0.3rem 0",
+              cursor: "pointer", fontFamily: F.body, fontSize: "1rem",
               fontWeight: 600, color: C.ink,
               boxShadow: `inset 0 -2px 0 ${C.acid}`,
               transition: "box-shadow 180ms ease, color 180ms ease",
@@ -251,8 +256,8 @@ export function Topbar() {
             aria-expanded={aberto}
             aria-controls="hl-menu-movel"
             style={{
-              display: "none", background: "none", border: "none", padding: "0.25rem 0",
-              cursor: "pointer", fontFamily: F.mono, fontSize: "0.68rem",
+              display: "none", background: "none", border: "none", padding: "0.3rem 0",
+              cursor: "pointer", fontFamily: F.mono, fontSize: "0.78rem",
               letterSpacing: "0.12em", textTransform: "uppercase", color: C.ink,
             }}
           >

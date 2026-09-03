@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { C, F, R } from "../../theme";
+import { PhotoLightbox } from "./PhotoLightbox";
 
 /**
  * Miniatura navegável das telas de um projeto.
@@ -33,10 +34,12 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
         borderRadius: R.ctrl, overflow: "hidden",
         aspectRatio: "16 / 9",
       }}>
-        <img
-          key={src} src={src} alt={`${alt} — tela ${i + 1} de ${total}`} loading="lazy"
-          style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-        />
+        <PhotoLightbox src={src} alt={`${alt} — tela ${i + 1} de ${total}`}>
+          <img
+            key={src} src={src} alt={`${alt} — tela ${i + 1} de ${total}`} loading="lazy"
+            style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+          />
+        </PhotoLightbox>
 
         {total > 1 && (
           <>

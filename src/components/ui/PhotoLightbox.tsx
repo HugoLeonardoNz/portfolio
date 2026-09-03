@@ -1,39 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Expand, X } from "lucide-react";
-import { C, F } from "../../theme";
+import { C, F, R } from "../../theme";
 
 /**
- * Foto do hero, clicável.
+ * Tela de projeto, clicável — abre em tamanho grande.
  *
- * A miniatura no cartaz é pequena de propósito — ela existe para compor a
- * tipografia, não para mostrar o rosto em detalhe. Isso cria uma dívida: quem
- * quer ver a foto de verdade não tinha onde. Este componente cobre essa
- * dívida sem tocar no recorte do hero: ele SÓ envolve a miniatura com um
- * gatilho de clique; o círculo, a sombra, o `object-position` continuam
- * inteiramente definidos por quem o usa.
+ * Existe para o carrossel de `Telas.tsx`: a miniatura ali cabe numa grade de
+ * cartões e é pequena de propósito; quem quer examinar o rótulo de um eixo ou
+ * ler uma tabela precisa de mais espaço do que um cartão permite.
  *
  * DECISÕES:
  *
  * - `createPortal` no `document.body`, não um `position: fixed` no lugar. O
- *   hero tem `overflow: hidden` (é o que corta a foto no canto do cartaz) —
- *   um overlay fixo nascido ali dentro herdaria esse corte no Safari, que
- *   trata `overflow` do ancestral como limite de empilhamento em alguns
- *   casos. Portal evita depender desse detalhe.
+ *   cartão de projeto vive dentro de grades com `overflow` variado; portal
+ *   evita depender de nenhum ancestral não vazar esse detalhe de layout.
  *
- * - O recorte no popup continua CIRCULAR, na mesma proporção do hero, só que
- *   grande. Uma foto quadrada solta romperia a identidade visual que o resto
- *   do site constrói em torno do círculo (ver Hero.tsx) — o popup é a mesma
- *   peça, ampliada, não uma peça nova.
+ * - O popup usa `object-fit: contain` com cantos retos arredondados (mesma
+ *   escala de `R.panel` do resto do site), não um recorte forçado. As telas
+ *   têm proporções diferentes entre si (relatório 16:9, app com barra
+ *   lateral, gráfico largo) — o popup respeita a proporção real de cada uma
+ *   em vez de impor uma máscara fixa.
  *
- * - Fecha em Esc, em clique fora e no X. Três saídas redundantes porque é
- *   assim que lightbox se comporta em qualquer lugar da web — a única
- *   surpresa aceitável aqui é a foto grande, não o gesto para sair dela.
+ * - O gatilho envolve SÓ a imagem, não o cartão inteiro: o carrossel de
+ *   `Telas.tsx` tem setas e pontos de navegação como irmãos absolutos por
+ *   cima da imagem, e um `<button>` não pode conter outro elemento
+ *   interativo. Por isso o componente recebe a imagem como `children` e
+ *   deixa a navegação inteiramente fora dele.
  *
- * - `document.body.style.overflow = "hidden"` enquanto aberto. Sem isso a
- *   página por trás rola junto com a roda do mouse sobre a imagem, o que em
- *   telas altas expõe uma faixa do hero por baixo do backdrop e quebra a
- *   ilusão de estar "por cima" de tudo.
+ * - Fecha em Esc, clique fora e no X — três saídas redundantes porque é
+ *   assim que lightbox se comporta em qualquer lugar da web.
  */
 
 type Props = {
@@ -76,10 +72,7 @@ export function PhotoLightbox({ src, alt, children }: Props) {
         }}
       >
         {children}
-        {/* Véu que cobre a foto inteira no hover/foco — não um selo de canto.
-            O container é o próprio círculo recortado (`overflow: hidden`);
-            qualquer elemento que sangre para fora dele desaparece cortado
-            pela máscara, que era o defeito de um selo posicionado no canto. */}
+        {/* Véu que cobre a imagem inteira no hover/foco. */}
         <span
           aria-hidden
           className="hl-foto-lupa"
@@ -87,7 +80,6 @@ export function PhotoLightbox({ src, alt, children }: Props) {
             position: "absolute", inset: 0,
             background: "rgba(20,28,13,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            gap: "0.35rem",
             opacity: 0, transition: "opacity 200ms ease",
           }}
         >
@@ -141,29 +133,32 @@ export function PhotoLightbox({ src, alt, children }: Props) {
             style={{
               margin: 0, cursor: "default",
               display: "flex", flexDirection: "column", alignItems: "center",
-              gap: "1.1rem",
+              gap: "1.1rem", maxWidth: "94vw", maxHeight: "88vh",
             }}
           >
             <div
               style={{
-                width: "min(58vh, 62vw, 480px)", aspectRatio: "1 / 1",
-                borderRadius: "50%", overflow: "hidden",
-                boxShadow: `0 0 0 10px ${C.paper}, 0 0 0 11px ${C.rule}, 0 40px 90px rgba(0,0,0,0.55)`,
+                background: C.darkAlt, borderRadius: R.panel,
+                overflow: "hidden",
+                boxShadow: `inset 0 0 0 1px ${C.rule}, 0 40px 90px rgba(0,0,0,0.55)`,
+                display: "flex",
               }}
             >
               <img
                 src={src} alt={alt}
                 style={{
-                  width: "100%", height: "100%", display: "block",
-                  objectFit: "cover", objectPosition: "center top",
+                  display: "block",
+                  maxWidth: "min(1100px, 90vw)", maxHeight: "80vh",
+                  width: "auto", height: "auto",
+                  objectFit: "contain",
                 }}
               />
             </div>
             <figcaption style={{
               fontFamily: F.mono, fontSize: "0.68rem", letterSpacing: "0.08em",
-              color: C.ink3, textTransform: "uppercase",
+              color: C.ink3, textTransform: "uppercase", textAlign: "center",
             }}>
-              Esc ou clique fora para fechar
+              {alt} · Esc ou clique fora para fechar
             </figcaption>
           </figure>
         </div>,
