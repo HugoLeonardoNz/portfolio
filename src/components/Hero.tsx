@@ -25,12 +25,19 @@ import { C, F, R, S } from "../theme";
  *    solta essa amarra — ele escala com a tela e ainda entra por cima da
  *    tipografia, que era a graça do recorte anterior.
  *
- * A imagem em `public/hugo-foto.png` já é QUADRADA (720×720), montada por
- * script a partir do PNG sem fundo: o retrato entra numa tela quadrada com 12%
- * de ar acima do cabelo e margem lateral, e o que passa da base é cortado no
- * peito. Recortar no CSS não resolvia — o `getbbox()` da alpha pegava um halo
- * quase transparente de ~235px acima da cabeça, então o `cover` ancorava no
- * lugar errado e o rosto saía colado no topo do círculo.
+ * A imagem em `public/hugo-foto.webp` já é QUADRADA (720×720), montada por
+ * `tools/enquadrar_foto.py` a partir do retrato de origem — nunca recortada no
+ * CSS. O container é um círculo com `overflow: hidden`, então um reenquadramento
+ * feito aqui ancora o rosto num lugar num tamanho de tela e o desloca em outro.
+ *
+ * TROCA DE 2026-09-03. Antes era um recorte sem fundo, do qual sobrava a pessoa
+ * boiando sobre o círculo escuro. Agora é um retrato de estúdio com fundo
+ * próprio, no mesmo zoom (1,4) que o Hugo escolheu para a foto do LinkedIn — o
+ * perfil e o site mostram o mesmo enquadramento, que é o ponto: quem chega aqui
+ * pelo LinkedIn precisa reconhecer a mesma pessoa sem pensar.
+ *
+ * O formato virou WEBP porque o retrato tem fundo fotográfico: em PNG custava
+ * 721 KB, e é o primeiro arquivo que o celular baixa. Em WEBP com alfa são 39 KB.
  */
 
 /** Setores atendidos. Escrito por extenso porque "6 setores" não diz nada; a
@@ -203,7 +210,7 @@ export function Hero() {
             boxShadow: "0 0 0 6px rgba(20,28,13,0.14)",
           }}>
             <img
-              src={`${import.meta.env.BASE_URL}hugo-foto.png`}
+              src={`${import.meta.env.BASE_URL}hugo-foto.webp`}
               alt="Hugo Nazário"
               style={{
                 width: "100%", height: "100%", display: "block",

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { C, F } from "../../theme";
 
 /**
@@ -76,55 +77,112 @@ function Fluxo({ x, y1, y2, rotulo }: { x: number; y1: number; y2: number; rotul
 }
 
 export function ArquiteturaHug() {
+  /* SINALIZAR QUE ROLA (2026-09-03).
+     A rolagem horizontal do telefone e deliberada — ver o comentario do
+     container abaixo — mas ela estava MUDA: sem barra (o iOS esconde), sem
+     sombra, sem legenda. Num aparelho de 390px o visitante lia "ETLs
+     agendados p" e "MongoDB · schema, migratio" e concluia que a pagina
+     quebrou. Justo no cartao do HUG, que e a peca mais forte do portfolio e a
+     unica sem print para mostrar.
+
+     Duas dicas resolvem, e as duas so aparecem quando ha mesmo o que arrastar:
+     a vinheta na borda direita (some ao chegar no fim, senao vira enfeite que
+     mente) e a legenda embaixo. `medir` roda no mount, no scroll e no resize
+     porque girar o aparelho muda as duas respostas. */
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [rola, setRola] = useState(false);
+  const [noFim, setNoFim] = useState(false);
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const medir = () => {
+      const sobra = el.scrollWidth - el.clientWidth;
+      setRola(sobra > 4);
+      setNoFim(el.scrollLeft >= sobra - 4);
+    };
+    medir();
+    el.addEventListener("scroll", medir, { passive: true });
+    window.addEventListener("resize", medir);
+    return () => {
+      el.removeEventListener("scroll", medir);
+      window.removeEventListener("resize", medir);
+    };
+  }, []);
+
   return (
-    /* No telefone este diagrama vira rolagem horizontal (regra .hl-arq no
-       GlobalStyles). O viewBox e fixo em 320x180, entao o SVG encolhe junto
-       com o cartao e os rotulos caem para 6,8-8,5px — o unico texto do site
-       que o aumento da raiz nao alcanca, porque SVG escala pelo viewBox e nao
-       pelo rem. Aumentar so a fonte dentro do viewBox nao resolve: 11 unidades
-       de texto nao cabem numa caixa de 26 unidades. Entao o diagrama inteiro
-       cresce e o dedo arrasta.
+    <div style={{ marginTop: "1.4rem" }}>
+      <div style={{ position: "relative" }}>
+        {/* No telefone este diagrama vira rolagem horizontal (regra .hl-arq no
+           GlobalStyles). O viewBox e fixo em 320x180, entao o SVG encolhe junto
+           com o cartao e os rotulos caem para 6,8-8,5px — o unico texto do site
+           que o aumento da raiz nao alcanca, porque SVG escala pelo viewBox e
+           nao pelo rem. Aumentar so a fonte dentro do viewBox nao resolve: 11
+           unidades de texto nao cabem numa caixa de 26 unidades. Entao o
+           diagrama inteiro cresce e o dedo arrasta.
 
-       O aria-label abaixo descreve o fluxo por extenso, entao quem usa leitor
-       de tela nunca dependeu de enxergar o desenho. */
-    <div className="hl-arq" style={{
-      marginTop: "1.4rem", background: C.darkAlt, borderRadius: 16,
-      border: "1px solid rgba(212,247,74,0.18)",
-      aspectRatio: "16 / 9", overflow: "hidden",
-    }}>
-      <svg
-        viewBox="0 0 320 180" width="100%" height="100%"
-        role="img"
-        aria-label="Arquitetura do HUG: ERP e atendimento alimentam ETLs agendados, que gravam no MongoDB; a API em FastAPI serve doze painéis em React, com acesso por nível e por tag."
-      >
-        {/* fontes */}
-        <Caixa x={26}  y={10} w={122} h={26} titulo="ERP do provedor" sub="PostgreSQL · read-only" />
-        <Caixa x={172} y={10} w={122} h={26} titulo="Atendimento" sub="API" />
+           O aria-label abaixo descreve o fluxo por extenso, entao quem usa
+           leitor de tela nunca dependeu de enxergar o desenho. */}
+        <div ref={scrollerRef} className="hl-arq" style={{
+          background: C.darkAlt, borderRadius: 16,
+          border: "1px solid rgba(212,247,74,0.18)",
+          aspectRatio: "16 / 9", overflow: "hidden",
+        }}>
+          <svg
+            viewBox="0 0 320 180" width="100%" height="100%"
+            role="img"
+            aria-label="Arquitetura do HUG: ERP e atendimento alimentam ETLs agendados, que gravam no MongoDB; a API em FastAPI serve doze painéis em React, com acesso por nível e por tag."
+          >
+            {/* fontes */}
+            <Caixa x={26}  y={10} w={122} h={26} titulo="ERP do provedor" sub="PostgreSQL · read-only" />
+            <Caixa x={172} y={10} w={122} h={26} titulo="Atendimento" sub="API" />
 
-        <Fluxo x={87}  y1={36} y2={56} />
-        <Fluxo x={233} y1={36} y2={56} />
+            <Fluxo x={87}  y1={36} y2={56} />
+            <Fluxo x={233} y1={36} y2={56} />
 
-        {/* ingestão */}
-        <Caixa x={26} y={56} w={268} h={24} titulo="ETLs agendados por domínio" />
-        <Fluxo x={160} y1={80} y2={100} rotulo="idempotente" />
+            {/* ingestão */}
+            <Caixa x={26} y={56} w={268} h={24} titulo="ETLs agendados por domínio" />
+            <Fluxo x={160} y1={80} y2={100} rotulo="idempotente" />
 
-        {/* persistência */}
-        <Caixa x={26} y={100} w={268} h={24}
-               titulo="MongoDB · schema, migrations e seeds versionados" />
-        <Fluxo x={160} y1={124} y2={142} />
+            {/* persistência */}
+            <Caixa x={26} y={100} w={268} h={24}
+                   titulo="MongoDB · schema, migrations e seeds versionados" />
+            <Fluxo x={160} y1={124} y2={142} />
 
-        {/* entrega */}
-        <Caixa x={26}  y={142} w={130} h={26} titulo="FastAPI" sub="acesso por nível e tag" />
-        <Caixa x={164} y={142} w={130} h={26} titulo="12 painéis · React" forte />
+            {/* entrega */}
+            <Caixa x={26}  y={142} w={130} h={26} titulo="FastAPI" sub="acesso por nível e tag" />
+            <Caixa x={164} y={142} w={130} h={26} titulo="12 painéis · React" forte />
 
-        {/* selo de garantia, colado na borda direita */}
-        <g>
-          <rect x={232} y={86} width={62} height={13} rx={6.5}
-                fill="none" stroke={TRACO} strokeWidth={0.8} />
-          <text x={263} y={95} textAnchor="middle"
-                fontFamily={F.mono} fontSize={7} fill={C.ink3}>600+ testes</text>
-        </g>
-      </svg>
+            {/* selo de garantia, colado na borda direita */}
+            <g>
+              <rect x={232} y={86} width={62} height={13} rx={6.5}
+                    fill="none" stroke={TRACO} strokeWidth={0.8} />
+              <text x={263} y={95} textAnchor="middle"
+                    fontFamily={F.mono} fontSize={7} fill={C.ink3}>600+ testes</text>
+            </g>
+          </svg>
+        </div>
+
+        {/* Vinheta da borda direita. `pointerEvents: none` porque ela cobre a
+            area de arrasto — sem isso, o dedo que pega justamente a beirada
+            (onde a pessoa naturalmente puxa) nao move nada. */}
+        {rola && !noFim && (
+          <div aria-hidden style={{
+            position: "absolute", top: 1, right: 1, bottom: 1, width: 64,
+            borderRadius: "0 15px 15px 0", pointerEvents: "none",
+            background: `linear-gradient(90deg, rgba(14,21,10,0) 0%, ${C.darkAlt} 88%)`,
+          }} />
+        )}
+      </div>
+
+      {rola && (
+        <p style={{
+          fontFamily: F.mono, fontSize: "0.66rem", color: C.ink3,
+          marginTop: "0.6rem", letterSpacing: "0.04em",
+        }}>
+          arraste para ver o fluxo →
+        </p>
+      )}
     </div>
   );
 }
