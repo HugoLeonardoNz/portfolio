@@ -34,7 +34,12 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
         borderRadius: R.ctrl, overflow: "hidden",
         aspectRatio: "16 / 9",
       }}>
-        <PhotoLightbox src={src} alt={`${alt} — tela ${i + 1} de ${total}`}>
+        <PhotoLightbox
+          src={src}
+          alt={`${alt} — tela ${i + 1} de ${total}`}
+          onAnterior={total > 1 ? () => ir(-1) : undefined}
+          onProxima={total > 1 ? () => ir(1) : undefined}
+        >
           <img
             key={src} src={src} alt={`${alt} — tela ${i + 1} de ${total}`} loading="lazy"
             style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Expand, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { C, F, R } from "../../theme";
 
 /**
@@ -36,16 +36,31 @@ type Props = {
   src: string;
   alt: string;
   children: React.ReactNode;
+  /** Navegação DENTRO do popup. Sem isso, ver a tela 4 de 6 ampliada exigia
+   *  fechar, avançar na miniatura e ampliar de novo — três gestos para o que
+   *  é uma seta só. Quando vêm, aparecem as setas laterais e as teclas ← →
+   *  passam a funcionar com o popup aberto. */
+  onAnterior?: () => void;
+  onProxima?: () => void;
 };
 
-export function PhotoLightbox({ src, alt, children }: Props) {
+export function PhotoLightbox({ src, alt, children, onAnterior, onProxima }: Props) {
   const [aberto, setAberto] = useState(false);
   const gatilhoRef = useRef<HTMLButtonElement>(null);
+
+  // As setas vivem em ref porque o efeito de teclado não pode ser reescrito a
+  // cada troca de tela: `onAnterior`/`onProxima` são funções novas em todo
+  // render do carrossel, e listá-las como dependência remontaria o listener
+  // (e o `overflow: hidden` do body junto) a cada seta apertada.
+  const navRef = useRef({ onAnterior, onProxima });
+  navRef.current = { onAnterior, onProxima };
 
   useEffect(() => {
     if (!aberto) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setAberto(false);
+      if (e.key === "Escape") { setAberto(false); return; }
+      if (e.key === "ArrowLeft"  && navRef.current.onAnterior) { e.preventDefault(); navRef.current.onAnterior(); }
+      if (e.key === "ArrowRight" && navRef.current.onProxima)  { e.preventDefault(); navRef.current.onProxima(); }
     };
     window.addEventListener("keydown", onKey);
     const overflowAnterior = document.body.style.overflow;
@@ -127,6 +142,34 @@ export function PhotoLightbox({ src, alt, children }: Props) {
             <X size={20} aria-hidden />
           </button>
 
+          {/* Setas laterais. Ficam FIXAS na borda da tela, não coladas na
+              imagem: as telas têm larguras diferentes entre si, e seta presa
+              à imagem pularia de posição a cada troca — justamente durante o
+              gesto de clicar várias vezes seguidas. */}
+          {[
+            { fn: onAnterior, Icone: ChevronLeft,  lado: { left:  "clamp(0.75rem, 2.5vw, 2rem)" }, rot: "Tela anterior" },
+            { fn: onProxima,  Icone: ChevronRight, lado: { right: "clamp(0.75rem, 2.5vw, 2rem)" }, rot: "Próxima tela" },
+          ].map(({ fn, Icone, lado, rot }) => fn && (
+            <button
+              key={rot}
+              onClick={(e) => { e.stopPropagation(); fn(); }}
+              aria-label={rot}
+              className="hl-toque hl-lightbox-seta"
+              style={{
+                position: "fixed", top: "50%", transform: "translateY(-50%)",
+                ...lado,
+                width: 52, height: 52, borderRadius: "50%",
+                background: C.paper, color: C.ink,
+                boxShadow: `inset 0 0 0 1px ${C.rule}`,
+                border: "none", cursor: "pointer",
+                display: "grid", placeItems: "center",
+                transition: "background 160ms ease, color 160ms ease",
+              }}
+            >
+              <Icone size={24} aria-hidden />
+            </button>
+          ))}
+
           <figure
             onClick={(e) => e.stopPropagation()}
             className="hl-lightbox-fig"
@@ -158,7 +201,9 @@ export function PhotoLightbox({ src, alt, children }: Props) {
               fontFamily: F.mono, fontSize: "0.68rem", letterSpacing: "0.08em",
               color: C.ink3, textTransform: "uppercase", textAlign: "center",
             }}>
-              {alt} · Esc ou clique fora para fechar
+              {alt}
+              {(onAnterior || onProxima) && " · ← → para navegar"}
+              {" · Esc para fechar"}
             </figcaption>
           </figure>
         </div>,
