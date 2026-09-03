@@ -26,7 +26,7 @@ const FICHA = [
   { rotulo: "Desde",    valor: "Fev 2023" },
   { rotulo: "Onde",     valor: "Speed Fibra · Santa Luzia, MG" },
   { rotulo: "Cargo",    valor: "Analista de Dados Pleno" },
-  { rotulo: "Escopo",   valor: "Único analista da operação" },
+  { rotulo: "Escopo",   valor: "Toda a inteligência de dados da operação" },
   { rotulo: "Setores",  valor: "6 — Comercial, Financeiro, NOC, Suporte, Projetos, Diretoria" },
   { rotulo: "Formação", valor: "Sistemas de Informação · UNA (em curso)" },
 ];

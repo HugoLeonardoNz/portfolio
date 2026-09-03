@@ -6,6 +6,6 @@ export default defineConfig({
   // Domínio próprio (hugonazario.com) via GitHub Pages custom domain: o site
   // passa a ser servido na raiz do domínio, não mais em /portfolio/. Se algum
   // dia o CNAME for removido e o site voltar para
-  // hugoleonardonz.github.io/portfolio/, isto tem que voltar para '/portfolio/'.
+  // hugonazario.com/, isto tem que voltar para '/portfolio/'.
   base: '/',
 })

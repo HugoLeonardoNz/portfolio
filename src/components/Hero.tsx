@@ -269,8 +269,8 @@ export function Hero() {
               fontSize: "clamp(0.8rem, 1.7vh, 0.9rem)", color: C.ink, fontWeight: 600,
               lineHeight: 1.45, marginBottom: "0.45rem",
             }}>
-              construindo a inteligência de dados de um provedor de fibra —
-              como único analista da operação
+              construindo a inteligência de dados de um provedor de fibra em
+              operação, ponto focal dos seis setores
             </div>
             <div className="hl-hero-setores" style={{
               fontFamily: F.mono, fontSize: "clamp(0.63rem, 1.3vh, 0.7rem)",

@@ -86,7 +86,7 @@ def main() -> None:
         d.text((x + 26, y), p, font=f_meta, fill=INK)
         y += 40
 
-    d.text((x, 545), "hugoleonardonz.github.io/portfolio", font=f_txt, fill=INK3)
+    d.text((x, 545), "hugonazario.com", font=f_txt, fill=INK3)
 
     # Foto em circulo, com anel lima.
     if FOTO.exists():

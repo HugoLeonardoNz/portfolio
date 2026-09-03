@@ -40,7 +40,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 PROJECTS_TS = RAIZ / "src" / "data" / "projects.ts"
 API = "https://api.github.com"
-SITE = "hugoleonardonz.github.io/portfolio"
+SITE = "hugonazario.com"
 
 
 def _get(url: str):

@@ -4,7 +4,7 @@ Site de portfólio de **Hugo Nazário**, Analista de Dados Pleno. Página única
 React 19 + TypeScript, publicada no GitHub Pages, que reúne nove projetos de
 SQL, Python, Power BI e Machine Learning aplicados a telecom.
 
-**No ar:** https://hugoleonardonz.github.io/portfolio/
+**No ar:** https://hugonazario.com/
 
 ![Portfólio](docs/img/site.png)
 
