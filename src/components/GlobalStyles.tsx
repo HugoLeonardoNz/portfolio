@@ -263,6 +263,25 @@ export function GlobalStyles() {
         to   { opacity: 1; transform: translateY(0); }
       }
 
+      /* --- Foto do hero em popup ------------------------------------------
+         A lupa só aparece no hover/foco — em repouso a miniatura fica limpa,
+         igual sempre foi. O popup entra com um leve zoom-in: nasce um pouco
+         menor que o tamanho final, porque "aparecer" comunica origem melhor
+         que só desvanecer (a foto vem DA miniatura, não do nada). */
+      .hl-foto-gatilho:hover .hl-foto-lupa,
+      .hl-foto-gatilho:focus-visible .hl-foto-lupa { opacity: 1 !important; }
+
+      @keyframes hl-lightbox-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes hl-lightbox-fig-in {
+        from { opacity: 0; transform: scale(0.92); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+      .hl-lightbox-backdrop { animation: hl-lightbox-in 200ms ease forwards; }
+      .hl-lightbox-fig      { animation: hl-lightbox-fig-in 260ms cubic-bezier(0.16,1,0.3,1) forwards; }
+
       .hl-pulse  { animation: hl-pulse 2s infinite; }
       /* Sai de um estado JÁ VISÍVEL: se o script falhar ou a animação não
          disparar, o bloco continua na tela em vez de ficar invisível. */

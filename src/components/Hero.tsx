@@ -1,5 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import { GitHubMark, LinkedInMark } from "./ui/Marcas";
+import { PhotoLightbox } from "./ui/PhotoLightbox";
 import { C, F, R, S } from "../theme";
 
 /**
@@ -202,14 +203,16 @@ export function Hero() {
             background: C.bg,
             boxShadow: "0 0 0 6px rgba(20,28,13,0.14)",
           }}>
-            <img
-              src={`${import.meta.env.BASE_URL}hugo-foto.png`}
-              alt="Hugo Nazário"
-              style={{
-                width: "100%", height: "100%", display: "block",
-                objectFit: "cover", objectPosition: "center top",
-              }}
-            />
+            <PhotoLightbox src={`${import.meta.env.BASE_URL}hugo-foto.png`} alt="Hugo Nazário">
+              <img
+                src={`${import.meta.env.BASE_URL}hugo-foto.png`}
+                alt="Hugo Nazário"
+                style={{
+                  width: "100%", height: "100%", display: "block",
+                  objectFit: "cover", objectPosition: "center top",
+                }}
+              />
+            </PhotoLightbox>
           </div>
 
         </div>
