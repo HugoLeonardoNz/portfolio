@@ -53,10 +53,23 @@ export function PhotoLightbox({ src, alt, children, onAnterior, onProxima }: Pro
   // render do carrossel, e listá-las como dependência remontaria o listener
   // (e o `overflow: hidden` do body junto) a cada seta apertada.
   const navRef = useRef({ onAnterior, onProxima });
-  navRef.current = { onAnterior, onProxima };
+
+  // A escrita no ref acontece DEPOIS do render, num efeito proprio, e nao no
+  // corpo do componente. Escrever em ref durante o render e o que o
+  // `react-hooks/refs` reprovava, e com razao: o React pode renderizar sem
+  // efetivar, e a escrita ficaria feita para uma passagem que nao aconteceu.
+  // Este efeito nao declara dependencias porque a intencao e justamente rodar
+  // a cada render — e o que mantem as setas sempre atuais sem remontar o
+  // listener de teclado abaixo.
+  useEffect(() => {
+    navRef.current = { onAnterior, onProxima };
+  });
 
   useEffect(() => {
     if (!aberto) return;
+    // Copia local do no: na limpeza, `gatilhoRef.current` ja pode apontar para
+    // outro elemento (ou para nada), e o foco voltaria para o lugar errado.
+    const gatilho = gatilhoRef.current;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") { setAberto(false); return; }
       if (e.key === "ArrowLeft"  && navRef.current.onAnterior) { e.preventDefault(); navRef.current.onAnterior(); }
@@ -70,7 +83,7 @@ export function PhotoLightbox({ src, alt, children, onAnterior, onProxima }: Pro
       document.body.style.overflow = overflowAnterior;
       // Devolve o foco para quem abriu o popup — sem isso o teclado "perde"
       // a posição na página depois de fechar.
-      gatilhoRef.current?.focus();
+      gatilho?.focus();
     };
   }, [aberto]);
 
