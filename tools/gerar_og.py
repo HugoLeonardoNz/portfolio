@@ -24,7 +24,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parent.parent
-DESTINO = RAIZ / "public" / "og-card.png"
+DESTINO = RAIZ / "public" / "og-card-v2.png"
 FOTO = RAIZ / "public" / "hugo-foto.webp"
 
 W, H = 1200, 630

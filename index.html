@@ -17,16 +17,25 @@
     <meta property="og:url"         content="https://hugonazario.com/" />
     <meta property="og:title"       content="Hugo Nazário · Analista de Dados" />
     <meta property="og:description" content="SQL, Python, Power BI e Machine Learning aplicados a telecom. Oito projetos públicos e uma plataforma interna, do dado bruto ao painel de decisão." />
-    <meta property="og:image"       content="https://hugonazario.com/og-card.png" />
-    <!-- Dimensoes declaradas: sem elas o LinkedIn as vezes serve o card pequeno
-         na primeira renderizacao, antes de baixar a imagem. -->
+    <meta property="og:image"       content="https://hugonazario.com/og-card-v2.png" />
+    <!-- O NOME TEM VERSAO (2026-09-03). O LinkedIn guarda a imagem em cache
+         pela URL dela, por dias, e nao ha mais ferramenta publica para forcar
+         a releitura: o Post Inspector foi desativado. O card publicado em
+         02/09 dizia "unico analista" e estampava o dominio antigo, e continuou
+         aparecendo assim depois de a imagem ser corrigida no lugar. Trocar o
+         nome do arquivo e a unica forma confiavel de o robo buscar de novo.
+         Regra: toda vez que o conteudo do card mudar, sobe a versao aqui e em
+         tools/gerar_og.py.
+
+         Dimensoes declaradas: sem elas o LinkedIn as vezes serve o card
+         pequeno na primeira renderizacao, antes de baixar a imagem. -->
     <meta property="og:image:width"  content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt"    content="Hugo Nazário, Analista de Dados Pleno — 8 projetos públicos, 145 testes em CI, 3 sobre dado observado" />
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content="Hugo Nazário · Analista de Dados" />
     <meta name="twitter:description" content="SQL, Python, Power BI e Machine Learning aplicados a telecom. Oito projetos públicos e uma plataforma interna, do dado bruto ao painel de decisão." />
-    <meta name="twitter:image"       content="https://hugonazario.com/og-card.png" />
+    <meta name="twitter:image"       content="https://hugonazario.com/og-card-v2.png" />
   </head>
   <body>
     <div id="root"></div>
