@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "public" / "og-card.png"
-FOTO = RAIZ / "public" / "hugo-foto.png"
+FOTO = RAIZ / "public" / "hugo-foto.webp"
 
 W, H = 1200, 630
 BG = "#141c0d"
@@ -60,8 +60,15 @@ def main() -> None:
     d.text((x, 92), "HUGO NAZÁRIO", font=f_nome, fill=INK)
     d.text((x, 190), "Analista de Dados Pleno", font=f_cargo, fill=ACID)
 
+    # SEM "único analista" (2026-09-03). O PRODUCT.md tirou esse enquadramento
+    # do material público — ele não acrescenta escopo ("ponto focal de seis
+    # setores" já diz que tudo passa por ele) e acrescenta dois riscos na
+    # leitura de quem contrata: sugere que nunca houve par técnico nem revisão
+    # de código, e convida a descontar os números porque ninguém os conferiu.
+    # O card ficou com a frase antiga porque foi gerado antes daquela decisão:
+    # a imagem é a única peça do portfólio que não se regera sozinha.
     linhas = [
-        "Três anos como único analista de um provedor de fibra",
+        "Três anos de inteligência de dados num provedor de fibra",
         "em operação — ponto focal de seis setores.",
     ]
     y = 250
