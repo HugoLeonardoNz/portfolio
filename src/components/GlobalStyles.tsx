@@ -240,6 +240,38 @@ export function GlobalStyles() {
         .hl-toque      { width: 44px !important; height: 44px !important; }
         .hl-filtro-chip { min-height: 42px !important; padding-inline: 0.8rem !important; }
 
+        /* ALVOS DE TOQUE DO CARROSSEL E DOS LINKS DE CARTAO (2026-09-03).
+           A regra .hl-toque acima ja existia, mas nenhum destes tres a usava, e
+           uma varredura em 320-1920px mediu o estrago no telefone: as setas do
+           carrossel a 30x30, os pontos a 20x7 e — o pior — "GitHub" e "Ver ao
+           vivo" com 23px de altura. Sao justamente os links que o PRODUCT.md
+           chama de sucesso do site ("o tech lead abre pelo menos um
+           repositorio"), no dispositivo de onde vem quase todo mundo que chega
+           pelo LinkedIn. 44px e o minimo do WCAG 2.5.5.
+
+           O ponto do carrossel cresce so em area CLICAVEL: a barrinha continua
+           com 7px de altura, centrada por top/height, porque ela e o indicador
+           de posicao e engordar isso vira outro desenho. A transformacao fica de
+           fora — ele carrega o scaleX do estado ativo, escrito no componente. */
+        .hl-tela-seta   { width: 44px !important; height: 44px !important; }
+        .hl-tela-pontos { height: 24px !important; }
+        .hl-tela-ponto  {
+          width: 24px !important;
+          height: 24px !important;
+          overflow: visible !important;
+        }
+        .hl-tela-ponto > span {
+          top: 50% !important;
+          bottom: auto !important;
+          height: 7px !important;
+          margin-top: -3.5px;
+        }
+        .hl-link-proj   {
+          min-height: 44px !important;
+          align-items: center !important;
+        }
+        .hl-barra-marca { min-height: 44px !important; align-items: center !important; }
+
         /* O diagrama do HUG cresce e passa a arrastar na horizontal. 520px de
            largura poem os rotulos principais em ~13,8px e os secundarios em
            ~11,1px; abaixo disso o desenho continua ilegivel, acima ele vira

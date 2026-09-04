@@ -54,6 +54,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
             ].map((b) => (
               <button
                 key={b.sinal} onClick={() => ir(b.d)} aria-label={b.rot}
+                className="hl-tela-seta"
                 style={{
                   position: "absolute", top: "50%", transform: "translateY(-50%)",
                   ...b.lado,
@@ -80,7 +81,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
           cartão de tela única sobe 13px em relação aos vizinhos da fileira e o
           rodapé sai desalinhado — o tipo de defeito que ninguém nomeia e todo
           mundo sente. */}
-      <div style={{ height: 7, marginTop: "0.6rem" }}>
+      <div className="hl-tela-pontos" style={{ height: 7, marginTop: "0.6rem" }}>
         {total > 1 && (
           <div style={{ display: "flex", gap: 5 }}>
             {Array.from({ length: total }, (_, n) => (
@@ -91,6 +92,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
                  e isso dentro de um carrossel que ja esta trocando imagem. */
               <button
                 key={n} onClick={() => setI(n)} aria-label={`Ir para a tela ${n + 1}`}
+                className="hl-tela-ponto"
                 style={{
                   width: 20, height: 7, borderRadius: R.chip,
                   background: "none", border: "none", cursor: "pointer",

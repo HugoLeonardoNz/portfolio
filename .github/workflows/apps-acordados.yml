@@ -16,10 +16,12 @@ name: Os apps ao vivo continuam de pé?
 #
 #   1. VISITA os dois apps a cada dois dias. A hibernação conta dias sem
 #      tráfego, então uma visita periódica impede que ela comece;
-#   2. CONFERE `/_stcore/health`, que devolve 200 num app de pé e 303 (redireção
-#      para a tela de autenticação) num app dormindo. Se algum estiver dormindo,
-#      a execução falha — e a falha chega por e-mail, que é o aviso que não
-#      existia antes.
+#   2. CONFERE a TELA, num Chromium de verdade. A checagem por `curl` em
+#      `/_stcore/health` que existia aqui reprovava os dois apps todo dia,
+#      inclusive com os dois no ar: o endpoint responde 303 para quem não tem
+#      cookie de sessão, e, seguindo o redirecionamento, responde os mesmos
+#      9.426 bytes acordado ou dormindo. O guarda contra link morto não
+#      enxergava link morto. O detalhe está em tools/conferir_apps.py.
 #
 # O intervalo é de dois dias, não sete: assim há três chances de acordar antes
 # de a hibernação acontecer, e uma execução perdida não derruba o link.
@@ -44,42 +46,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Visita e confere cada app anunciado pelo site
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # O veredito precisa de navegador: a tela de hibernacao do Streamlit e
+      # desenhada por JavaScript, e o app real roda dentro de um iframe. Ver o
+      # cabecalho de tools/conferir_apps.py para o historico dos dois falsos
+      # negativos que a versao por curl produzia.
+      - name: Instala o Chromium do Playwright
         run: |
-          set -uo pipefail
+          python -m pip install --quiet playwright
+          python -m playwright install --with-deps chromium
 
-          # As URLs saem de projects.ts, e não de uma lista escrita aqui: se um
-          # cartão ganhar ou perder o "Ver ao vivo", este workflow acompanha
-          # sozinho. Mesmo princípio de tools/conferir_repos.py.
-          APPS=$(grep -oE 'liveUrl: "[^"]+"' src/data/projects.ts \
-                 | grep -oE 'https://[^"]+' | sort -u)
-
-          if [ -z "$APPS" ]; then
-            echo "Nenhum liveUrl em src/data/projects.ts — nada a vigiar."
-            exit 0
-          fi
-
-          falhas=0
-          for app in $APPS; do
-            # A visita à raiz é o que conta como tráfego e adia a hibernação.
-            curl -s -o /dev/null -L --max-time 60 "$app" || true
-
-            saude="${app%/}/_stcore/health"
-            codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "$saude")
-
-            if [ "$codigo" = "200" ]; then
-              echo "  de pé      $app"
-            else
-              echo "  DORMINDO   $app  (health devolveu $codigo, esperado 200)"
-              falhas=$((falhas + 1))
-            fi
-          done
-
-          echo
-          if [ "$falhas" -gt 0 ]; then
-            echo "$falhas app(s) fora do ar."
-            echo "Para acordar: abra o link e clique em \"Yes, get this app back up\"."
-            echo "Leva ~30s. Depois disso este workflow segura o app acordado sozinho."
-            exit 1
-          fi
-          echo "Todos os apps anunciados pelo site estão de pé."
+      - name: Cada link "Ver ao vivo" do site abre para um visitante?
+        run: python tools/conferir_apps.py

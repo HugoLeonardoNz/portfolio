@@ -165,6 +165,7 @@ export function Topbar() {
         <button
           onClick={irTopo}
           aria-label="Voltar ao topo"
+          className="hl-barra-marca"
           style={{
             display: "flex", alignItems: "baseline", gap: "0.6rem",
             background: "none", border: "none", padding: 0, cursor: "pointer",
