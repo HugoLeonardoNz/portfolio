@@ -30,8 +30,23 @@ A lista de links sai de `src/data/projects.ts`, nunca escrita aqui: se um
 cartao ganhar ou perder o "Ver ao vivo", esta conferencia acompanha sozinha —
 mesmo principio de `tools/conferir_repos.py`.
 
-A visita em si tambem serve de proposito: o Community Cloud hiberna app com ~7
-dias sem trafego, e abrir a pagina zera esse relogio.
+A visita em si tambem serve de proposito: abrir a pagina zera o relogio de
+hibernacao do Community Cloud.
+
+ACORDAR SOZINHO (2026-10-11)
+----------------------------
+A primeira versao so avisava: "dormiu, alguem clique no botao". Ela falhou em
+TODAS as execucoes de 23/09 a 09/10, porque partia de duas premissas erradas:
+
+1. que o app dorme com ~7 dias sem trafego. O historico da propria rotina
+   desmente: em 21/09 16h os dois estavam de pe, em 23/09 14h os dois dormiam.
+   O prazo real e menor que dois dias, e a rotina rodava a cada dois;
+2. que acordar "so uma pessoa faz". O botao e um <button> comum: o mesmo
+   Chromium que le a tela consegue clicar nele.
+
+Agora, se a tela de hibernacao aparece, o script clica em "Yes, get this app
+back up!" e espera o app subir. So reprova se, depois disso, ele continuar
+fora do ar — que e o caso em que uma pessoa precisa olhar de verdade.
 """
 from __future__ import annotations
 
@@ -45,6 +60,9 @@ PROJETOS = RAIZ / "src" / "data" / "projects.ts"
 
 # Marcas da tela de hibernacao do Streamlit Community Cloud.
 SONO = ("gone to sleep", "get this app back up", "Zzzz")
+
+# Quanto esperar o app subir depois de clicar em acordar.
+ESPERA_ACORDAR_S = 300
 
 
 def links() -> list[str]:
@@ -62,39 +80,73 @@ def confere_http(url: str) -> tuple[bool, str]:
         return False, f"{type(e).__name__}: {e}"
 
 
+def _le_tela(pagina) -> tuple[str, str]:
+    """Texto do documento principal e dos iframes.
+
+    A tela de hibernacao e desenhada no documento PRINCIPAL. Ja o app em si
+    roda dentro de um IFRAME — ler so `body` da pagina de fora devolve zero
+    caractere com o app perfeitamente no ar, que foi exatamente o falso
+    negativo que derrubou a primeira versao disto.
+    """
+    topo = (pagina.inner_text("body") or "").strip()
+    interno = ""
+    for quadro in pagina.frames:
+        if quadro is pagina.main_frame:
+            continue
+        try:
+            interno += (quadro.inner_text("body") or "").strip()
+        except Exception:  # noqa: BLE001 — quadro de anuncio/telemetria
+            pass
+    return topo, interno
+
+
+def _dormindo(topo: str) -> bool:
+    return any(m.lower() in topo.lower() for m in SONO)
+
+
 def confere_tela(url: str) -> tuple[bool, str]:
     from playwright.sync_api import sync_playwright
 
     with sync_playwright() as p:
         navegador = p.chromium.launch()
         pagina = navegador.new_page()
+        acordou = False
         try:
-            pagina.goto(url, wait_until="domcontentloaded", timeout=90_000)
+            # Uma segunda tentativa de navegacao: o Community Cloud as vezes
+            # deixa a primeira conexao expirar quando o app esta frio.
+            for tentativa in (1, 2):
+                try:
+                    pagina.goto(url, wait_until="domcontentloaded", timeout=90_000)
+                    break
+                except Exception:  # noqa: BLE001
+                    if tentativa == 2:
+                        raise
             # O Streamlit monta a tela por WebSocket depois do HTML; sem esta
             # espera, o corpo vem vazio nos dois estados e o teste nao decide.
             pagina.wait_for_timeout(20_000)
+            topo, interno = _le_tela(pagina)
 
-            # A tela de hibernacao e desenhada no documento PRINCIPAL. Ja o app
-            # em si roda dentro de um IFRAME — ler so `body` da pagina de fora
-            # devolve zero caractere com o app perfeitamente no ar, que foi
-            # exatamente o falso negativo que derrubou a primeira versao disto.
-            topo = (pagina.inner_text("body") or "").strip()
-            interno = ""
-            for quadro in pagina.frames:
-                if quadro is pagina.main_frame:
-                    continue
-                try:
-                    interno += (quadro.inner_text("body") or "").strip()
-                except Exception:  # noqa: BLE001 — quadro de anuncio/telemetria
-                    pass
+            if _dormindo(topo):
+                pagina.get_by_role("button", name=re.compile("get this app back up", re.I)).click(timeout=15_000)
+                acordou = True
+                # Subir um app frio leva de 30 s a alguns minutos (instala as
+                # dependencias de novo). Confere a cada 15 s, ate 5 min.
+                for _ in range(ESPERA_ACORDAR_S // 15):
+                    pagina.wait_for_timeout(15_000)
+                    topo, interno = _le_tela(pagina)
+                    if not _dormindo(topo) and len(interno) >= 40:
+                        break
         finally:
             navegador.close()
 
-    if any(m.lower() in topo.lower() for m in SONO):
-        return False, "DORMINDO (tela de hibernacao renderizada)"
+    if _dormindo(topo):
+        return False, "DORMINDO — o botao de acordar foi clicado e o app nao subiu"
     renderizado = len(topo) + len(interno)
     if renderizado < 40:
-        return False, f"tela vazia ({renderizado} caracteres renderizados)"
+        sufixo = " depois de clicar em acordar" if acordou else ""
+        return False, f"tela vazia ({renderizado} caracteres renderizados){sufixo}"
+    if acordou:
+        return True, f"estava DORMINDO e foi acordado pela rotina; {renderizado} caracteres na tela"
     return True, f"{renderizado} caracteres na tela"
 
 
@@ -107,7 +159,12 @@ def main() -> int:
     falhas = 0
     for url in urls:
         if "streamlit.app" in url:
-            ok, detalhe = confere_tela(url)
+            try:
+                ok, detalhe = confere_tela(url)
+            except Exception as e:  # noqa: BLE001 — rede fora, navegador caiu
+                # Um link que nao abre e um FALHOU com motivo, nao um traceback
+                # que esconde o resultado dos outros links.
+                ok, detalhe = False, f"{type(e).__name__}: {str(e).splitlines()[0]}"
         else:
             ok, detalhe = confere_http(url)
         print(f"  {'de pé   ' if ok else 'FALHOU  '} {url}  ({detalhe})")
@@ -116,9 +173,8 @@ def main() -> int:
     print()
     if falhas:
         print(f"{falhas} link(s) 'Ver ao vivo' do site nao abrem para um visitante.")
-        print('Se for app do Streamlit dormindo: abra o link e clique em')
-        print('"Yes, get this app back up!" — leva ~30s, e depois esta rotina')
-        print("segura o app acordado sozinha.")
+        print("A rotina ja tenta acordar app do Streamlit sozinha. Se chegou aqui,")
+        print("o app nao subiu nem depois do clique: abra o link e veja o erro.")
         return 1
 
     print("Todos os links 'Ver ao vivo' do site abrem.")

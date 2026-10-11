@@ -12,29 +12,33 @@ name: Os apps ao vivo continuam de pé?
 # é justamente no clique do "Ver ao vivo" que o visitante estava mais
 # interessado.
 #
-# Este workflow faz duas coisas, e a primeira é a que resolve:
+# Este workflow faz tres coisas:
 #
-#   1. VISITA os dois apps a cada dois dias. A hibernação conta dias sem
-#      tráfego, então uma visita periódica impede que ela comece;
-#   2. CONFERE a TELA, num Chromium de verdade. A checagem por `curl` em
+#   1. VISITA os dois apps a cada seis horas, para a hibernacao nao comecar;
+#   2. ACORDA o app se ele ja estiver dormindo: o script clica em "Yes, get
+#      this app back up!" e espera subir;
+#   3. CONFERE a TELA, num Chromium de verdade. A checagem por `curl` em
 #      `/_stcore/health` que existia aqui reprovava os dois apps todo dia,
-#      inclusive com os dois no ar: o endpoint responde 303 para quem não tem
-#      cookie de sessão, e, seguindo o redirecionamento, responde os mesmos
-#      9.426 bytes acordado ou dormindo. O guarda contra link morto não
-#      enxergava link morto. O detalhe está em tools/conferir_apps.py.
+#      inclusive com os dois no ar: o endpoint responde 303 para quem nao tem
+#      cookie de sessao, e, seguindo o redirecionamento, responde os mesmos
+#      9.426 bytes acordado ou dormindo. O detalhe esta em tools/conferir_apps.py.
 #
-# O intervalo é de dois dias, não sete: assim há três chances de acordar antes
-# de a hibernação acontecer, e uma execução perdida não derruba o link.
+# POR QUE SEIS HORAS (2026-10-11). O intervalo era de dois dias, calculado para
+# um prazo de hibernacao de ~7 dias. O historico desta propria rotina mostrou
+# que o prazo e bem menor: em 21/09 os dois apps estavam de pe e em 23/09 os
+# dois dormiam — e ela falhou em todas as execucoes dali ate 09/10. Seis horas
+# da quatro visitas por dia; se uma se perder, a seguinte ainda acorda o app.
 #
-# ATENÇÃO: este workflow NÃO acorda um app que já dormiu. Acordar exige apertar
-# o botão na página, o que só uma pessoa faz. Ele impede o app de dormir e avisa
-# quando dormiu.
+# Se este workflow ficar vermelho agora, o app nao subiu nem depois do clique:
+# ai e erro do app (dependencia, build), e uma pessoa precisa olhar.
+#
+# O GitHub desliga workflow agendado em repositorio sem commit ha 60 dias.
 
 on:
   schedule:
-    # 09:10 UTC = 06:10 em Brasília. Minuto quebrado de propósito: o agendador
-    # do GitHub atrasa execuções marcadas na hora cheia, quando a fila é maior.
-    - cron: "10 9 */2 * *"
+    # A cada seis horas, no minuto 10. Minuto quebrado de propósito: o
+    # agendador do GitHub atrasa execuções marcadas na hora cheia.
+    - cron: "10 */6 * * *"
   workflow_dispatch:
 
 permissions:
