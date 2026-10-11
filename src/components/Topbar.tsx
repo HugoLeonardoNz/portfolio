@@ -126,11 +126,6 @@ export function Topbar() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const irTopo = () => {
-    setAberto(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <>
       <header
@@ -159,33 +154,9 @@ export function Topbar() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         gap: "1.5rem",
       }}>
-        {/* Assinatura. Não é um logotipo inventado ("HL.data"): é o nome, que é
-            o que o visitante veio conferir, com o cargo em mono ao lado porque
-            cargo é rótulo, não frase. */}
-        <button
-          onClick={irTopo}
-          aria-label="Voltar ao topo"
-          className="hl-barra-marca"
-          style={{
-            display: "flex", alignItems: "baseline", gap: "0.6rem",
-            background: "none", border: "none", padding: 0, cursor: "pointer",
-            color: C.ink, textAlign: "left", flexShrink: 0,
-          }}
-        >
-          <span style={{
-            fontFamily: F.display, fontSize: "1.2rem",
-            letterSpacing: "-0.015em", lineHeight: 1,
-          }}>
-            Hugo Nazário
-          </span>
-          <span className="hl-barra-cargo" style={{
-            fontFamily: F.mono, fontSize: "0.72rem", letterSpacing: "0.1em",
-            textTransform: "uppercase", color: C.ink3, lineHeight: 1,
-          }}>
-            Analista de Dados
-          </span>
-        </button>
-
+        {/* Sem assinatura desde 2026-10-09: o nome já é a primeira coisa do
+            cartaz, logo abaixo, e repetido na barra virava redundância. A
+            navegação passa a abrir a linha, alinhada à borda do conteúdo. */}
         {/* Seções — desktop */}
         <nav aria-label="Seções" className="hl-barra-nav" style={{ position: "relative" }}>
           <ul ref={listaRef} style={{
@@ -232,7 +203,7 @@ export function Topbar() {
           </ul>
         </nav>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexShrink: 0, marginLeft: "auto" }}>
           <button
             onClick={() => ir("contato")}
             className="hl-barra-contato"

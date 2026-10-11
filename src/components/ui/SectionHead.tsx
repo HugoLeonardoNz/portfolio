@@ -42,13 +42,15 @@ export function SectionHead({
         boxShadow: `inset 0 1px 0 ${C.rule}`,
       }}
     >
+      {/* A luz corre no fio do topo quando a seção chega (src/motion.ts). */}
+      <span aria-hidden className="hl-head-luz" />
       <h2 style={{
         fontFamily: F.display,
         fontSize: "clamp(2rem, 4.4vw, 3.75rem)",
         fontWeight: 400, lineHeight: 0.98, letterSpacing: "-0.04em",
         color: C.ink,
       }}>
-        {titulo}
+        <span className="hl-mascara"><span>{titulo}</span></span>
       </h2>
 
       {resumo && (

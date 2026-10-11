@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 import { ArrowUpRight } from "lucide-react";
 import { C, F, R, S } from "../theme";
 import { Telas } from "./ui/Telas";
@@ -20,6 +21,15 @@ export function Projects() {
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .map(([t]) => t);
   }, []);
+
+  // Trocar o filtro reorganiza a grade. Sem transição, os cartões somem e
+  // reaparecem em outra ordem e o olho perde qual era qual; com View
+  // Transitions cada cartão desliza da posição velha para a nova.
+  const trocar = (t: string | null) => {
+    const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduz) { setFiltro(t); return; }
+    document.startViewTransition(() => flushSync(() => setFiltro(t)));
+  };
 
   const visiveis = filtro ? PROJECTS.filter((p) => p.tags.includes(filtro)) : PROJECTS;
 
@@ -53,7 +63,7 @@ export function Projects() {
             <button
               className="hl-filtro-chip"
               key={t ?? "todos"}
-              onClick={() => setFiltro(t)}
+              onClick={() => trocar(t)}
               style={{
                 fontFamily: F.body,
                 fontSize: "0.78rem", fontWeight: on ? 600 : 400,
@@ -99,6 +109,7 @@ export function Projects() {
             display: "flex", flexDirection: "column",
             position: "relative", overflow: "hidden",
             transition: "background 0.25s, transform 0.25s",
+            viewTransitionName: `projeto-${p.id}`,
           }}
             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(212,247,74,0.06)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = C.paper; e.currentTarget.style.transform = "none"; }}

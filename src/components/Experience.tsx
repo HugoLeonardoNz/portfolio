@@ -56,7 +56,7 @@ function Item({
       {/* Calha do período. Alinhada pelo topo com o cargo, não com o fim da
           seção: a data pertence ao cargo, e agora encosta nele. */}
       <div className="hl-exp-data" style={{ paddingLeft: "clamp(1.25rem, 2vw, 2rem)", position: "relative" }}>
-        <span aria-hidden style={{
+        <span aria-hidden className="hl-exp-marca" style={{
           position: "absolute", left: -4, top: "0.5rem",
           width: 7, height: 7, background: C.acid,
         }} />
@@ -144,7 +144,9 @@ export function Experience() {
 
         {/* A régua vertical fica na seção, não em cada item: assim ela é uma
             linha contínua de cima a baixo, e não três traços emendados. */}
-        <div style={{ boxShadow: `inset 1px 0 0 ${C.rule}` }}>
+        <div className="hl-trilho" style={{ boxShadow: `inset 1px 0 0 ${C.rule}`, position: "relative" }}>
+          {/* Fio lima desenhado pela rolagem (src/motion.ts escreve --p). */}
+          <span aria-hidden className="hl-trilho-fio" />
           {EXPERIENCE.map((exp, i) => (
             <Item
               key={i}

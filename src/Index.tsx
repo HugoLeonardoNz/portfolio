@@ -10,8 +10,11 @@ import { Experience }   from "./components/Experience";
 import { Contact }      from "./components/Contact";
 import { Footer }       from "./components/Footer";
 import { C }            from "./theme";
+import { useEffect }    from "react";
+import { iniciarMovimento } from "./motion";
 
 export default function Index() {
+  useEffect(() => { iniciarMovimento(); }, []);
   return (
     <div style={{ background: C.bg, minHeight: "100vh" }}>
       <GlobalStyles />

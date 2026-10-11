@@ -56,12 +56,13 @@ export function Contact() {
         }}
       >
         <div>
-          <h2 style={{
+          <h2 className="hl-contato-titulo" style={{
             fontFamily: F.display,
             fontSize: "clamp(2.4rem, 6vw, 4.5rem)", fontWeight: 400,
             lineHeight: 0.98, letterSpacing: "-0.04em", color: C.ink,
           }}>
-            Vamos<br />conversar
+            <span className="hl-mascara"><span>Vamos</span></span>
+            <span className="hl-mascara"><span>conversar</span></span>
           </h2>
           <p style={{
             marginTop: "1.5rem", fontSize: "1rem", lineHeight: 1.7,

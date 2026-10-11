@@ -80,13 +80,11 @@ export function GlobalStyles() {
         .hl-barra-menu { display: block !important; }
       }
       @media (max-width: 560px) {
-        .hl-barra-cargo    { display: none !important; }
         .hl-barra-contato  { display: none !important; }
       }
 
       /* --- Hero no celular ----------------------------------------------- */
       @media (max-width: 860px) {
-        .hl-hero-grid  { grid-template-columns: minmax(0, 1fr) !important; }
         .hl-sobre-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 2.5rem !important; }
 
         #hero {
@@ -104,15 +102,40 @@ export function GlobalStyles() {
           width: clamp(120px, 34vw, 165px) !important;
           margin: -5vw auto 0.1rem !important;
         }
-        .hl-hero-exp-card,
-        .hl-hero-cred,
         .hl-hero-inv     { padding: 0.85rem 1rem !important; }
-        .hl-cred-num     { font-size: 2.4rem !important; }
-        .hl-cred-frase   { font-size: 0.82rem !important; line-height: 1.35 !important; }
         .hl-hero-nome    { font-size: clamp(1.75rem, min(11vw, 15.5vh), 9.5rem) !important; }
         .hl-hero-lead    { display: none !important; }
-        .hl-hero-setores { display: none !important; }
         .hl-hero-left    { padding-bottom: 0 !important; }
+      }
+
+      /* --- Hero: uma tela, cartaz compacto (2026-10-09) -------------------
+         O hero tem pelo menos a altura da janela e o conteúdo fica CENTRADO
+         nela: a seção seguinte não aparece na dobra e o cartaz não precisa
+         esticar para preencher. O nome tem tamanho de título, não de outdoor
+         — teto de 9rem e 12vh —, e o texto de apoio cola nele. A foto fica no
+         canto inferior direito do cartaz, fora do fluxo, para a altura dela
+         não abrir um vão entre o nome e o apoio. No celular a foto continua
+         na coluna, acima dos ícones. */
+      #hero { min-height: 100dvh; justify-content: center !important; }
+      @media (min-width: 861px) {
+        .hl-hero-nome { font-size: clamp(2.2rem, min(8.5vw, 13vh), 9rem) !important; }
+        .hl-acende { padding-top: clamp(1.6rem, 5vh, 3.25rem) !important; }
+        .hl-hero-left { padding-bottom: clamp(1.4rem, 5vh, 3.25rem) !important; }
+        .hl-hero-inner { display: block !important; margin-top: clamp(0.9rem, 2.2vh, 1.5rem) !important; }
+        .hl-hero-photo {
+          position: absolute !important;
+          width: clamp(120px, min(18vw, 27vh), 270px) !important;
+          right: clamp(1.4rem, 2.6vw, 2.5rem);
+          bottom: clamp(1.4rem, 5vh, 3.25rem);
+          margin: 0 !important;
+        }
+      }
+      @media (max-width: 860px) {
+        .hl-hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
+        .hl-hero-exp  { flex-direction: column !important; align-items: flex-start !important; gap: 0.5rem !important; }
+        .hl-hero-painel { padding: 11px 13px !important; }
+        /* Como era antes: no celular os setores ficam só no Sobre. */
+        .hl-hero-setores { display: none !important; }
       }
 
       /* --- Colunas -------------------------------------------------------
@@ -163,8 +186,6 @@ export function GlobalStyles() {
       @media (max-width: 400px) {
         .hl-hero-photo { width: clamp(104px, 30vw, 148px) !important; margin-top: -4vw !important; }
         .hl-hero-inner { gap: 0.6rem !important; }
-        .hl-hero-exp-card,
-        .hl-hero-cred,
         .hl-hero-inv   { padding: 0.75rem 0.9rem !important; }
       }
       @media (max-width: 340px) {
@@ -218,11 +239,8 @@ export function GlobalStyles() {
           gap: 4px !important;
         }
         .hl-hero-inner { gap: 12px !important; }
-        .hl-hero-exp-card,
-        .hl-hero-cred,
         .hl-hero-inv   { padding: 11px 13px !important; }
         .hl-hero-photo { width: 118px !important; margin-top: -14px !important; }
-        .hl-cred-num   { font-size: 2rem !important; }
 
         /* O inventario e a lista mais longa do hero: e ele que decide se a
            secao cabe na tela. 0,68rem = 12,9px, confortavel e suficiente. */
@@ -270,7 +288,6 @@ export function GlobalStyles() {
           min-height: 44px !important;
           align-items: center !important;
         }
-        .hl-barra-marca { min-height: 44px !important; align-items: center !important; }
 
         /* O diagrama do HUG cresce e passa a arrastar na horizontal. 520px de
            largura poem os rotulos principais em ~13,8px e os secundarios em
@@ -286,17 +303,123 @@ export function GlobalStyles() {
       }
 
       /* --- Movimento ------------------------------------------------------ */
-      @keyframes hl-pulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50%       { opacity: 0.4; transform: scale(0.8); }
-      }
-      @keyframes hl-ticker {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-50%); }
-      }
       @keyframes hl-fadein {
         from { opacity: 0; transform: translateY(18px); }
         to   { opacity: 1; transform: translateY(0); }
+      }
+
+
+      /* --- Movimento: a luz na fibra (src/motion.ts) ----------------------
+         UM tema, tirado do trabalho de quem assina a página: a operação que
+         o Hugo mede é uma rede de fibra. O cartaz nasce de um fio de luz;
+         cada seção começa com a luz correndo no fio do topo; a trajetória
+         acende conforme a rolagem.
+         Nenhum fade-e-sobe genérico por parágrafo, nada em loop. */
+
+      /* Cartaz: a luz corre no fio (esq.→dir.) e o fio abre em cartaz. */
+      .hl-acende { animation: hl-acende 1.15s both; }
+      @keyframes hl-acende {
+        0%   { clip-path: inset(calc(50% - 1px) 100% calc(50% - 1px) 0 round 2px);
+               animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+        42%  { clip-path: inset(calc(50% - 1px) 0 calc(50% - 1px) 0 round 2px);
+               animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+        100% { clip-path: inset(0 0 0 0 round 32px); }
+      }
+
+      /* Nome sobe de dentro de uma máscara, linha a linha. A folga NEGATIVA
+         no topo do clip-path deixa passar o agudo do Á (entrelinha 0.92). */
+      .hl-linha, .hl-mascara { display: block; clip-path: inset(-0.4em -0.3em 0 -0.3em); }
+      .hl-linha > span { display: block; animation: hl-sobe 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+      .hl-linha:nth-child(1) > span { animation-delay: 0.62s; }
+      .hl-linha:nth-child(2) > span { animation-delay: 0.72s; }
+      @keyframes hl-sobe { from { transform: translateY(105%); } to { transform: none; } }
+
+      .hl-entra-foto { animation: hl-foto 0.9s cubic-bezier(0.16,1,0.3,1) 0.85s both; }
+      @keyframes hl-foto {
+        from { opacity: 0; transform: scale(0.86); filter: blur(6px); }
+        to   { opacity: 1; transform: none; filter: none; }
+      }
+      .hl-entra-apoio { animation: hl-fadein 0.7s cubic-bezier(0.16,1,0.3,1) 0.95s both; }
+      .hl-entra { animation: hl-fadein 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+      .hl-hero-grid > .hl-entra:nth-child(1) { animation-delay: 1.0s; }
+      .hl-hero-grid > .hl-entra:nth-child(2) { animation-delay: 1.08s; }
+
+
+      /* Faixa de tecnologias (Ticker.tsx). 60s por volta: devagar o bastante
+         para ler um nome inteiro sem perseguir. */
+      .hl-faixa {
+        background: #0e150a; overflow: hidden;
+        box-shadow: inset 0 1px 0 rgba(238,245,200,0.10), inset 0 -1px 0 rgba(238,245,200,0.10);
+        padding: clamp(1.1rem, 2.4vh, 1.6rem) 0;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+                mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      }
+      .hl-faixa-trilho {
+        list-style: none; display: flex; width: max-content;
+        animation: hl-faixa 60s linear infinite;
+      }
+      .hl-faixa:hover .hl-faixa-trilho,
+      .hl-faixa.hl-fora .hl-faixa-trilho { animation-play-state: paused; }
+      @keyframes hl-faixa { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      .hl-faixa-item {
+        display: inline-flex; align-items: center; white-space: nowrap;
+        font-family: 'Archivo Black', 'Archivo', sans-serif;
+        font-size: clamp(1.1rem, 1.9vw, 1.6rem); letter-spacing: -0.02em; line-height: 1;
+        color: #c3d093; transition: color 0.2s ease;
+      }
+      .hl-faixa-item:hover { color: #eef5c8; }
+      .hl-faixa-marca {
+        width: 7px; height: 7px; background: #d4f74a; transform: rotate(45deg);
+        margin: 0 clamp(1.4rem, 2.6vw, 2.5rem); flex-shrink: 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hl-faixa { -webkit-mask-image: none; mask-image: none; padding-left: 1rem; padding-right: 1rem; }
+        .hl-faixa-trilho { animation: none !important; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 0.9rem; }
+        .hl-faixa-item[aria-hidden="true"] { display: none; }
+      }
+
+      /* Seções: a luz corre no fio do topo e se apaga; o título sobe da
+         máscara, no mesmo gesto do nome. Visível por padrão: o estado oculto
+         só existe sob html.hl-motion, que o script põe. */
+      .hl-head { position: relative; }
+      .hl-head-luz {
+        position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+        background: linear-gradient(90deg, #d4f74a, #d4f74a 55%, rgba(212,247,74,0));
+        transform-origin: left; transform: scaleX(0); opacity: 0;
+      }
+      html.hl-motion .hl-head.is-in .hl-head-luz { animation: hl-fio-secao 1.5s cubic-bezier(0.65,0,0.35,1) both; }
+      @keyframes hl-fio-secao {
+        0%   { transform: scaleX(0); opacity: 1; }
+        55%  { transform: scaleX(1); opacity: 1; }
+        100% { transform: scaleX(1); opacity: 0; }
+      }
+      .hl-mascara > span { display: block; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.12s; }
+      .hl-mascara + .hl-mascara > span { transition-delay: 0.2s; }
+      html.hl-motion :is(.hl-head, .hl-contato-titulo):not(.is-in) .hl-mascara > span { transform: translateY(105%); }
+      .hl-head > div { transition: opacity 0.8s ease 0.35s; }
+      html.hl-motion .hl-head:not(.is-in) > div { opacity: 0; }
+
+      /* Cartões de projeto entram como LISTA (cascata curta, uma vez só). */
+      html.hl-motion [data-rv]:not(.is-in) { opacity: 0; }
+      #projetos article img { transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+      #projetos article:hover img { transform: scale(1.03); }
+      ::view-transition-group(*) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.16,1,0.3,1); }
+      ::view-transition-old(*), ::view-transition-new(*) { animation-duration: 0.25s; }
+
+      /* Trajetória: o fio lima desce com a rolagem e cada marco acende —
+         vira losango — quando a luz chega nele. */
+      .hl-trilho-fio {
+        position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+        background: #d4f74a; transform-origin: top;
+        transform: scaleY(var(--p, 0)); pointer-events: none;
+      }
+      html.hl-motion .hl-exp-marca {
+        background: #3a4626 !important;
+        transition: background 0.35s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      }
+      html.hl-motion .hl-exp-marca.aceso { background: #d4f74a !important; transform: rotate(45deg); }
+      @media (prefers-reduced-motion: reduce) {
+        .hl-trilho-fio { display: none; }
       }
 
       /* --- Foto do hero em popup ------------------------------------------
@@ -318,7 +441,6 @@ export function GlobalStyles() {
       .hl-lightbox-backdrop { animation: hl-lightbox-in 200ms ease forwards; }
       .hl-lightbox-fig      { animation: hl-lightbox-fig-in 260ms cubic-bezier(0.16,1,0.3,1) forwards; }
 
-      .hl-pulse  { animation: hl-pulse 2s infinite; }
       /* Sai de um estado JÁ VISÍVEL: se o script falhar ou a animação não
          disparar, o bloco continua na tela em vez de ficar invisível. */
       .hl-fadein { animation: hl-fadein 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
@@ -335,7 +457,6 @@ export function GlobalStyles() {
           transition-duration: 0.001ms !important;
           scroll-behavior: auto !important;
         }
-        .hl-ticker-trilho { animation: none !important; transform: none !important; }
       }
     `;
     document.head.appendChild(style);

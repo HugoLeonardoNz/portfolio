@@ -63,10 +63,10 @@ dele. O que o preflight de fato fazia nesta página foi portado explícito para
 portfolio/
 ├── index.html              — meta tags, Open Graph e og:image:alt (fonte da
 │                             contagem de testes que o site reivindica)
-├── vite.config.ts
+├── vite.config.ts          — base do domínio e CSP injetada na build
 ├── public/
-│   ├── hugo-foto.png
-│   ├── og-card.png         — cartão de compartilhamento, gerado por tools/
+│   ├── hugo-foto.webp
+│   ├── og-card-v3.png      — cartão de compartilhamento, gerado por tools/
 │   ├── favicon.svg
 │   ├── icons.svg
 │   └── telas/              — miniaturas dos projetos (7 pastas)
@@ -78,6 +78,8 @@ portfolio/
     ├── main.tsx
     ├── App.tsx
     ├── Index.tsx           — monta as seções na ordem da página
+    ├── motion.ts           — movimento de rolagem (cabeçalhos, cartões,
+    │                         trajetória, faixa); nada roda com "reduzir movimento"
     ├── index.css           — reset (o que restou do preflight do Tailwind)
     ├── theme.ts            — tokens: C, F, R, S
     ├── data/

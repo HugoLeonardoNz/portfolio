@@ -40,10 +40,6 @@ import { C, F, R, S } from "../theme";
  * 721 KB, e é o primeiro arquivo que o celular baixa. Em WEBP com alfa são 39 KB.
  */
 
-/** Setores atendidos. Escrito por extenso porque "6 setores" não diz nada; a
- *  lista diz que a operação inteira passa por uma pessoa só. */
-const SETORES = "Comercial · Financeiro · NOC · Suporte · Projetos · Diretoria";
-
 // Inventario de PECAS, nao de cartoes: o pipeline do Fabric mora dentro do
 // repositorio do Telecom Operadoras, mas e trabalho distinto e conta separado.
 //
@@ -62,20 +58,38 @@ const INVENTARIO = [
   "1 pacote SQL com dbt + CI",
 ];
 
+/** Setores atendidos, por extenso: "6 setores" não diz nada. */
+const SETORES = "Comercial · Financeiro · NOC · Suporte · Projetos · Diretoria";
+
+/** Os dois painéis abaixo do cartaz usam a MESMA casca e o MESMO rótulo. */
+const painel = {
+  background: C.paper, borderRadius: R.panel,
+  padding: "clamp(1rem, 2.2vh, 1.5rem) clamp(1.2rem, 2vw, 1.8rem)",
+  display: "flex", flexDirection: "column" as const,
+  gap: "clamp(0.6rem, 1.4vh, 0.9rem)",
+};
+const rotulo = {
+  fontFamily: F.mono, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
+  letterSpacing: "0.1em", textTransform: "uppercase" as const, color: C.ink3,
+};
+
 export function Hero() {
   return (
     <section id="hero" style={{
       background: C.bg,
-      minHeight: "100dvh",
+      // Sem 100dvh desde 2026-10-09: com o cartaz compacto, a altura minima
+      // centralizava o bloco e abria um vao entre a barra e o cartaz. Agora o
+      // cartaz encosta na barra e a secao seguinte aparece na dobra, o que
+      // tambem avisa que a pagina continua.
       boxSizing: "border-box",
-      display: "flex", flexDirection: "column", justifyContent: "center",
+      display: "flex", flexDirection: "column", justifyContent: "flex-start",
       gap: "clamp(0.7rem, 1.6vh, 1.25rem)",
       // O topo precisa livrar a nav fixa (1,5rem de padding + ~20px de linha).
-      padding: `clamp(4.5rem, 9vh, 6rem) ${S.gutter} clamp(1.25rem, 3vh, 2.5rem)`,
+      padding: `clamp(4.6rem, 8vh, 5.25rem) ${S.gutter} clamp(1.25rem, 3vh, 2.5rem)`,
       position: "relative", overflow: "hidden",
     }}>
       {/* ── Bloco lima ───────────────────────────────────────────────── */}
-      <div className="hl-fadein" style={{
+      <div className="hl-acende" style={{
         background: C.acid, borderRadius: R.hero,
         position: "relative", overflow: "hidden",
         padding: "clamp(1.4rem, 3vh, 2.5rem) clamp(1.4rem, 2.6vw, 2.5rem) 0",
@@ -93,7 +107,8 @@ export function Hero() {
           color: C.onAcid, textTransform: "uppercase",
           position: "relative", zIndex: 2, pointerEvents: "none",
         }}>
-          Hugo<br />Nazário
+          <span className="hl-linha"><span>Hugo</span></span>
+          <span className="hl-linha"><span>Nazário</span></span>
         </h1>
 
         {/* DUAS colunas, não três (revisto 2026-08-27).
@@ -110,7 +125,7 @@ export function Hero() {
           marginTop: "clamp(-1.5rem, -1.5vh, -0.5rem)",
         }}>
           {/* coluna esquerda */}
-          <div className="hl-hero-left" style={{
+          <div className="hl-hero-left hl-entra-apoio" style={{
             position: "relative", zIndex: 3,
             paddingBottom: "clamp(1.2rem, 3vh, 2.5rem)",
           }}>
@@ -118,8 +133,10 @@ export function Hero() {
               fontSize: "clamp(0.75rem, 1.6vh, 0.92rem)", lineHeight: 1.55,
               color: C.onAcid, maxWidth: "34ch", fontWeight: 500, opacity: 0.85,
             }}>
+              {/* "num provedor de fibra em operação" saiu daqui em 2026-10-09:
+                  a frase do painel de experiência, logo abaixo, diz o mesmo. */}
               Analista de Dados Pleno. Do SQL bruto ao painel na tela da
-              diretoria, num provedor de fibra em operação.
+              diretoria.
             </p>
 
             {/* Eram duas bolinhas com as letras "in" e "gh" dentro. Sigla
@@ -162,8 +179,10 @@ export function Hero() {
                 fontSize: "clamp(0.7rem, 1.4vh, 0.82rem)", fontWeight: 600,
                 color: C.onAcid, opacity: 0.85, whiteSpace: "nowrap",
               }}>
-                <span className="hl-pulse" style={{
-                  width: 6, height: 6, borderRadius: "50%",
+                {/* Quadrado aceso, parado: o LED piscando era o tique de todo
+                    portfolio. O quadrado e a mesma marca da trajetoria. */}
+                <span style={{
+                  width: 6, height: 6,
                   background: C.onAcid, display: "inline-block", flexShrink: 0,
                 }} />
                 Disponível para projetos
@@ -198,7 +217,7 @@ export function Hero() {
               conferir. Agora a subida so consome a ENTRELINHA (o vao entre a
               base do glifo e a base da caixa de linha), nunca o desenho da
               letra: a sensacao de sobreposicao continua, o nome fica inteiro. */}
-          <div className="hl-hero-photo" style={{
+          <div className="hl-hero-photo hl-entra-foto" style={{
             width: "clamp(120px, min(24vw, 30vh), 340px)",
             aspectRatio: "1 / 1",
             justifySelf: "end", alignSelf: "end",
@@ -222,90 +241,62 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ── Experiência + credencial + inventário ───────────────────────
-          Três cartões, não dois. O "3 anos" tinha sua PRÓPRIA credibilidade
-          — é a resposta à primeira pergunta que um recrutador faz — e vivia
-          espremido dentro do cartão da frase, como se fosse um enfeite dela.
-          Separado, ele vira o que sempre foi: um cartão de experiência,
-          sozinho, do mesmo jeito que os outros dois são cartões próprios. */}
+      {/* ── Experiência + inventário ───────────────────────────────────
+          Dois painéis IRMÃOS (2026-10-09): mesmo fundo, mesmo raio, mesmo
+          respiro, e cada um abre com um rótulo em mono na mesma linha de
+          base. É essa repetição que dá harmonia — o olho lê "dois blocos do
+          mesmo tipo" e não "três peças soltas". Os setores voltam como texto:
+          o desenho de fibra com pulso de luz foi descartado. */}
       <div className="hl-hero-grid" style={{
         maxWidth: S.maxw, width: "100%", margin: "0 auto",
         display: "grid", gap: "clamp(0.7rem, 1.6vh, 1.25rem)",
-        gridTemplateColumns: "minmax(0, 0.62fr) minmax(0, 1.15fr) minmax(0, 1fr)",
+        gridTemplateColumns: "minmax(0, 1.25fr) minmax(0, 1fr)",
         alignItems: "stretch",
       }}>
-
-        {/* Experiência. O "3" carrega o cartão inteiro: é o único número da
-            abertura que não é inventário. Os outros dizem quantas peças
-            existem; este diz há quanto tempo a pessoa faz isso todo dia. */}
-        <div className="hl-hero-exp-card" style={{
-          background: C.paper, borderRadius: R.panel,
-          padding: "clamp(1rem, 2.2vh, 1.6rem) clamp(1.2rem, 2vw, 1.8rem)",
-          display: "flex", flexDirection: "column", justifyContent: "center",
-        }}>
-          <div style={{
-            fontFamily: F.mono, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
-            letterSpacing: "0.1em", textTransform: "uppercase", color: C.ink3,
-            marginBottom: "clamp(0.3rem, 0.8vh, 0.5rem)",
+        <div className="hl-hero-painel hl-entra" style={painel}>
+          <div style={rotulo}>Experiência</div>
+          <div className="hl-hero-exp" style={{
+            display: "flex", alignItems: "center",
+            gap: "clamp(1rem, 2.4vw, 2.25rem)",
           }}>
-            Experiência
-          </div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-            <span className="hl-cred-num" style={{
-              fontFamily: F.display,
-              fontSize: "clamp(2.6rem, min(7vw, 7.5vh), 5rem)",
-              color: C.acid, lineHeight: 0.82, letterSpacing: "-0.04em",
-            }}>3</span>
-            <span style={{
-              fontFamily: F.display, fontSize: "clamp(0.95rem, 1.9vh, 1.15rem)",
-              color: C.acid, letterSpacing: "-0.02em",
-            }}>anos</span>
-          </div>
-        </div>
-
-        {/* Credencial. A frase e os setores continuam juntos — são a mesma
-            ideia em duas resoluções — só que agora sem o número de anos
-            competindo por espaço aqui dentro. */}
-        <div className="hl-hero-cred" style={{
-          background: C.paper, borderRadius: R.panel,
-          padding: "clamp(1rem, 2.2vh, 1.6rem) clamp(1.2rem, 2vw, 1.8rem)",
-          display: "flex", alignItems: "center",
-        }}>
-          <div>
-            <div className="hl-cred-frase" style={{
-              fontSize: "clamp(0.8rem, 1.7vh, 0.9rem)", color: C.ink, fontWeight: 600,
-              lineHeight: 1.45, marginBottom: "0.45rem",
-            }}>
-              construindo a inteligência de dados de um provedor de fibra em
-              operação, ponto focal dos seis setores
+            <div style={{ display: "flex", alignItems: "baseline", gap: "0.4rem", flexShrink: 0 }}>
+              <span className="hl-cred-num" style={{
+                fontFamily: F.display,
+                fontSize: "clamp(2.6rem, min(6vw, 7vh), 4.5rem)",
+                color: C.acid, lineHeight: 0.82, letterSpacing: "-0.04em",
+              }}>3</span>
+              <span style={{
+                fontFamily: F.display, fontSize: "clamp(0.95rem, 1.9vh, 1.15rem)",
+                color: C.acid, letterSpacing: "-0.02em",
+              }}>anos</span>
             </div>
-            <div className="hl-hero-setores" style={{
-              fontFamily: F.mono, fontSize: "clamp(0.63rem, 1.3vh, 0.7rem)",
-              letterSpacing: "0.04em", color: C.ink3, lineHeight: 1.5,
-            }}>
-              {SETORES}
+            <div style={{ minWidth: 0 }}>
+              <p style={{
+                fontSize: "clamp(0.82rem, 1.7vh, 0.95rem)", color: C.ink, fontWeight: 600,
+                lineHeight: 1.45, maxWidth: "52ch",
+              }}>
+                construindo a inteligência de dados de um provedor de fibra em
+                operação, ponto focal dos seis setores
+              </p>
+              <p className="hl-hero-setores" style={{
+                marginTop: "0.45rem",
+                fontFamily: F.mono, fontSize: "clamp(0.63rem, 1.3vh, 0.7rem)",
+                letterSpacing: "0.04em", color: C.ink3, lineHeight: 1.5,
+              }}>
+                {SETORES}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* O que. */}
-        <div className="hl-hero-inv" style={{
-          background: C.paper, borderRadius: R.panel,
-          padding: "clamp(1rem, 2.2vh, 1.6rem) clamp(1.2rem, 2vw, 1.8rem)",
-          display: "flex", flexDirection: "column", justifyContent: "center",
-        }}>
-          <div style={{
-            fontFamily: F.mono, fontSize: "clamp(0.64rem, 1.3vh, 0.72rem)",
-            letterSpacing: "0.1em", textTransform: "uppercase", color: C.ink3,
-            marginBottom: "clamp(0.55rem, 1.4vh, 0.9rem)",
+        <div className="hl-hero-painel hl-hero-inv hl-entra" style={painel}>
+          <div style={rotulo}>Este portfólio conta com</div>
+          {/* Contagem se lê em coluna, com o algarismo alinhado. */}
+          <ul className="hl-inv-lista" style={{
+            listStyle: "none", display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: "0.3rem clamp(1rem, 2vw, 2rem)",
           }}>
-            Este portfólio conta com
-          </div>
-          {/* Eram cinco pilulas com borda lima. Um inventario nao e um conjunto
-              de filtros clicaveis — e uma CONTAGEM, e contagem se le em coluna,
-              com o algarismo alinhado. As pilulas ainda sugeriam que dava para
-              clicar nelas, o que nunca foi verdade. */}
-          <ul style={{ listStyle: "none", display: "grid", gap: "0.3rem" }}>
             {INVENTARIO.map((t) => {
               const [n, ...resto] = t.split(" ");
               return (
