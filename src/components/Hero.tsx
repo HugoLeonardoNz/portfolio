@@ -151,7 +151,7 @@ export function Hero() {
               marginTop: "clamp(0.7rem, 1.8vh, 1.4rem)",
             }}>
               {[
-                { nome: "LinkedIn", Icone: LinkedInMark, href: "https://linkedin.com/in/hugo-leonardo-data-analyst" },
+                { nome: "LinkedIn", Icone: LinkedInMark, href: "https://linkedin.com/in/hugo-nazario" },
                 { nome: "GitHub",   Icone: GitHubMark,   href: "https://github.com/HugoLeonardoNz" },
               ].map(({ nome, Icone, href }) => (
                 <a

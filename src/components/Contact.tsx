@@ -25,7 +25,7 @@ import { C, F, S } from "../theme";
 const CANAIS = [
   { rotulo: "Email",    valor: "hugoworknz@gmail.com",                      href: "mailto:hugoworknz@gmail.com", externo: false },
   { rotulo: "WhatsApp", valor: "+55 31 97561-5009",                          href: "https://wa.me/5531975615009", externo: true },
-  { rotulo: "LinkedIn", valor: "linkedin.com/in/hugo-leonardo-data-analyst", href: "https://linkedin.com/in/hugo-leonardo-data-analyst", externo: true },
+  { rotulo: "LinkedIn", valor: "linkedin.com/in/hugo-nazario", href: "https://linkedin.com/in/hugo-nazario", externo: true },
   { rotulo: "GitHub",   valor: "github.com/HugoLeonardoNz",                  href: "https://github.com/HugoLeonardoNz", externo: true },
 ];
 
