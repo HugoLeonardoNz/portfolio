@@ -31,7 +31,7 @@ export const EXPERIENCE = [
   },
   {
     title: "Analista de Dados Júnior", company: "Speed Fibra",
-    period: "Fev 2023 — Jun 2023", location: "Minas Gerais, MG",
+    period: "Fev 2023 — Jun 2023", location: "Belo Horizonte, MG",
     bullets: [
       "Início da trajetória com SQL, Power BI e Python em análises operacionais e apoio estratégico",
       "Implantação de novas tecnologias e supervisão do ERP com rápida evolução técnica",
@@ -41,7 +41,7 @@ export const EXPERIENCE = [
 ];
 
 export const ABOUT_TEXT_STRINGS = [
-  "Entrei em fevereiro de 2023 como júnior e hoje respondo por toda a inteligência de dados de um provedor de fibra em operação. São três anos no mesmo lugar — tempo suficiente para ver um indicador nascer, ser contestado numa reunião de diretoria e virar rotina de decisão.",
+  "Entrei em fevereiro de 2023 como júnior e hoje respondo por toda a inteligência de dados de um provedor de fibra em operação. São quase quatro anos no mesmo lugar — tempo suficiente para ver um indicador nascer, ser contestado numa reunião de diretoria e virar rotina de decisão.",
   "Seis frentes passam pela mesma pessoa: Comercial, Financeiro, NOC, Suporte, Projetos e Diretoria. Na prática isso é churn, inadimplência, ranking de performance e falha de rede identificada antes de virar chamado. SQL e Python são as ferramentas; o negócio é o produto.",
   "O trabalho de hoje é o HUG: plataforma interna de dashboards construída do zero, que substituiu o Power BI da empresa. Doze painéis, ETLs agendados e mais de 600 testes automatizados para garantir que o número da tela é o número do banco.",
 ];

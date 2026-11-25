@@ -24,15 +24,15 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parent.parent
-DESTINO = RAIZ / "public" / "og-card-v3.png"
+DESTINO = RAIZ / "public" / "og-card-v4.png"
 FOTO = RAIZ / "public" / "hugo-foto.webp"
 
 W, H = 1200, 630
-BG = "#141c0d"
-ACID = "#d4f74a"
-INK = "#eef5c8"
-INK3 = "#8a9470"
-ON_ACID = "#141c0d"
+BG = "#0b0a0a"
+ACID = "#2f6bd8"
+INK = "#ede8e3"
+INK3 = "#87807a"
+ON_ACID = "#ffffff"
 
 FONTES = "C:/Windows/Fonts"
 
@@ -48,7 +48,7 @@ def main() -> None:
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
 
-    # Faixa lima a esquerda: o acento como SUPERFICIE, a regra do theme.ts.
+    # Faixa azul a esquerda (identidade de 25/11/2026): o acento como SUPERFICIE, a regra do theme.ts.
     d.rectangle([0, 0, 14, H], fill=ACID)
 
     f_nome = fonte("arialbd.ttf", 78)
@@ -58,7 +58,7 @@ def main() -> None:
 
     x = 72
     d.text((x, 92), "HUGO NAZÁRIO", font=f_nome, fill=INK)
-    d.text((x, 190), "Analista de Dados Pleno", font=f_cargo, fill=ACID)
+    d.text((x, 190), "Analista de Dados Pleno", font=f_cargo, fill="#7ea6f0")
 
     # SEM "único analista" (2026-09-03). O PRODUCT.md tirou esse enquadramento
     # do material público — ele não acrescenta escopo ("ponto focal de seis
@@ -68,8 +68,8 @@ def main() -> None:
     # O card ficou com a frase antiga porque foi gerado antes daquela decisão:
     # a imagem é a única peça do portfólio que não se regera sozinha.
     linhas = [
-        "Três anos de inteligência de dados num provedor de fibra",
-        "em operação — ponto focal de seis setores.",
+        "Quase quatro anos de inteligência de dados num provedor",
+        "de fibra em operação — ponto focal de seis setores.",
     ]
     y = 250
     for ln in linhas:
@@ -95,14 +95,14 @@ def main() -> None:
 
     d.text((x, 545), "hugonazario.com", font=f_txt, fill=INK3)
 
-    # Foto em circulo, com anel lima.
+    # Foto em P&B no círculo, com o círculo cortado da logo em azul.
     if FOTO.exists():
         lado = 300
-        foto = Image.open(FOTO).convert("RGB").resize((lado, lado), Image.LANCZOS)
+        foto = Image.open(FOTO).convert("L").convert("RGB").resize((lado, lado), Image.LANCZOS)
         mask = Image.new("L", (lado, lado), 0)
         ImageDraw.Draw(mask).ellipse([0, 0, lado, lado], fill=255)
         cx, cy = W - lado - 80, (H - lado) // 2
-        d.ellipse([cx - 6, cy - 6, cx + lado + 6, cy + lado + 6], outline=ACID, width=5)
+        d.arc([cx - 14, cy - 14, cx + lado + 14, cy + lado + 14], start=-20, end=250, fill=ACID, width=6)
         img.paste(foto, (cx, cy), mask)
 
     img.save(DESTINO, "PNG", optimize=True)

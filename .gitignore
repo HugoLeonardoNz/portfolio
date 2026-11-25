@@ -29,3 +29,11 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Impeccable: prints de revisão
+.impeccable/review/
+
+# Referências de terceiros (inspiração da logo): só no PC, não no repo público
+docs/marca/inspiracoes/
+docs/marca/referencia.png
+docs/marca/marca-r6-inspiracoes.html

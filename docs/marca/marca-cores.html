@@ -1,0 +1,125 @@
+<title>Marca Hugo Nazário</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: grade de versões de cor do Selo à mão; cada cartão é o selo no próprio fundo,
+   com o nome embaixo e a prévia redonda de avatar no canto. */
+:root { --page:#08080a; --ink:#ececef; --ink2:#a1a1a9; --ink3:#66666e; --rule:rgba(236,236,239,.09);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono",ui-monospace,Consolas,monospace; color-scheme:dark; }
+* { box-sizing:border-box; }
+body { background:var(--page); color:var(--ink); font-family:var(--display); font-size:16px; line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px)); padding-block:0 64px; }
+.wrap { max-width:1180px; margin:0 auto; }
+header { padding-block:48px 32px; border-bottom:1px solid var(--rule); margin-bottom:40px; }
+.eyebrow { font:12px var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); }
+h1 { font-size:clamp(32px,5vw,52px); font-weight:650; font-stretch:85%; line-height:1; letter-spacing:-.02em; margin:8px 0 0; }
+.lede { color:var(--ink2); max-width:62ch; margin:12px 0 0; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr)); gap:40px 28px; }
+.v { display:flex; flex-direction:column; gap:16px; min-width:0; }
+.stage { background:var(--bg); border-radius:4px; aspect-ratio:1/1; max-width:100%; position:relative;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
+.stage .big { width:48%; height:auto; overflow:visible; }
+.wm { text-align:center; display:flex; flex-direction:column; gap:8px; }
+.wm .n { color:var(--wm); font-weight:400; font-stretch:125%; font-size:15px; letter-spacing:.3em; margin-right:-.3em; text-transform:uppercase; line-height:1; }
+.wm .s { color:var(--wm2); font:9.5px var(--mono); letter-spacing:.42em; margin-right:-.42em; text-transform:uppercase; line-height:1; }
+.av { position:absolute; right:12px; top:12px; width:44px; height:44px; border-radius:50%; background:var(--bg);
+  box-shadow:0 0 0 1px rgba(127,127,127,.25); display:grid; place-items:center; }
+.av svg { width:86%; height:auto; --sw:2.2; }
+.r { fill:var(--ring); stroke:var(--ring); stroke-width:var(--sw,0); stroke-linejoin:round; }
+.k { fill:var(--let); stroke:var(--let); stroke-width:var(--sw,0); stroke-linejoin:round; }
+.a { fill:var(--diag); stroke:var(--diag); stroke-width:var(--sw,0); stroke-linejoin:round; }
+.meta { display:flex; gap:14px; align-items:baseline; }
+.num { font:12px var(--mono); color:var(--ink3); font-variant-numeric:tabular-nums; }
+.meta h2 { font-size:20px; font-weight:650; font-stretch:92%; margin:0; line-height:1.2; }
+.meta p { margin:4px 0 0; color:var(--ink2); font-size:14px; max-width:46ch; }
+.v .big { animation: in .9s cubic-bezier(.2,.7,0,1) both; }
+@keyframes in { from { opacity:.0; transform: scale(.96) rotate(-4deg); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) { * { animation:none !important; } }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Portfólio · identidade · rodada 4 · Selo à mão</div>
+    <h1>Marca Hugo Nazário</h1>
+    <p class="lede">Nove versões de cor do selo, todas em vermelho, com menos branco. O círculo no canto de cada quadro mostra como fica a foto redonda do LinkedIn e do GitHub.</p>
+  </header>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="brasa" gradientUnits="userSpaceOnUse" x1="30" y1="12" x2="100" y2="100">
+      <stop offset="0" stop-color="#ff4632"/><stop offset=".55" stop-color="#c22a1c"/><stop offset="1" stop-color="#4e0e09"/>
+    </linearGradient>
+    <g id="selo"><path class="r" d="M47.5 12.8L49.1 12.1L50.8 11.6L52.4 11.1L54.1 10.8L55.8 10.5L57.5 10.3L59.2 10.2L60.9 10.2L62.6 10.2L64.3 10.3L66.0 10.5L67.7 10.7L69.3 10.9L71.0 11.2L72.6 11.5L74.3 11.8L75.9 12.3L77.4 12.7L79.0 13.3L80.6 13.9L82.1 14.5L83.6 15.2L85.0 16.0L86.5 16.8L87.8 17.6L89.2 18.6L90.5 19.5L91.8 20.5L93.1 21.6L94.3 22.7L95.4 23.8L96.6 25.0L97.6 26.2L98.7 27.4L99.7 28.7L100.6 30.1L101.5 31.4L102.3 32.8L103.1 34.2L103.8 35.6L104.5 37.1L105.1 38.6L105.7 40.1L106.2 41.6L106.6 43.2L107.0 44.7L107.4 46.3L107.7 47.9L107.9 49.4L108.1 51.0L108.2 52.6L108.2 54.2L108.3 55.8L108.2 57.4L108.1 59.0L107.9 60.6L107.7 62.2L107.4 63.8L107.1 65.3L106.7 66.9L106.3 68.4L105.8 69.9L105.2 71.4L104.6 72.9L104.0 74.3L103.3 75.8L102.5 77.2L101.7 78.6L100.9 79.9L100.0 81.3L99.1 82.5L98.1 83.8L97.1 85.0L96.0 86.2L94.9 87.4L93.7 88.5L92.5 89.6L91.3 90.6L90.0 91.5L88.6 92.3L87.2 93.0L85.7 93.7L84.3 94.4L82.8 95.0L81.3 95.5L79.8 96.0L78.3 96.5L76.8 96.9L75.3 97.2L73.7 97.5L72.2 97.7L70.6 97.9L69.0 98.0L67.5 98.1L65.9 98.1L64.4 98.1L62.8 98.0L61.3 97.8L59.7 97.6L58.2 97.4L56.7 97.1L55.2 96.7L53.7 96.3L52.2 95.9L50.7 95.4L49.3 94.8L47.9 94.2L46.5 93.5L45.1 92.8L43.8 92.1L42.4 91.3L41.1 90.4L39.9 89.5L38.7 88.6L37.5 87.6L36.3 86.6L35.2 85.5L34.1 84.4L33.1 83.3L32.1 82.1L31.1 80.9L30.2 79.7L29.3 78.4L28.5 77.1L27.8 75.7L27.0 74.4L26.4 73.0L25.7 71.5L25.2 70.1L24.7 68.6L24.2 67.2L23.8 65.7L23.4 64.1L23.1 62.6L22.9 61.1L22.7 59.5L22.6 58.0L22.5 56.4L22.5 54.9L22.5 53.3L22.5 51.7L22.6 50.1L22.8 48.6L23.0 47.0L23.2 45.4L23.6 43.9L24.0 42.3L24.4 40.8L24.9 39.2L25.5 37.7L26.2 36.3L26.9 34.8L27.7 33.4L28.5 32.1L29.5 30.7L30.4 29.5L31.5 28.2L32.6 27.0L33.7 25.9L34.9 24.8L34.7 24.6L33.5 25.7L32.3 26.8L31.1 27.9L30.0 29.1L28.9 30.3L27.8 31.5L26.8 32.8L25.8 34.2L24.9 35.5L23.9 36.9L23.1 38.4L22.2 39.8L21.4 41.3L20.7 42.9L20.0 44.5L19.4 46.1L18.8 47.7L18.4 49.4L17.9 51.1L17.6 52.8L17.4 54.6L17.2 56.3L17.1 58.1L17.2 59.9L17.2 61.7L17.4 63.4L17.7 65.2L18.0 67.0L18.4 68.7L18.8 70.4L19.3 72.1L19.9 73.8L20.6 75.5L21.4 77.1L22.2 78.7L23.0 80.3L24.0 81.8L25.0 83.3L26.0 84.8L27.1 86.2L28.3 87.5L29.5 88.8L30.8 90.1L32.1 91.3L33.5 92.4L34.9 93.5L36.4 94.5L37.8 95.5L39.4 96.4L40.9 97.3L42.5 98.0L44.1 98.8L45.7 99.4L47.4 100.0L49.0 100.5L50.7 101.0L52.4 101.4L54.1 101.7L55.8 102.0L57.5 102.2L59.3 102.3L61.0 102.4L62.7 102.4L64.4 102.3L66.1 102.2L67.8 102.0L69.5 101.8L71.1 101.5L72.8 101.1L74.4 100.7L76.0 100.2L77.6 99.7L79.2 99.1L80.7 98.5L82.3 97.8L83.7 97.0L85.2 96.3L86.6 95.4L88.0 94.5L89.4 93.6L90.7 92.6L92.0 91.6L93.4 90.7L94.7 89.7L96.1 88.7L97.3 87.6L98.6 86.5L99.8 85.3L100.9 84.1L102.1 82.9L103.2 81.6L104.2 80.2L105.2 78.9L106.1 77.4L107.1 76.0L107.9 74.5L108.7 73.0L109.4 71.4L110.1 69.8L110.8 68.2L111.3 66.5L111.9 64.8L112.3 63.1L112.7 61.4L113.0 59.7L113.3 57.9L113.5 56.1L113.6 54.3L113.7 52.5L113.6 50.7L113.6 48.9L113.4 47.1L113.2 45.3L112.9 43.5L112.5 41.7L112.0 39.9L111.5 38.1L110.9 36.4L110.3 34.7L109.5 33.0L108.7 31.3L107.8 29.7L106.9 28.0L105.9 26.5L104.8 25.0L103.7 23.5L102.5 22.0L101.2 20.6L99.9 19.3L98.5 18.0L97.1 16.8L95.6 15.6L94.1 14.5L92.6 13.5L91.0 12.5L89.3 11.6L87.6 10.8L85.9 10.0L84.2 9.3L82.4 8.7L80.7 8.1L78.9 7.7L77.0 7.3L75.2 6.9L73.4 6.7L71.5 6.5L69.7 6.4L67.9 6.4L66.0 6.6L64.2 6.8L62.4 7.1L60.6 7.5L58.9 7.9L57.2 8.4L55.4 8.9L53.8 9.5L52.1 10.1L50.5 10.7L48.9 11.4L47.3 12.1Z"/><path class="k" d="M40.5 34.7L39.6 37.0L39.1 39.5L38.8 42.1L38.5 44.7L38.3 47.3L38.1 50.0L37.9 52.7L37.8 55.5L37.7 58.3L37.6 61.1L37.6 63.9L37.7 66.8L37.8 69.7L37.9 72.6L38.7 75.5L39.5 78.4L40.1 78.4L40.3 75.4L40.7 72.5L40.5 69.6L40.4 66.7L40.3 63.9L40.3 61.1L40.3 58.3L40.4 55.6L40.5 52.8L40.7 50.2L40.9 47.5L41.1 44.9L41.3 42.3L41.6 39.8L41.6 37.3L41.3 34.8Z"/><path class="k" d="M32.0 59.6L33.9 59.5L35.7 59.3L37.5 59.1L39.3 58.9L41.1 58.7L43.0 58.6L44.9 58.5L46.8 58.3L48.7 58.2L50.7 58.1L52.6 58.0L54.7 57.7L56.7 57.5L58.8 57.1L60.8 56.4L62.8 55.6L62.7 55.3L60.6 55.4L58.5 55.5L56.5 55.7L54.5 55.9L52.5 56.1L50.5 56.2L48.6 56.3L46.7 56.5L44.8 56.6L42.9 56.7L41.0 56.9L39.1 57.1L37.2 57.3L35.4 57.7L33.6 58.3L31.9 59.1Z"/><path class="k" d="M61.5 79.0L62.4 76.3L62.8 73.5L62.9 70.7L63.1 67.9L63.2 65.1L63.4 62.2L63.5 59.4L63.5 56.5L63.6 53.6L63.6 50.8L63.6 47.9L63.5 45.0L63.5 42.1L63.4 39.2L63.2 36.4L63.0 33.5L60.3 33.7L60.4 36.5L60.6 39.4L60.7 42.2L60.8 45.1L60.9 47.9L60.9 50.8L60.9 53.6L60.9 56.5L60.8 59.3L60.7 62.1L60.6 65.0L60.5 67.8L60.3 70.6L60.2 73.4L60.2 76.1L60.7 78.9Z"/><path class="a" d="M60.2 34.1L61.0 36.5L61.8 39.1L62.7 41.8L63.7 44.6L64.8 47.4L65.9 50.3L67.0 53.2L68.2 56.1L69.4 59.0L70.7 62.0L72.0 64.9L73.3 67.7L74.7 70.5L76.0 73.3L77.4 76.0L78.7 78.6L79.4 79.7L80.0 80.8L80.6 81.9L81.2 82.9L81.8 83.8L82.4 84.7L83.0 85.5L83.7 86.2L84.4 86.8L85.0 87.4L85.7 88.0L86.3 88.5L86.9 89.0L87.4 89.5L87.9 89.9L88.3 90.4L88.7 90.0L88.3 89.5L87.9 89.0L87.5 88.4L87.2 87.8L86.8 87.1L86.5 86.4L86.1 85.6L85.8 84.8L85.4 83.9L85.0 83.0L84.4 82.1L83.9 81.2L83.3 80.3L82.7 79.3L82.1 78.2L81.5 77.1L80.1 74.6L78.8 71.9L77.4 69.2L76.1 66.4L74.8 63.6L73.5 60.7L72.3 57.8L71.0 54.9L69.9 52.0L68.7 49.2L67.6 46.3L66.6 43.5L65.6 40.8L64.7 38.2L63.9 35.6L63.1 33.1Z"/><path class="k" d="M81.4 77.9L81.6 75.2L81.8 72.5L82.0 69.7L82.2 67.0L82.3 64.3L82.4 61.6L82.5 58.9L82.6 56.2L82.7 53.6L82.8 51.0L82.8 48.4L82.8 45.8L82.8 43.2L82.8 40.7L82.7 38.2L82.6 35.8L82.5 35.3L82.5 34.8L82.6 34.2L82.7 33.7L82.8 33.2L83.1 32.7L83.6 32.3L84.2 32.2L84.9 32.1L85.6 32.0L86.3 31.9L87.1 31.8L88.0 31.7L89.0 31.7L90.1 31.8L91.2 32.2L91.4 31.7L90.3 31.3L89.2 30.8L88.2 30.5L87.2 30.3L86.2 30.2L85.3 30.3L84.4 30.6L83.7 31.0L83.1 31.5L82.5 31.9L81.8 32.3L81.2 32.8L80.7 33.4L80.3 34.2L80.0 35.0L79.9 35.9L80.0 38.3L80.0 40.8L80.1 43.3L80.1 45.8L80.1 48.3L80.1 50.9L80.0 53.5L80.0 56.2L79.9 58.8L79.8 61.5L79.7 64.2L79.5 66.9L79.4 69.6L79.2 72.3L79.0 75.0L78.8 77.7Z"/></g></defs></svg>
+  <div class="grid">
+<article class="v" style="--bg:#0a0a0b;--ring:url(#brasa);--let:#b9b3ad;--diag:#ff4632;--wm:#d8d2cc;--wm2:#6e6a66">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Brasa"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">01</span><div><h2>Brasa</h2><p>O anel vai do vermelho vivo ao vinho, como tinta acabando na pena. As letras saem do branco para um cinza quente.</p></div></div>
+</article>
+<article class="v" style="--bg:#0a0a0b;--ring:#2b2a2e;--let:#8e8a90;--diag:#ff4632;--wm:#a9a5ab;--wm2:#5c5a60">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Só o acento"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">02</span><div><h2>Só o acento</h2><p>Tudo em grafite e só a diagonal em vermelho. O mais discreto: a cor vira assinatura.</p></div></div>
+</article>
+<article class="v" style="--bg:#0a0a0b;--ring:#5e130e;--let:#e2402c;--diag:#ff7a5c;--wm:#e2402c;--wm2:#7a2a22">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Tom sobre tom"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">03</span><div><h2>Tom sobre tom</h2><p>Três vermelhos: anel vinho, letras vermelhas e diagonal mais clara, que acende.</p></div></div>
+</article>
+<article class="v" style="--bg:#0a0a0b;--ring:#ff4632;--let:#ff4632;--diag:#ffc2b5;--wm:#ff4632;--wm2:#8a3127">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Vermelho inteiro"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">04</span><div><h2>Vermelho inteiro</h2><p>Marca toda em vermelho; a diagonal clara mantém o desenho legível.</p></div></div>
+</article>
+<article class="v" style="--bg:#0a0a0b;--ring:#b3261e;--let:#a8a29c;--diag:#ff4632;--wm:#cfc9c3;--wm2:#6a6560">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Carmim"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">05</span><div><h2>Carmim</h2><p>Anel carmim fechado, letras cinza, diagonal no vermelho vivo. Mais sóbrio que a Brasa.</p></div></div>
+</article>
+<article class="v" style="--bg:#22070a;--ring:#ff4632;--let:#f1b6aa;--diag:#ff7a5c;--wm:#f1b6aa;--wm2:#9a5a52">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Vinho"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">06</span><div><h2>Vinho</h2><p>Fundo vinho em vez de preto, letras rosadas. Mais quente; serve como seção de destaque no site.</p></div></div>
+</article>
+<article class="v" style="--bg:#e2402c;--ring:#0d0b0b;--let:#0d0b0b;--diag:#f6ede6;--wm:#0d0b0b;--wm2:#6e1d14">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Selo invertido"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">07</span><div><h2>Selo invertido</h2><p>Fundo vermelho, marca preta e diagonal clara. Feito para a foto redonda e o card de compartilhamento.</p></div></div>
+</article>
+<article class="v" style="--bg:#0a0a0b;--ring:url(#brasa);--let:#e2402c;--diag:#ffc2b5;--wm:#e2402c;--wm2:#7a2a22">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Brasa vermelha"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">08</span><div><h2>Brasa vermelha</h2><p>A Brasa sem cinza: anel em degradê, letras vermelhas e a diagonal clara puxando o olho.</p></div></div>
+</article>
+<article class="v" style="--bg:#f1ece6;--ring:#c62b1c;--let:#1b1a1c;--diag:#ff4632;--wm:#1b1a1c;--wm2:#8a847e">
+  <div class="stage">
+    <svg viewBox="14 4 102 104" class="big" role="img" aria-label="Selo HN, versão Papel"><use href="#selo"/></svg>
+    <div class="wm"><div class="n">Hugo Nazário</div><div class="s">Análise de dados</div></div>
+    <div class="av" aria-hidden="true"><svg viewBox="14 4 102 104"><use href="#selo"/></svg></div>
+  </div>
+  <div class="meta"><span class="num">09</span><div><h2>Papel</h2><p>Versão clara para currículo e PDF impresso.</p></div></div>
+</article></div>
+</div>

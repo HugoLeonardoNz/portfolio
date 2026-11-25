@@ -106,7 +106,7 @@ export function PhotoLightbox({ src, alt, children, onAnterior, onProxima }: Pro
           className="hl-foto-lupa"
           style={{
             position: "absolute", inset: 0,
-            background: "rgba(20,28,13,0.55)",
+            background: "rgba(11,10,10,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
             opacity: 0, transition: "opacity 200ms ease",
           }}

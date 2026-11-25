@@ -1,0 +1,657 @@
+/* =============================================================================
+   Repaginada 25/11/2026. Preto, tinta quente e o azul da logo (#2F6BD8; era rubi até 25/11/2026).
+   O azul cheio é traço e superfície; texto pequeno usa o azul claro --acento-tx.
+   Tokens espelhados em src/theme.ts (os componentes de ui/ leem de lá).
+   ========================================================================== */
+
+:root {
+  --bg: #0b0a0a;
+  --paper: #141212;
+  --ink: #ede8e3;
+  --ink2: #b3aca6;
+  --ink3: #87807a;
+  --acento: #2f6bd8;
+  --acento2: #4a83e8;
+  --rule: rgba(237, 232, 227, 0.10);
+  --rule2: rgba(237, 232, 227, 0.22);
+
+  --sans: "Archivo", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, monospace;
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --secao: clamp(5rem, 13vh, 9.5rem);
+  --barra: 72px;
+
+  --sai: cubic-bezier(0.16, 1, 0.3, 1);      /* subir e revelar */
+  --pena: cubic-bezier(0.65, 0, 0.35, 1);    /* escrever um traço */
+  color-scheme: dark;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--barra) + 1rem);
+  scrollbar-color: #3a3433 var(--bg);
+  scrollbar-width: thin;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-variation-settings: "wdth" 100;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  caret-color: var(--acento2);
+  overflow-x: clip;
+}
+::selection { background: var(--acento); color: #fff; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+p, h1, h2, h3, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+.caixa { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+.rotulo, .ficha dt, .stack-titulo, .canal-rotulo {
+  font-family: var(--sans);
+  font-variation-settings: "wdth" 125;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.pular {
+  position: absolute; left: var(--gutter); top: -4rem; z-index: 100;
+  background: var(--ink); color: var(--bg); padding: 0.6rem 1rem; border-radius: 4px;
+  font-weight: 600; transition: top 0.2s var(--sai);
+}
+.pular:focus { top: 1rem; }
+
+/* --- A logo ------------------------------------------------------------- */
+.hn { display: block; overflow: visible; }
+.hn path {
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: var(--sw, 12);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.barra .hn { --sw: 19; }
+.rodape .hn { --sw: 19; }
+
+/* --- Botões e links ----------------------------------------------------- */
+.botao {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  min-height: 48px; padding: 0 1.4rem;
+  background: var(--acento); color: #fff;
+  border-radius: 4px;
+  font-weight: 600; font-size: 0.95rem; letter-spacing: 0.005em;
+  transition: background-color 0.2s ease, transform 0.2s var(--sai);
+}
+.botao svg { transition: transform 0.35s var(--sai); }
+.botao:hover { background: var(--acento2); }
+.botao:hover svg { transform: translateY(2px); }
+.botao:active { transform: translateY(1px); }
+.botao-sm { min-height: 38px; padding: 0 1rem; font-size: 0.86rem; }
+
+/* Sublinhado que se escreve: um fio claro em repouso, o rubi corre por cima. */
+.link-icone, .link-sub {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  color: var(--ink); font-weight: 500; font-size: 0.95rem;
+  padding-block: 0.3rem;
+  background:
+    linear-gradient(var(--acento), var(--acento)) no-repeat 0 100% / 0% 2px,
+    linear-gradient(var(--rule2), var(--rule2)) no-repeat 0 100% / 100% 1px;
+  transition: background-size 0.45s var(--pena);
+}
+.link-icone:hover, .link-sub:hover,
+.link-icone:focus-visible, .link-sub:focus-visible { background-size: 100% 2px, 100% 1px; }
+.link-sub svg:last-child { transition: transform 0.35s var(--sai); }
+.link-sub:hover svg:last-child { transform: translate(2px, -2px); }
+
+/* --- Barra do topo ------------------------------------------------------ */
+.barra {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+}
+.barra-rolou {
+  background: rgba(11, 10, 10, 0.84);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  box-shadow: inset 0 -1px 0 var(--rule);
+}
+.barra-in { height: var(--barra); display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.barra-marca { display: inline-flex; align-items: center; gap: 0.8rem; }
+.barra-nome {
+  font-variation-settings: "wdth" 125; font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink);
+}
+.barra-nav { display: flex; align-items: center; gap: clamp(1.2rem, 2.4vw, 2.2rem); }
+.barra-link {
+  position: relative; font-size: 0.9rem; color: var(--ink2); padding-block: 0.4rem;
+  transition: color 0.2s ease;
+}
+.barra-link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--acento); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.45s var(--pena);
+}
+.barra-link:hover { color: var(--ink); }
+.barra-link.ativo { color: var(--ink); }
+.barra-link.ativo::after { transform: scaleX(1); }
+
+.barra-menu { display: none; width: 44px; height: 44px; place-items: center; cursor: pointer; position: relative; }
+.barra-menu span {
+  position: absolute; left: 11px; width: 22px; height: 1.5px; background: var(--ink);
+  transition: transform 0.35s var(--sai);
+}
+.barra-menu span:first-child { transform: translateY(-4px); }
+.barra-menu span:last-child { transform: translateY(4px); }
+.barra-menu[aria-expanded="true"] span:first-child { transform: rotate(45deg); }
+.barra-menu[aria-expanded="true"] span:last-child { transform: rotate(-45deg); }
+
+.menu-movel {
+  position: fixed; inset: var(--barra) 0 0 0;
+  background: rgba(11, 10, 10, 0.97);
+  padding: 1.5rem var(--gutter);
+  display: flex; flex-direction: column;
+}
+.menu-movel[hidden] { display: none; }
+.menu-movel a {
+  font-variation-settings: "wdth" 80; font-weight: 650; font-size: 2.2rem; letter-spacing: -0.02em;
+  padding-block: 0.9rem; box-shadow: inset 0 -1px 0 var(--rule);
+  animation: menu-in 0.55s var(--sai) both;
+}
+.menu-movel a:nth-child(2) { animation-delay: 40ms; }
+.menu-movel a:nth-child(3) { animation-delay: 80ms; }
+.menu-movel a:nth-child(4) { animation-delay: 120ms; }
+.menu-movel a:nth-child(5) { animation-delay: 160ms; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(12px); } }
+
+/* --- Abertura ----------------------------------------------------------- */
+.hero {
+  min-height: min(100svh, 62rem);
+  display: flex; align-items: center;
+  padding-block: calc(var(--barra) + 2rem) 3rem;
+}
+.hero-grade {
+  width: 100%;
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  align-items: center; gap: clamp(2.5rem, 7vw, 7rem);
+}
+.hero-nome {
+  font-variation-settings: "wdth" 72;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 8.4vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.mascara { display: block; overflow: hidden; padding-top: 0.12em; margin-top: -0.12em; padding-bottom: 0.04em; }
+.mascara > span { display: block; }
+.hero-cargo {
+  margin-top: 1.9rem;
+  font-variation-settings: "wdth" 125; font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink2);
+}
+.hero-cargo .sep { color: var(--ink3); margin-inline: 0.35em; }
+.hero-cargo .item { white-space: nowrap; }
+.hero-lede {
+  margin-top: 1.1rem; max-width: 42ch;
+  font-size: clamp(1.08rem, 1.35vw, 1.25rem); line-height: 1.55; color: var(--ink2);
+}
+.hero-acoes { margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem 1.8rem; }
+
+.hero-foto-wrap { position: relative; width: min(100%, 27rem); aspect-ratio: 1; justify-self: center; }
+.hero-foto { position: absolute; inset: 8%; border-radius: 50%; overflow: hidden; background: var(--paper); }
+/* Preto e branco: o fundo verde do retrato de estúdio brigava com o rubi. */
+.hero-foto img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.06) brightness(0.96); }
+.hero-anel { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.hero-anel path { fill: none; stroke: var(--acento); stroke-width: 1.5; stroke-linecap: round; }
+
+/* --- Seções ------------------------------------------------------------- */
+.secao { padding-block: var(--secao); }
+.sec-head { margin-bottom: clamp(2.75rem, 7vh, 4.75rem); }
+.sec-fio { display: block; width: clamp(3.5rem, 8vw, 6.5rem); height: 4px; overflow: visible; }
+.sec-fio path { fill: none; stroke: var(--acento); stroke-width: 3px; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.sec-titulo {
+  margin-top: 1.4rem;
+  font-variation-settings: "wdth" 78; font-weight: 680;
+  font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 0.98; letter-spacing: -0.03em;
+}
+.sec-nota { margin-top: 1.1rem; max-width: 56ch; color: var(--ink2); font-size: 1.05rem; }
+
+/* Sobre */
+.sobre-grade {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 22rem);
+  column-gap: clamp(2rem, 4vw, 4.5rem); row-gap: 2.5rem; align-items: start;
+}
+.sobre-entrada {
+  grid-column: 1 / 3; max-width: 36em;
+  font-size: clamp(1.25rem, 1.85vw, 1.7rem); line-height: 1.45; letter-spacing: -0.012em; color: var(--ink);
+}
+.sobre-corpo { grid-column: 1 / 3; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 3rem); }
+.sobre-corpo p { color: var(--ink2); line-height: 1.75; max-width: 48ch; }
+.ficha { grid-column: 3; grid-row: 1 / 3; }
+.ficha > div { display: grid; grid-template-columns: 6.25rem minmax(0, 1fr); gap: 1rem; padding-block: 0.95rem; box-shadow: inset 0 1px 0 var(--rule); }
+.ficha > div:last-child { box-shadow: inset 0 1px 0 var(--rule), inset 0 -1px 0 var(--rule); }
+.ficha dt { padding-top: 0.28rem; }
+.ficha dd { font-size: 0.93rem; line-height: 1.5; color: var(--ink); }
+
+/* Projetos */
+.proj-lista { list-style: none; }
+.proj-lista {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2.5rem, 5vh, 3.5rem) clamp(2rem, 4vw, 3.5rem);
+}
+/* Cartão sem moldura: fio no topo, a prova (telas, diagrama ou número) e o texto embaixo. */
+.proj {
+  position: relative; display: flex; flex-direction: column;
+  padding-top: 1.5rem; box-shadow: inset 0 1px 0 var(--rule);
+}
+.proj::before { content: ""; position: absolute; left: 0; top: 0; width: 2.25rem; height: 1px; background: var(--acento); }
+.proj-prova { order: -1; margin-bottom: 1.5rem; }
+.proj-prova .proj-destaque { min-height: 14rem; }
+.proj-dado { display: inline-flex; align-items: center; gap: 0.55rem; font-size: 0.74rem; color: var(--ink2); }
+.proj-dado i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.dado-sintetico i { box-shadow: inset 0 0 0 1.5px var(--ink3); }
+.dado-observado i { background: var(--ink); }
+.dado-producao i { background: var(--acento); box-shadow: 0 0 0 3px rgba(47, 107, 216, 0.25); }
+.proj-titulo {
+  margin-top: 1.1rem;
+  font-variation-settings: "wdth" 84; font-weight: 650;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem); line-height: 1.08; letter-spacing: -0.02em;
+}
+.proj-tipo { margin-top: 0.55rem; font-size: 0.76rem; color: var(--ink3); }
+.proj-desc { margin-top: 0.9rem; max-width: 62ch; color: var(--ink2); line-height: 1.7; }
+.proj-tags { margin-top: 1.1rem; font-size: 0.72rem; color: var(--ink3); white-space: pre-wrap; }
+.proj-links { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; }
+.proj-privado { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.76rem; color: var(--ink3); }
+.proj-prova { min-width: 0; }
+.proj-prova img { transition: transform 0.6s var(--sai); }
+.hl-foto-gatilho:hover img { transform: scale(1.012); }
+.proj-destaque {
+  margin-top: 1.4rem; aspect-ratio: 16 / 9; border-radius: 6px; background: var(--paper);
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 0.9rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+.proj-destaque::before { content: ""; width: 3rem; height: 3px; border-radius: 2px; background: var(--acento); margin-bottom: auto; }
+.proj-destaque-valor {
+  font-variation-settings: "wdth" 72; font-weight: 700;
+  font-size: clamp(3rem, 7vw, 5.75rem); line-height: 0.9; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.proj-destaque-rotulo { color: var(--ink2); max-width: 36ch; }
+
+/* Ofício */
+.servicos { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 5vw, 5rem); }
+.servico { padding-block: 1.9rem; box-shadow: inset 0 1px 0 var(--rule); }
+.servico-titulo { font-variation-settings: "wdth" 90; font-weight: 620; font-size: 1.28rem; letter-spacing: -0.01em; }
+.servico-desc { margin-top: 0.55rem; max-width: 48ch; color: var(--ink2); line-height: 1.65; }
+.servico-tags { margin-top: 0.8rem; font-size: 0.72rem; color: var(--ink3); white-space: pre-wrap; }
+.stack {
+  margin-top: clamp(3.5rem, 9vh, 6rem);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem;
+}
+.stack ul { list-style: none; margin-top: 1rem; }
+.stack li { padding-block: 0.32rem; color: var(--ink); }
+
+/* Trajetória */
+.trilho { list-style: none; position: relative; --p: 1; }
+.trilho-fio { position: absolute; left: 0; top: 0.5rem; bottom: 0; width: 2px; background: var(--rule); }
+.trilho-fio::after {
+  content: ""; position: absolute; inset: 0; background: var(--acento);
+  transform-origin: top; transform: scaleY(var(--p));
+}
+.exp {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: 0 0 clamp(3rem, 7vh, 4.5rem) clamp(1.75rem, 3.5vw, 3rem);
+}
+.exp:last-child { padding-bottom: 0; }
+.exp-marca {
+  position: absolute; left: -5px; top: 0.4rem; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--acento); box-shadow: 0 0 0 4px var(--bg);
+  transition: background-color 0.4s ease, transform 0.5s var(--sai);
+}
+.exp-periodo { font-size: 0.82rem; color: var(--ink); }
+.exp-local { margin-top: 0.35rem; font-size: 0.86rem; color: var(--ink3); }
+.exp-titulo { font-variation-settings: "wdth" 84; font-weight: 650; font-size: clamp(1.45rem, 2.2vw, 1.85rem); line-height: 1.1; letter-spacing: -0.02em; }
+.exp-empresa { margin-top: 0.3rem; color: var(--ink2); }
+.exp-itens { list-style: none; margin-top: 1.4rem; display: grid; gap: 0.7rem; max-width: 70ch; }
+.exp-itens li { position: relative; padding-left: 1.25rem; color: var(--ink2); line-height: 1.65; }
+.exp-itens li::before { content: ""; position: absolute; left: 0; top: 0.8em; width: 0.55rem; height: 1.5px; background: var(--ink3); }
+.exp-stack { margin-top: 1.3rem; font-size: 0.72rem; color: var(--ink3); white-space: pre-wrap; }
+
+/* Contato */
+.contato { padding-bottom: clamp(5rem, 14vh, 9rem); }
+.contato-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(3rem, 7vw, 7rem); align-items: end; }
+.contato-marca { margin-bottom: clamp(2rem, 5vh, 3rem); }
+.contato-titulo {
+  font-variation-settings: "wdth" 72; font-weight: 700;
+  font-size: clamp(3rem, 7vw, 6rem); line-height: 0.92; letter-spacing: -0.03em;
+}
+.contato-apoio { margin-top: 1.5rem; max-width: 38ch; color: var(--ink2); font-size: 1.08rem; }
+.canais { list-style: none; box-shadow: inset 0 1px 0 var(--rule); }
+.canais li { box-shadow: inset 0 -1px 0 var(--rule); }
+.canal {
+  display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) auto; align-items: center; gap: 1.25rem;
+  min-height: 4.6rem; padding-inline: 0.25rem; color: var(--ink);
+}
+.canal-valor { font-size: clamp(1rem, 1.5vw, 1.22rem); overflow-wrap: anywhere; transition: transform 0.45s var(--sai); }
+.canal-seta { color: var(--ink3); transition: transform 0.45s var(--sai), color 0.25s ease; }
+@media (hover: hover) {
+  a.canal:hover .canal-valor { transform: translateX(0.5rem); }
+  a.canal:hover .canal-seta { color: var(--acento2); transform: translate(3px, -3px); }
+}
+a.canal:focus-visible { outline-offset: -2px; }
+
+/* Rodapé */
+.rodape { box-shadow: inset 0 1px 0 var(--rule); }
+.rodape-in { min-height: 5.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem 2rem; padding-block: 1.25rem; }
+.rodape-marca {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-variation-settings: "wdth" 125; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink2);
+}
+.rodape-meta { font-size: 0.72rem; color: var(--ink3); }
+.rodape-topo { font-size: 0.86rem; }
+
+/* --- Componentes de ui/ (galeria, popup, diagrama) ---------------------- */
+.hl-foto-gatilho:hover .hl-foto-lupa,
+.hl-foto-gatilho:focus-visible .hl-foto-lupa { opacity: 1 !important; }
+.hero-foto .hl-foto-lupa { border-radius: 50%; }
+@keyframes hl-lightbox-in { from { opacity: 0; } }
+@keyframes hl-lightbox-fig-in { from { opacity: 0; transform: scale(0.94); } }
+.hl-lightbox-backdrop { animation: hl-lightbox-in 0.2s ease both; }
+.hl-lightbox-fig { animation: hl-lightbox-fig-in 0.3s var(--sai) both; }
+
+/* =============================================================================
+   Movimento. Tudo abaixo só vale sob html.hl-motion (posto por motion.ts):
+   sem JS ou com "reduzir movimento", a página nasce pronta.
+   ========================================================================== */
+
+/* Escrever: traço com pathLength=1 sai de dashoffset 1 para 0. */
+.hl-motion .hn-desenha .hn-tr { stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
+/* A opacidade vira junto com o início do traço: sem ela, a ponta redonda
+   aparece como um pingo parado antes de a caneta começar. */
+.hl-motion.hl-entrou .hero .hn-tr,
+.hl-motion .hl-assina.is-in .hn-tr {
+  stroke-dashoffset: 0; opacity: 1;
+  transition: stroke-dashoffset var(--dur, 0.5s) var(--pena) var(--t, 0s), opacity 0s linear var(--t, 0s);
+}
+.hn-tr-0 { --t: 0.15s;  --dur: 0.42s; }
+.hn-tr-1 { --t: 0.5s;   --dur: 0.55s; }
+.hn-tr-2 { --t: 0.95s;  --dur: 0.32s; }
+.hn-tr-3 { --t: 1.22s;  --dur: 0.5s; }
+.hn-tr-4 { --t: 1.65s;  --dur: 1.15s; }
+.hn-tr-anel { --t: 0.6s; --dur: 1.5s; }
+
+.hl-motion .sec-fio path { stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+.hl-motion .sec-head.is-in .sec-fio path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.9s var(--pena) 0.1s; }
+
+/* Subir: abertura (dispara com html.hl-entrou). */
+.hl-motion .hl-sobe { opacity: 0; transform: translateY(16px); }
+.hl-motion .mascara > .hl-sobe { opacity: 1; transform: translateY(108%); }
+.hl-motion.hl-entrou .hl-sobe {
+  opacity: 1; transform: none;
+  transition: opacity 0.9s var(--sai) var(--d, 0ms), transform 1s var(--sai) var(--d, 0ms);
+}
+.hl-motion .hl-foto-entra { opacity: 0; transform: scale(0.965); filter: blur(8px); }
+.hl-motion.hl-entrou .hl-foto-entra {
+  opacity: 1; transform: none; filter: none;
+  transition: opacity 1s var(--sai) 0.15s, transform 1.2s var(--sai) 0.15s, filter 1s var(--sai) 0.15s;
+}
+
+/* Subir: título do contato, quando entra na tela. */
+.hl-motion .hl-sobe-vista { transform: translateY(108%); }
+.hl-motion .contato-titulo.is-in .hl-sobe-vista { transform: none; transition: transform 1s var(--sai) 0.45s; }
+
+/* Revelar: blocos ao rolar, uma vez. */
+.hl-motion .hl-revela { opacity: 0; transform: translateY(14px); }
+.hl-motion .hl-revela.is-in {
+  opacity: 1; transform: none;
+  transition: opacity 0.8s var(--sai) var(--d, 0ms), transform 0.9s var(--sai) var(--d, 0ms);
+}
+
+/* Trajetória: o marco acende quando o fio chega. */
+.hl-motion .exp-marca { background: var(--bg); box-shadow: 0 0 0 4px var(--bg), inset 0 0 0 2px var(--rule2); }
+.hl-motion .exp.aceso .exp-marca { background: var(--acento); box-shadow: 0 0 0 4px var(--bg); transform: scale(1.1); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* =============================================================================
+   Telas menores
+   ========================================================================== */
+@media (max-width: 960px) {
+  .barra-nav { display: none; }
+  .barra-menu { display: grid; }
+  .hero { min-height: auto; padding-top: calc(var(--barra) + 1.5rem); }
+  .hero-grade { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .hero-foto-wrap { order: -1; width: min(64vw, 17rem); justify-self: start; }
+  .sobre-grade { grid-template-columns: minmax(0, 1fr); }
+  .sobre-entrada, .sobre-corpo, .ficha { grid-column: auto; grid-row: auto; }
+  .proj-lista { grid-template-columns: minmax(0, 1fr); }
+  .servicos { grid-template-columns: minmax(0, 1fr); }
+  .stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exp { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .contato-grade { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+}
+@media (max-width: 640px) {
+  .barra-nome { display: none; }
+  .sobre-corpo { grid-template-columns: minmax(0, 1fr); }
+  .stack-titulo { min-height: 2.6em; }
+  .canal { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0.15rem; padding-block: 0.9rem; }
+  .canal-rotulo { grid-column: 1 / -1; }
+  .canal-seta { grid-row: 2; grid-column: 2; }
+  .link-sub, .link-icone { min-height: 44px; }
+  .hl-tela-seta { width: 44px !important; height: 44px !important; }
+  .hl-tela-pontos { height: 24px !important; }
+  .hl-tela-ponto { width: 24px !important; height: 24px !important; overflow: visible !important; }
+  .hl-tela-ponto > span { top: 50% !important; bottom: auto !important; height: 7px !important; margin-top: -3.5px; }
+  .hl-toque { width: 44px !important; height: 44px !important; }
+  .hl-arq { overflow-x: auto !important; overflow-y: hidden !important; aspect-ratio: auto !important; }
+  .hl-arq > svg { width: 520px !important; height: 292px !important; flex: none; }
+}
+
+/* =============================================================================
+   Rodada 2 (25/11/2026, pedido do Hugo): cada parte enquadrada numa tela,
+   dados mais bem distribuídos e mais rubi nos detalhes.
+   ========================================================================== */
+:root { --acento-tx: #7ea6f0; } /* azul claro para texto pequeno: 7,8:1 sobre o preto */
+
+/* Rubi em texto pequeno: rótulos, períodos, procedência. */
+.hero-cargo, .proj-tipo, .exp-periodo, .ficha dt, .stack-titulo, .proj-dado { color: var(--acento-tx); }
+.hero-cargo .sep { color: var(--acento); }
+.proj-tags, .servico-tags, .exp-stack { color: var(--ink3); }
+.sec-fio { width: clamp(4.5rem, 10vw, 8rem); }
+.sec-fio path { stroke-width: 4px; }
+.servico { box-shadow: inset 0 1px 0 var(--rule); position: relative; }
+.servico::before, .ficha > div::before {
+  content: ""; position: absolute; left: 0; top: -1px; width: 2.25rem; height: 1px; background: var(--acento);
+}
+.ficha > div { position: relative; }
+.stack li::marker { content: none; }
+.stack li { display: flex; align-items: center; gap: 0.6rem; }
+.stack li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--acento); flex: none; }
+.hero-foto { box-shadow: 0 30px 80px -30px rgba(47, 107, 216, 0.45); }
+
+/* Fechamento em superfície rubi: o único bloco de cor cheia do site. */
+.contato { background: var(--acento); color: #fff; }
+.contato .hn path { stroke: #fff; }
+.contato-apoio { color: rgba(255, 255, 255, 0.86); }
+.contato .canais { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+.contato .canais li { box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.28); }
+.contato .canal { color: #fff; }
+.contato .canal-rotulo { color: rgba(255, 255, 255, 0.78); }
+.contato .canal-seta { color: rgba(255, 255, 255, 0.8); }
+.contato :focus-visible { outline-color: #fff; }
+@media (hover: hover) { .contato a.canal:hover .canal-seta { color: #fff; } }
+.contato ::selection { background: #0b0a0a; color: #fff; }
+
+/* Enquadramento: no desktop, cada parte ocupa uma tela e o conteúdo fica
+   centrado nela; a rolagem "encosta" no começo de cada parte. */
+@media (min-width: 961px) and (min-height: 640px) {
+  html { scroll-snap-type: y proximity; }
+  .hero, .secao { scroll-snap-align: start; }
+  .secao:not(#projetos) {
+    min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-block: calc(var(--barra) + 2.5rem) 3rem;
+  }
+  .secao:not(#projetos) > .caixa { width: 100%; box-sizing: border-box; }
+  .sec-head { margin-bottom: clamp(2rem, 5vh, 3.5rem); }
+  #projetos { padding-block: calc(var(--barra) + 2.5rem) clamp(4rem, 9vh, 6rem); }
+  .servicos { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 3.5vw, 3.5rem); }
+  .servico { padding-block: 1.25rem; }
+  .stack { margin-top: clamp(1.5rem, 3.5vh, 2.75rem); }
+  #oficio .sec-head { margin-bottom: clamp(1.25rem, 3vh, 2.25rem); }
+  .exp-itens { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; max-width: none; }
+  .exp { padding-bottom: clamp(2rem, 5vh, 3rem); }
+  .contato-grade { align-items: center; }
+}
+
+/* =============================================================================
+   Rodada 4 (25/11/2026, pedido do Hugo): abertura "à conta" (do tamanho do
+   conteúdo, não da tela) e celular revisto de ponta a ponta.
+   ========================================================================== */
+html, body { overflow-x: clip; }
+.hero {
+  min-height: 0; scroll-snap-align: none;
+  padding-block: calc(var(--barra) + clamp(2.5rem, 7vh, 4.5rem)) clamp(3rem, 8vh, 5rem);
+}
+.hero-nome { font-size: clamp(3rem, 6.6vw, 5.25rem); }
+.hero-foto-wrap { width: min(100%, 21rem); }
+.hero-acoes { margin-top: 2rem; }
+
+/* Tablet: projetos seguem em duas colunas enquanto couber. */
+@media (min-width: 700px) and (max-width: 960px) {
+  .proj-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .servicos { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+  .stack { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 960px) {
+  .hero-grade { gap: 2rem; }
+  .hero-foto-wrap { width: min(48vw, 14rem); }
+  .secao { padding-block: clamp(4.5rem, 12vw, 6rem); }
+  .sec-head { margin-bottom: 2.25rem; }
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  :root { --barra: 60px; --gutter: 1.25rem; }
+  .barra-marca svg { width: 30px; height: 30px; }
+
+  /* Abertura compacta: foto pequena em cima, nome, cargo quebrando por item. */
+  .hero { padding-block: calc(var(--barra) + 1.75rem) 3.25rem; }
+  .hero-grade { gap: 1.5rem; }
+  .hero-foto-wrap { width: 8.5rem; }
+  .hero-nome { font-size: clamp(2.9rem, 15vw, 3.9rem); }
+  .hero-cargo { margin-top: 1.25rem; font-size: 0.68rem; letter-spacing: 0.16em; line-height: 2; }
+  .hero-cargo .sep { margin-inline: 0.2em; }
+  .hero-acoes .link-icone { background-image: none; }
+  .hero-lede { font-size: 1.04rem; margin-top: 0.85rem; }
+  .hero-acoes { margin-top: 1.6rem; gap: 0.5rem 1.5rem; }
+  .hero-acoes .botao { flex: 1 1 100%; justify-content: center; }
+
+  /* Seções: menos ar, títulos proporcionais à tela. */
+  .secao { padding-block: 4rem; }
+  .sec-head { margin-bottom: 1.75rem; }
+  .sec-titulo { margin-top: 1rem; font-size: clamp(2.1rem, 10vw, 2.6rem); }
+  .sec-nota { font-size: 0.98rem; }
+
+  .sobre-entrada { font-size: 1.14rem; line-height: 1.5; }
+  .sobre-grade { gap: 1.5rem; }
+  .ficha > div { grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.75rem; padding-block: 0.8rem; }
+  .ficha dd { font-size: 0.95rem; }
+
+  .proj-lista { gap: 2.75rem; }
+  .proj { padding-top: 1.25rem; }
+  .proj-prova { margin-bottom: 1.1rem; }
+  .proj-prova .proj-destaque { min-height: 10rem; }
+  .proj-titulo { font-size: 1.6rem; margin-top: 0.8rem; }
+  .proj-desc { font-size: 0.98rem; line-height: 1.65; }
+  .proj-links { margin-top: 1rem; gap: 0.25rem 1.5rem; }
+
+  .servico { padding-block: 1.1rem; }
+  .servico-titulo { font-size: 1.15rem; }
+  .servico-desc { font-size: 0.97rem; }
+  .stack { margin-top: 2rem; row-gap: 1.75rem; column-gap: 1.25rem; }
+  .stack li { font-size: 0.95rem; }
+
+  .exp { padding-bottom: 2.25rem; }
+  .exp-titulo { font-size: 1.4rem; }
+  .exp-itens { gap: 0.6rem; margin-top: 1rem; }
+  .exp-itens li { font-size: 0.96rem; line-height: 1.6; }
+
+  .contato { padding-block: 4rem 3.5rem; }
+  .contato-grade { gap: 2.25rem; }
+  .contato-marca { width: 6.5rem !important; height: auto !important; margin-bottom: 1.5rem; }
+  .contato-titulo { font-size: clamp(2.7rem, 13vw, 3.4rem); }
+  .canal-valor { font-size: 1rem; }
+}
+
+/* Telas bem estreitas (360 px e menores). */
+@media (max-width: 380px) {
+  .hero-nome { font-size: 2.75rem; }
+  .ficha > div { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
+  .stack { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 1rem; }
+}
+
+/* A abertura agora é à conta: o Sobre vem logo atrás, sem tela cheia vazia. */
+/* Rodada 6: cada parte é exatamente um quadro. A abertura ocupa a tela toda
+   com o conteúdo (já menor, rodada 4) centrado; a rolagem encosta no limite. */
+@media (min-width: 961px) and (min-height: 640px) {
+  .hero { min-height: 100svh; scroll-snap-align: start; padding-block: var(--barra) 2rem; display: flex; align-items: center; }
+}
+
+/* Rodada 5 (25/11/2026): tela do Hugo, 1920x1080. Mesma borda esquerda em todas
+   as seções e escala maior em telas largas, para não sobrar margem vazia. */
+.secao:not(#projetos) > .caixa { max-width: calc(1440px + 2 * var(--gutter)); }
+@media (min-width: 1700px) {
+  html { font-size: 112.5%; }
+  .caixa { max-width: 1600px; }
+  .secao:not(#projetos) > .caixa { max-width: calc(1600px + 2 * var(--gutter)); }
+  .hero-foto-wrap { width: min(100%, 25rem); }
+}
+/* O espaçamento conta dentro da altura: cada parte mede exatamente uma tela. */
+@media (min-width: 961px) and (min-height: 640px) {
+  .hero, .secao:not(#projetos) { box-sizing: border-box; }
+}
+/* Trajetória cabe num quadro: menos ar entre itens e cargos. */
+@media (min-width: 961px) and (min-height: 640px) {
+  .secao#trajetoria { padding-block: calc(var(--barra) + 0.75rem) 0.75rem; }
+  #trajetoria .sec-head { margin-bottom: clamp(1rem, 2.5vh, 1.75rem); }
+  #trajetoria .exp-itens { gap: 0.45rem; margin-top: 0.9rem; }
+  #trajetoria .exp-itens li { line-height: 1.55; }
+  #trajetoria .exp { padding-bottom: clamp(1.25rem, 3vh, 2rem); }
+  #trajetoria .exp-stack { margin-top: 0.8rem; }
+}
+
+/* Rodada 7: cada parte começa colada na borda de baixo do cabeçalho.
+   O quadro de cada parte é a tela menos a barra; ao navegar pelos links (ou
+   rolar), o topo da parte para exatamente sob o cabeçalho. O conteúdo fica um
+   pouco acima do centro óptico. */
+.barra-rolou {
+  background: var(--bg);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 0 var(--rule);
+}
+@media (min-width: 961px) and (min-height: 640px) {
+  html { scroll-padding-top: var(--barra); }
+  .hero { min-height: 100svh; padding-block: var(--barra) calc(var(--barra) + 4vh); }
+  .secao:not(#projetos) {
+    min-height: calc(100svh - var(--barra));
+    padding-block: 1.75rem calc(1.75rem + 5vh);
+  }
+  #projetos { padding-top: 2.5rem; }
+  .secao#trajetoria { padding-block: 0.75rem 0.75rem; }
+}

@@ -22,6 +22,9 @@ export interface Project {
    *  tools/gerar_telas.py e tools/capturar_pbix.ps1 — imagem recortada à mão
    *  envelhece calada, e este portfólio já publicou print de cinco meses atrás. */
   telas?: { slug: string; total: number };
+  /** Projeto sem telas mostra o número-manchete no lugar da galeria. O valor
+   *  é o mesmo que já está na descrição (conferido no README de origem). */
+  destaque?: { valor: string; rotulo: string };
 }
 
 /**
@@ -108,6 +111,7 @@ export const PROJECTS: Project[] = [
     tags: ["Python", "scipy", "Teste A/B", "CRM"],
     githubUrl: "https://github.com/HugoLeonardoNz/crm-lifecycle-analytics",
     isPrivate: false, status: "live", icon: "trending",
+    destaque: { valor: "+2,08 p.p.", rotulo: "efeito do piloto de retenção, p < 0,0001" },
   },
   {
     id: 6, title: "Expansão de Mercado",
@@ -133,7 +137,7 @@ export const PROJECTS: Project[] = [
     id: 8, title: "Telecom EDA — ANATEL",
     tipo: "EDA sobre 15,9 M de linhas",
     dado: "ANATEL · observado",
-    description: "18,8 milhões de solicitações reais do regulador, 2015–2020. Três hipóteses refutadas: quem lidera é a OI, não a CLARO; o canal já não é o telefone; e o problema é cobrança, não falha técnica.",
+    description: "18,8 milhões de solicitações reais do regulador, 2015–2020. Cinco hipóteses testadas, três refutadas: quem lidera é a OI, não a CLARO; o canal já não é o telefone; e o problema é cobrança, não falha técnica.",
     tags: ["Python", "Pandas", "EDA", "Dado aberto"],
     githubUrl: "https://github.com/HugoLeonardoNz/telecom-eda-public",
     isPrivate: false, status: "live", icon: "chart",

@@ -22,8 +22,8 @@ import { C, F } from "../../theme";
  */
 /* Traço e preenchimento. Ficavam dentro do componente, recriados a cada
    render sem nunca mudar. */
-const TRACO = "rgba(212,247,74,0.30)";
-const CAIXA_FILL = "rgba(212,247,74,0.07)";
+const TRACO = "rgba(237,232,227,0.30)";
+const CAIXA_FILL = "rgba(237,232,227,0.07)";
 
 /**
  * `Caixa` e `Fluxo` eram definidos DENTRO de `ArquiteturaHug`. Componente
@@ -41,14 +41,14 @@ function Caixa({ x, y, w, h, titulo, sub, forte = false }: {
     <g>
       <rect
         x={x} y={y} width={w} height={h} rx={7}
-        fill={forte ? "rgba(212,247,74,0.16)" : CAIXA_FILL}
+        fill={forte ? "rgba(47,107,216,0.30)" : CAIXA_FILL}
         stroke={forte ? C.acid : TRACO}
         strokeWidth={forte ? 1.1 : 0.9}
       />
       <text
         x={x + w / 2} y={sub ? y + h / 2 - 1 : y + h / 2 + 3}
         textAnchor="middle" fontFamily={F.mono} fontSize={8.5} fontWeight={600}
-        fill={forte ? C.acid : C.ink}
+        fill={C.ink}
       >{titulo}</text>
       {sub && (
         <text
@@ -125,7 +125,7 @@ export function ArquiteturaHug() {
            leitor de tela nunca dependeu de enxergar o desenho. */}
         <div ref={scrollerRef} className="hl-arq" style={{
           background: C.darkAlt, borderRadius: 16,
-          border: "1px solid rgba(212,247,74,0.18)",
+          border: "1px solid rgba(237,232,227,0.18)",
           aspectRatio: "16 / 9", overflow: "hidden",
         }}>
           <svg
@@ -170,7 +170,7 @@ export function ArquiteturaHug() {
           <div aria-hidden style={{
             position: "absolute", top: 1, right: 1, bottom: 1, width: 64,
             borderRadius: "0 15px 15px 0", pointerEvents: "none",
-            background: `linear-gradient(90deg, rgba(14,21,10,0) 0%, ${C.darkAlt} 88%)`,
+            background: `linear-gradient(90deg, rgba(15,13,13,0) 0%, ${C.darkAlt} 88%)`,
           }} />
         )}
       </div>

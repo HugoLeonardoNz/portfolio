@@ -59,8 +59,8 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
                   position: "absolute", top: "50%", transform: "translateY(-50%)",
                   ...b.lado,
                   width: 30, height: 30, borderRadius: "50%",
-                  background: "rgba(20,28,13,0.82)", color: C.acid,
-                  border: `1px solid rgba(212,247,74,0.3)`,
+                  background: "rgba(11,10,10,0.82)", color: C.ink,
+                  border: `1px solid rgba(237,232,227,0.22)`,
                   cursor: "pointer", fontSize: "1rem", lineHeight: 1,
                   display: "grid", placeItems: "center", padding: 0,
                 }}
@@ -69,7 +69,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
 
             <div style={{
               position: "absolute", left: 8, bottom: 8,
-              background: "rgba(20,28,13,0.82)", color: C.ink3,
+              background: "rgba(11,10,10,0.82)", color: C.ink3,
               fontFamily: F.mono, fontSize: "0.62rem",
               borderRadius: R.chip, padding: "0.15rem 0.5rem",
             }}>{i + 1}/{total}</div>
@@ -103,7 +103,7 @@ export function Telas({ slug, total, alt }: { slug: string; total: number; alt: 
                   position: "absolute", inset: 0, borderRadius: R.chip,
                   transformOrigin: "left center",
                   transform: n === i ? "scaleX(1)" : "scaleX(0.35)",
-                  background: n === i ? C.acid : "rgba(212,247,74,0.25)",
+                  background: n === i ? C.acid : "rgba(237,232,227,0.22)",
                   transition: "transform 0.2s ease, background 0.2s ease",
                 }} />
               </button>
