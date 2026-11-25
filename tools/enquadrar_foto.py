@@ -30,7 +30,7 @@ import sys, pathlib
 
 ORIGEM = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else
                       r"C:\Users\hnz1g\Downloads\stitch_linkedin_banner_data_analyst\screen.png")
-DESTINO = pathlib.Path(sys.argv[2] if len(sys.argv) > 2 else "public/hugo-foto.webp")
+DESTINO = pathlib.Path(sys.argv[2] if len(sys.argv) > 2 else "public/hugo-foto-v2.webp")
 ZOOM = float(sys.argv[3]) if len(sys.argv) > 3 else 1.4
 # Deslocamento vertical do centro do recorte, em pixels da origem. Positivo
 # desce. O rosto do retrato fica um pouco acima do centro geometrico.

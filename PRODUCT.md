@@ -104,7 +104,7 @@ Três coisas que um portfólio de dados vizinho não copiaria sem mentir:
   completo, mas nada exagerado; nada que pareça gerado por IA.
 - **A fotografia de Hugo é obrigatória e permanece em recorte circular.** Razão
   dada por ele: traz personalidade, e portfólio sempre tem foto. O arquivo
-  (`public/hugo-foto.webp`, 720×720) já vem enquadrado por `tools/gerar_linkedin.py` (origem `docs/img/foto-origem.png`, 25/11/2026)
+  (`public/hugo-foto-v2.webp`, 720×720) já vem enquadrado por `tools/gerar_linkedin.py` (origem `docs/img/foto-origem.png`, 25/11/2026)
   — recortar de novo no CSS ancora o rosto no lugar errado. Desde 2026-09-03 é um
   retrato de estúdio no mesmo zoom (1,4) da foto do LinkedIn, para o perfil e o
   site mostrarem o mesmo enquadramento.

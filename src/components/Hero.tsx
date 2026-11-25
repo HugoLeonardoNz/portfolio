@@ -9,11 +9,11 @@ import { atraso } from "../motion";
  * que o nome sobe. A foto continua obrigatória e redonda (PRODUCT.md): quem
  * chega pelo LinkedIn precisa reconhecer a pessoa sem pensar.
  *
- * O arquivo `hugo-foto.webp` já vem enquadrado (e em P&B) por `tools/gerar_linkedin.py`, que gera também a foto e o banner do LinkedIn;
+ * O arquivo `hugo-foto-v2.webp` já vem enquadrado (e em P&B) por `tools/gerar_linkedin.py`, que gera também a foto e o banner do LinkedIn;
  * nenhum recorte extra no CSS.
  */
 export function Hero() {
-  const foto = `${import.meta.env.BASE_URL}hugo-foto.webp`;
+  const foto = `${import.meta.env.BASE_URL}hugo-foto-v2.webp`;
   return (
     <section id="topo" className="hero">
       <div className="caixa hero-grade">

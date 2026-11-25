@@ -1,12 +1,14 @@
 """
 Gera as imagens da identidade azul (25/11/2026) a partir de UMA foto de origem:
 
-- public/hugo-foto.webp            foto do hero do site (720x720, P&B, alfa circular)
+- public/hugo-foto-v2.webp            foto do hero do site (720x720, P&B, alfa circular)
 - docs/img/linkedin/foto-linkedin.png   foto de perfil do LinkedIn (800x800, P&B, anel azul)
 - docs/img/linkedin/banner-linkedin.png banner do LinkedIn (1584x396), o desenho
   "terminal" que o perfil ja usava (verde), refeito em azul a pedido do Hugo.
 
-Depois rode `python tools/gerar_og.py`: o card OG le a hugo-foto.webp.
+Depois rode `python tools/gerar_og.py`: o card OG le a hugo-foto-v2.webp.
+Trocou a foto? Suba a versao no nome (v2, v3...) aqui, no Hero.tsx e no gerar_og.py:
+o navegador guarda a imagem pelo nome por 10 min ou mais e mostra a antiga.
 
 POR QUE EXISTE
 --------------
@@ -33,7 +35,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 RAIZ = Path(__file__).resolve().parent.parent
 SAIDA = RAIZ / "docs" / "img" / "linkedin"
 ORIGEM = RAIZ / "docs" / "img" / "foto-origem.png"
-FOTO_SITE = RAIZ / "public" / "hugo-foto.webp"
+FOTO_SITE = RAIZ / "public" / "hugo-foto-v2.webp"
 
 BG = "#0b0a0a"
 ACID = "#2f6bd8"

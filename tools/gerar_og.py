@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "public" / "og-card-v5.png"
-FOTO = RAIZ / "public" / "hugo-foto.webp"
+FOTO = RAIZ / "public" / "hugo-foto-v2.webp"
 
 W, H = 1200, 630
 BG = "#0b0a0a"

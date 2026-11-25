@@ -65,7 +65,7 @@ portfolio/
 │                             contagem de testes que o site reivindica)
 ├── vite.config.ts          — base do domínio e CSP injetada na build
 ├── public/
-│   ├── hugo-foto.webp
+│   ├── hugo-foto-v2.webp
 │   ├── og-card-v3.png      — cartão de compartilhamento, gerado por tools/
 │   ├── favicon.svg
 │   ├── icons.svg
