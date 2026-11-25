@@ -37,3 +37,4 @@ pnpm-debug.log*
 docs/marca/inspiracoes/
 docs/marca/referencia.png
 docs/marca/marca-r6-inspiracoes.html
+.venv/

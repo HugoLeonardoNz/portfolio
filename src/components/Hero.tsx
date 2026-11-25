@@ -9,7 +9,7 @@ import { atraso } from "../motion";
  * que o nome sobe. A foto continua obrigatória e redonda (PRODUCT.md): quem
  * chega pelo LinkedIn precisa reconhecer a pessoa sem pensar.
  *
- * O arquivo `hugo-foto.webp` já vem enquadrado por `tools/enquadrar_foto.py`;
+ * O arquivo `hugo-foto.webp` já vem enquadrado (e em P&B) por `tools/gerar_linkedin.py`, que gera também a foto e o banner do LinkedIn;
  * nenhum recorte extra no CSS.
  */
 export function Hero() {

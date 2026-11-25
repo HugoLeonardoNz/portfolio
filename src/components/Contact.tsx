@@ -46,7 +46,7 @@ export function Contact() {
           <li>
             <div className="canal canal-fixo">
               <span className="mono canal-rotulo">Local</span>
-              <span className="canal-valor">Santa Luzia, MG · Remoto</span>
+              <span className="canal-valor">Belo Horizonte e região · Remoto</span>
               <MapPin size={17} aria-hidden className="canal-seta" />
             </div>
           </li>
